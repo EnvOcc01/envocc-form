@@ -1,834 +1,441 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แบบตอบรับ ONLINE การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลฯ</title>
-
-    <!-- ฟอนต์ Prompt & Sarabun จาก Google Fonts -->
+    <title>แบบตอบรับการเข้าร่วมการประชุม | ระบบลงทะเบียน</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
-
-    <!-- SweetAlert2 สำหรับแจ้งเตือนแบบพรีเมียม -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Prompt"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            primary: '#2563eb', // Blue-600
+                            secondary: '#1e40af', // Blue-800
+                            dark: '#0f172a', // Slate-900
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #0f766e;
-            --primary-dark: #0a4f4a;
-            --secondary: #0284c7;
-            --danger: #ef4444;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
-            --shadow-hover: 0 20px 35px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -3px rgba(15, 23, 42, 0.04);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(180deg, #eef6f9 0%, #f8fafc 400px, #f1f5f9 100%);
-            color: var(--text-main);
-            line-height: 1.65;
-            padding: 30px 16px 60px;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 820px;
-            margin: 0 auto;
-        }
-
-        /* 🖼️ แบนเนอร์หัวเว็บ */
-        .banner-container {
-            width: 100%;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            margin-bottom: 24px;
-            background: #ffffff;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-
-        .banner-img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-            max-height: 380px;
-        }
-
-        /* กล่องหัวเรื่อง */
-        .header-card {
-            background: linear-gradient(135deg, #094754 0%, #0d5c75 50%, #0284c7 100%);
-            color: #ffffff;
-            padding: 36px 32px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-card);
-            margin-bottom: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .badge-dept {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
-            font-size: 13.5px;
-            font-weight: 500;
-            padding: 6px 16px;
-            border-radius: 30px;
-            margin-bottom: 16px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
-
-        .header-title {
-            font-family: 'Prompt', sans-serif;
-            font-size: 22px;
-            font-weight: 600;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .deadline-banner {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #991b1b;
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 14.5px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-left: 4px solid #e11d48;
-        }
-
-        /* กล่องการ์ดเนื้อหา */
-        .form-card {
-            background: var(--card-bg);
-            border-radius: var(--radius-md);
-            padding: 32px 30px;
-            box-shadow: var(--shadow-card);
-            margin-bottom: 24px;
-            border: 1px solid rgba(226, 232, 240, 0.85);
-            transition: box-shadow 0.2s ease;
-        }
-
-        .form-card:hover {
-            box-shadow: var(--shadow-hover);
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 22px;
-            padding-bottom: 14px;
-            border-bottom: 2px solid #f1f5f9;
-        }
-
-        .step-number {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Prompt', sans-serif;
-            font-weight: 700;
-            font-size: 14px;
-            flex-shrink: 0;
-            box-shadow: 0 4px 8px rgba(15, 118, 110, 0.25);
-        }
-
-        .section-title {
-            font-family: 'Prompt', sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            color: #0f172a;
-            flex-grow: 1;
-        }
-
-        .required-tag {
-            font-size: 12px;
-            color: var(--danger);
-            background: #fef2f2;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
-        /* ข้อมูลผู้ประสานงาน */
-        .contact-box {
-            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-            border: 1.5px solid #e2e8f0;
-            border-radius: var(--radius-sm);
-            padding: 20px;
-            font-size: 14.5px;
-        }
-
-        .contact-item {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .contact-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .contact-name {
-            font-weight: 600;
-            color: #0f172a;
-        }
-
-        .contact-badge {
-            color: var(--text-muted);
-            font-size: 13.5px;
-        }
-
-        .contact-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 2px 8px;
-            background: #e0f2fe;
-            border-radius: 6px;
-        }
-
-        .contact-link:hover {
-            background: #bae6fd;
-        }
-
-        /* PDPA Box */
-        .pdpa-box {
-            background-color: #fafbfc;
-            border: 1.5px solid #e2e8f0;
-            border-radius: var(--radius-sm);
-            padding: 20px;
-            max-height: 240px;
-            overflow-y: auto;
-            font-size: 13.5px;
-            line-height: 1.75;
-            color: #334155;
-        }
-
-        .pdpa-box p {
-            margin-bottom: 12px;
-            text-align: justify;
-        }
-
-        .pdpa-box ol {
-            padding-left: 20px;
-            margin-bottom: 12px;
-        }
-
-        .checkbox-wrapper {
-            background: #f0fdfa;
-            border: 1.5px solid #99f6e4;
-            border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-top: 16px;
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: flex-start;
-            cursor: pointer;
-            font-size: 14px;
-            color: #0f172a;
-            line-height: 1.6;
-        }
-
-        .checkbox-label input[type="checkbox"] {
-            width: 19px;
-            height: 19px;
-            margin-right: 12px;
-            margin-top: 2px;
-            accent-color: var(--primary);
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        /* ช่องกรอกข้อมูล */
-        .form-group {
-            margin-bottom: 22px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
-
-        @media (max-width: 680px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .header-card,
-            .form-card {
-                padding: 22px 18px;
-            }
-
-            .header-title {
-                font-size: 19px;
-            }
-        }
-
-        label.field-label {
-            display: block;
-            font-size: 14.5px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 7px;
-        }
-
-        .required-star {
-            color: var(--danger);
-            margin-left: 3px;
-        }
-
-        .form-input,
-        .form-select {
-            width: 100%;
-            padding: 12px 16px;
-            font-family: inherit;
-            font-size: 14.5px;
-            color: var(--text-main);
-            border: 1.5px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            outline: none;
-            transition: all 0.25s ease;
-            background-color: #ffffff;
-        }
-
-        .form-input:focus,
-        .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
-        }
-
-        /* Searchable Dropdown */
-        .searchable-select-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .search-input-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-input-container input {
-            padding-right: 40px;
-            cursor: text;
-        }
-
-        .search-arrow {
-            position: absolute;
-            right: 14px;
-            pointer-events: none;
-            color: #64748b;
-            transition: transform 0.25s ease;
-            font-size: 12px;
-        }
-
-        .searchable-select-wrapper.open .search-arrow {
-            transform: rotate(180deg);
-            color: var(--primary);
-        }
-
-        .dropdown-options-list {
-            display: none;
-            position: absolute;
-            top: calc(100% + 6px);
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            border: 1.5px solid var(--primary);
-            border-radius: var(--radius-sm);
-            max-height: 290px;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);
-            padding: 6px 0;
-        }
-
-        .searchable-select-wrapper.open .dropdown-options-list {
-            display: block;
-            animation: dropdownSlide 0.2s ease-out;
-        }
-
-        @keyframes dropdownSlide {
-            from {
-                opacity: 0;
-                transform: translateY(-8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .dropdown-category-title {
-            padding: 8px 16px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--primary);
             background-color: #f1f5f9;
-            position: sticky;
-            top: 0;
-            z-index: 2;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .dropdown-item {
-            padding: 10px 16px;
-            font-size: 14px;
+        /* Custom Form Inputs */
+        .form-input {
+            width: 100%;
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
             color: #1e293b;
-            cursor: pointer;
-            transition: background-color 0.15s ease;
+            transition: all 0.2s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            background-color: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        }
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.5rem;
         }
 
-        .dropdown-item:hover {
-            background-color: #f0fdfa;
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        .dropdown-no-result {
-            padding: 16px;
-            font-size: 14px;
-            color: #94a3b8;
-            text-align: center;
-        }
-
-        .hospital-box {
-            margin-top: 14px;
-            padding: 16px 18px;
-            background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
-            border: 1.5px solid #86efac;
-            border-radius: var(--radius-sm);
-            animation: dropdownSlide 0.3s ease-out;
-        }
-
-        /* Radio Card */
-        .radio-option-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
+        /* Radio Card Styles */
         .radio-card {
             display: flex;
-            align-items: center;
-            padding: 16px 20px;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-sm);
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
             cursor: pointer;
+            transition: all 0.2s ease;
             background-color: #ffffff;
-            transition: all 0.25s ease;
         }
-
         .radio-card:hover {
-            border-color: var(--secondary);
+            border-color: #cbd5e1;
             background-color: #f8fafc;
-            transform: translateY(-1px);
         }
-
-        .radio-card.active {
-            border-color: var(--primary);
-            background-color: #f0fdfa;
-            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.1);
+        .radio-input:checked + .radio-card {
+            border-color: #2563eb;
+            background-color: #eff6ff;
         }
-
-        .radio-card input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 14px;
-            cursor: pointer;
-            accent-color: var(--primary);
-            flex-shrink: 0;
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
-
-        .radio-card strong {
-            font-size: 15px;
-            color: #0f172a;
-            display: block;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
         }
-
-        .radio-subtext {
-            font-size: 13.5px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        /* ปุ่มส่งฟอร์ม */
-        .submit-container {
-            margin-top: 15px;
-            margin-bottom: 20px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, #0369a1 100%);
-            color: #ffffff;
-            border: none;
-            padding: 18px 28px;
-            font-family: 'Prompt', sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(15, 118, 110, 0.28);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .submit-btn:hover {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, #0284c7 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 26px rgba(15, 118, 110, 0.35);
-        }
-
-        .submit-btn:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-
-        /* Honeypot Field */
-        .honeypot-box {
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            left: -9999px;
-            height: 0;
-            width: 0;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
         }
 
         .swal2-popup {
-            font-family: 'Prompt', 'Sarabun', sans-serif !important;
-            border-radius: 16px !important;
+            font-family: 'Prompt', sans-serif !important;
+            border-radius: 1rem !important;
         }
     </style>
 </head>
+<body class="text-slate-800 py-6 px-4 sm:px-6 lg:px-8">
 
-<body>
-
-    <div class="container">
-        <form id="attendanceForm">
-
-            <!-- 🍯 Honeypot Trap ดักบอท -->
-            <div class="honeypot-box" aria-hidden="true">
-                <input type="text" id="extra_company_url" name="extra_company_url" tabindex="-1" autocomplete="off">
+    <div class="max-w-3xl mx-auto space-y-6">
+        
+        <!-- ========================================== -->
+        <!-- ส่วนหัวเรื่อง + ข้อมูลการประชุม (อยู่ด้านบน) -->
+        <!-- ========================================== -->
+        <header class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <!-- Banner Image -->
+            <div class="border-b border-slate-100 bg-slate-50">
+                <img src="banner.png" alt="Banner การประชุม" class="w-full h-auto block object-cover max-h-56" onerror="this.parentElement.style.display='none'">
             </div>
 
-            <!-- ======================================================== -->
-            <!-- 🖼️ 1. BANNER + ชื่อประชุม + ข้อมูลผู้ประสานงาน            -->
-            <!-- ======================================================== -->
-            <div class="banner-container" id="bannerWrapper">
-                <img src="banner.png"
-                    alt="Banner การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลฯ"
-                    class="banner-img" onerror="this.parentElement.style.display='none'">
-            </div>
-
-            <header class="header-card">
-                <div class="badge-dept">
-                    <span>🏛️</span> กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม กรมควบคุมโรค
+            <div class="p-6 sm:p-8">
+                <!-- Badges Row -->
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                    <span class="inline-block px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full text-xs font-semibold">
+                        แบบตอบรับการเข้าร่วมการประชุม
+                    </span>
+                    <span class="inline-block px-3 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-full text-xs font-medium">
+                        โปรดตอบกลับภายในวันที่ <strong>13 พฤศจิกายน 2569</strong>
+                    </span>
                 </div>
-                <h1 class="header-title">
-                    แบบตอบรับ ONLINE
-                    การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
+
+                <!-- Event Title -->
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-snug mb-5">
+                    การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูล
+                    <span class="text-blue-600 block mt-1">เพื่อการเฝ้าระวังโรคและภัยสุขภาพ</span>
+                    จากการประกอบอาชีพและสิ่งแวดล้อม
                 </h1>
-                <div class="deadline-banner">
-                    <span>⏰</span>
-                    <span>โปรดตอบกลับภายในวันที่ <strong>13 พฤศจิกายน 2569</strong></span>
-                </div>
-            </header>
 
-            <!-- กล่องข้อมูลผู้ประสานงาน -->
-            <section class="form-card">
-                <div class="section-header">
-                    <div class="step-number">📞</div>
-                    <h2 class="section-title">ข้อมูลผู้ประสานงานการประชุม</h2>
-                </div>
-                <div class="contact-box">
-                    <div class="contact-item">
-                        <span class="contact-name">1. นางสาวจันจิรา ชินศรี</span>
-                        <span class="contact-badge">(นักวิชาการสาธารณสุขชำนาญการ)</span>
-                        <span>โทรศัพท์: <a class="contact-link" href="tel:0817346345">📞 081 734 6345</a></span>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-name">2. นางสาวประกายแก้ว ยอดพรม</span>
-                        <span class="contact-badge">(นักวิชาการสาธารณสุขชำนาญการ)</span>
-                        <span>โทรศัพท์: <a class="contact-link" href="tel:0864501626">📞 086 450 1626</a></span>
-                    </div>
-                    <div class="contact-item"
-                        style="border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 8px;">
-                        <span><strong>กลุ่มงาน:</strong> กลุ่มเฝ้าระวังและตอบโต้ภาวะฉุกเฉิน
-                            กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม</span>
-                    </div>
-                    <div class="contact-item">
-                        <span>โทรศัพท์สำนักงาน: <a class="contact-link" href="tel:025903865">☎️ 0 2590 3865</a></span>
-                        <span>• อีเมล: <a class="contact-link" href="mailto:envocc4.0@gmail.com">✉️
-                                envocc4.0@gmail.com</a></span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======================================================== -->
-            <!-- 🛡️ 2. นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)                  -->
-            <!-- ======================================================== -->
-            <section class="form-card">
-                <div class="section-header">
-                    <div class="step-number">1</div>
-                    <h2 class="section-title">นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h2>
-                    <span class="required-tag">จำเป็นต้องยินยอม</span>
-                </div>
-
-                <div class="pdpa-box">
-                    <p>
-                        กรมควบคุมโรค โดยกองโรคจากการประกอบอาชีพและสิ่งแวดล้อม
-                        ในฐานะผู้จัดการประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
-                        ได้ตระหนักถึงความสำคัญของการคุ้มครองข้อมูลส่วนบุคคลของท่าน
-                        จึงได้จัดทำนโยบายคุ้มครองข้อมูลส่วนบุคคลฉบับนี้
-                        เพื่อแจ้งให้ทราบถึงรายละเอียดที่เกี่ยวข้องกับการเก็บรวบรวม ใช้และเปิดเผยข้อมูลส่วนบุคคล
-                        เพื่อให้เป็นไปตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 และกฎหมาย กฎ ระเบียบ
-                        ที่เกี่ยวข้อง ดังนี้
-                    </p>
-
-                    <p><strong>1. วัตถุประสงค์ของการเก็บรวบรวม ใช้และเปิดเผยข้อมูลส่วนบุคคล</strong></p>
-                    <ol>
-                        <li>1.1 เพื่อให้ผู้จัดนำข้อมูลไปประมวลผลการตอบรับเข้าร่วมประชุมฯ
-                            และจัดทำรายชื่อผู้เข้าร่วมการประชุม</li>
-                        <li>1.2 เพื่อแจ้งรายละเอียดและการดำเนินงานต่าง ๆ ที่เกี่ยวข้องกับการประชุมฯ
-                            ครั้งนี้ให้แก่ท่านได้รับทราบ</li>
-                    </ol>
-
-                    <p><strong>2. ข้อมูลส่วนบุคคลที่เก็บรวบรวม</strong></p>
-                    <p>ข้อมูลส่วนบุคคลที่ท่านกรอกลงบนฟอร์มแบบตอบรับเข้าร่วมการประชุมฯ ได้แก่ ชื่อ-นามสกุล ตำแหน่ง
-                        กลุ่มงาน หน่วยงาน เบอร์โทรศัพท์ E-mail</p>
-
-                    <p><strong>3. ระยะเวลาในการเก็บรวบรวมข้อมูล</strong></p>
-                    <p>ผู้จัดการประชุมฯ จะเก็บรักษาข้อมูลส่วนบุคคลของท่านเป็นเวลา 6 เดือน หลังจากระยะเวลาดังกล่าว
-                        ผู้จัดประชุมฯ จะทำลายหรือลบข้อมูลส่วนบุคคลดังกล่าวจากการจัดเก็บหรือระบบของผู้จัด</p>
-
-                    <p><strong>4. ติดต่อเรา</strong></p>
-                    <p>
-                        หากท่านมีข้อเสนอแนะหรือต้องการสอบถามข้อมูลเกี่ยวกับการเก็บรวบรวมข้อมูลส่วนบุคคลของท่าน
-                        สามารถติดต่อได้ที่:<br>
-                        • <strong>ชื่อ:</strong> กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม<br>
-                        • <strong>ที่อยู่:</strong> โรคจากการประกอบอาชีพและสิ่งแวดล้อม ชั้น 2 อาคาร 10-11
-                        กรมควบคุมโรค<br>
-                        • <strong>เบอร์โทรศัพท์:</strong> 02 590 3865
-                    </p>
-                </div>
-
-                <div class="checkbox-wrapper">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="pdpaConsent" name="pdpaConsent" value="ยินยอม" required>
-                        <span>
-                            <strong>ข้าพเจ้าได้อ่านและเข้าใจข้อความซึ่งระบุไว้ข้างต้นอย่างชัดแจ้งแล้ว</strong>
-                            และยินยอมให้กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม กรมควบคุมโรค เก็บรวบรวม ใช้
-                            และประมวลผลข้อมูลส่วนบุคคลตามนโยบายคุ้มครองข้อมูลส่วนบุคคลดังกล่าว <span
-                                class="required-star">*</span>
-                        </span>
-                    </label>
-                </div>
-            </section>
-
-            <!-- ======================================================== -->
-            <!-- 👤 3. ข้อมูลผู้ตอบรับ / ผู้เข้าร่วมการประชุม (บังคับทุกข้อ)     -->
-            <!-- ======================================================== -->
-            <section class="form-card">
-                <div class="section-header">
-                    <div class="step-number">2</div>
-                    <h2 class="section-title">ข้อมูลผู้ตอบรับ / ผู้เข้าร่วมการประชุม</h2>
-                    <span class="required-tag">บังคับกรอกทุกข้อ *</span>
-                </div>
-
-                <!-- ชื่อหน่วยงาน (Searchable Dropdown) -->
-                <div class="form-group">
-                    <label class="field-label" for="agencyInput">ชื่อหน่วยงาน <span
-                            class="required-star">*</span></label>
-                    <div class="searchable-select-wrapper" id="agencySelectWrapper">
-                        <div class="search-input-container">
-                            <input type="text" id="agencyInput" name="agency" class="form-input"
-                                placeholder="🔍 พิมพ์เพื่อค้นหา หรือคลิกเลือกหน่วยงาน..." autocomplete="off" required>
-                            <span class="search-arrow">▼</span>
-                        </div>
-                        <!-- รายชื่อตัวเลือกหน่วยงาน -->
-                        <div class="dropdown-options-list" id="agencyOptionsList"></div>
-                    </div>
-
-                    <!-- กล่องระบุชื่อโรงพยาบาล (แสดงเมื่อเลือกโรงพยาบาล) -->
-                    <div id="hospitalNameBox" class="hospital-box" style="display: none;">
-                        <label class="field-label" for="hospitalName" style="color: #166534;">
-                            🏥 โปรดระบุชื่อโรงพยาบาลของท่าน <span class="required-star">*</span>
-                        </label>
-                        <input type="text" id="hospitalName" name="hospitalName" class="form-input"
-                            placeholder="เช่น โรงพยาบาลศูนย์ขอนแก่น, โรงพยาบาลมหาราชนครราชสีมา, โรงพยาบาลทั่วไป..."
-                            style="background:#fff;">
-                    </div>
-                </div>
-
-                <!-- คำนำหน้า -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="field-label" for="prefix">คำนำหน้า <span class="required-star">*</span></label>
-                        <select id="prefix" name="prefix" class="form-select" onchange="toggleCustomPrefix(this.value)"
-                            required>
-                            <option value="" disabled selected>-- เลือกคำนำหน้า --</option>
-                            <option value="นาย">นาย</option>
-                            <option value="นาง">นาง</option>
-                            <option value="นางสาว">นางสาว</option>
-                            <option value="other">อื่น ๆ (โปรดระบุ)</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="customPrefixGroup" style="display: none;">
-                        <label class="field-label" for="customPrefix">ระบุคำนำหน้า <span
-                                class="required-star">*</span></label>
-                        <input type="text" id="customPrefix" name="customPrefix" class="form-input"
-                            placeholder="เช่น นพ., พญ., ดร.">
-                    </div>
-                </div>
-
-                <!-- ชื่อ-สกุล และ ตำแหน่ง -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="field-label" for="fullName">ชื่อ-สกุล <span class="required-star">*</span></label>
-                        <input type="text" id="fullName" name="fullName" class="form-input"
-                            placeholder="ระบุชื่อและนามสกุล" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="field-label" for="position">ตำแหน่ง <span class="required-star">*</span></label>
-                        <input type="text" id="position" name="position" class="form-input"
-                            placeholder="เช่น นักวิชาการสาธารณสุขปฏิบัติการ" required>
-                    </div>
-                </div>
-
-                <!-- เบอร์โทรศัพท์ และ อีเมล (บังคับตอบทุกข้อ) -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="field-label" for="phone">เบอร์โทรศัพท์ (มือถือ) <span
-                                class="required-star">*</span></label>
-                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="เช่น 0812345678"
-                            pattern="[0-9]{9,10}" title="กรุณากรอกเบอร์โทร 9-10 หลัก" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="field-label" for="email">อีเมล (E-mail) <span
-                                class="required-star">*</span></label>
-                        <input type="email" id="email" name="email" class="form-input"
-                            placeholder="เช่น yourname@domain.com" required>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======================================================== -->
-            <!-- 📋 4. ความประสงค์ในการเข้าร่วมการประชุม (บังคับเลือก)        -->
-            <!-- ======================================================== -->
-            <section class="form-card">
-                <div class="section-header">
-                    <div class="step-number">3</div>
-                    <h2 class="section-title">ความประสงค์ในการเข้าร่วมการประชุม</h2>
-                    <span class="required-tag">บังคับเลือก *</span>
-                </div>
-
-                <div class="radio-option-group">
-                    <label class="radio-card" onclick="selectRadioCard(this)">
-                        <input type="radio" name="attendanceStatus" value="เข้าร่วมการประชุม" required>
+                <!-- Date & Location -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 mb-5">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-regular fa-calendar text-blue-600 text-base w-5"></i>
                         <div>
-                            <strong>มีความประสงค์เข้าร่วมการประชุม</strong>
-                            <div class="radio-subtext">สามารถเข้าร่วมประชุมตามวัน เวลา และสถานที่ที่กำหนด</div>
+                            <span class="text-xs text-slate-500 block">วันที่จัดประชุม</span>
+                            <span class="font-semibold text-slate-800">25 - 27 พฤศจิกายน 2569</span>
                         </div>
-                    </label>
-
-                    <label class="radio-card" onclick="selectRadioCard(this)">
-                        <input type="radio" name="attendanceStatus" value="มอบหมายผู้แทน">
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-location-dot text-rose-500 text-base w-5"></i>
                         <div>
-                            <strong>มอบหมายผู้แทนเข้าร่วมการประชุม</strong>
-                            <div class="radio-subtext">ติดภารกิจอื่น และได้มอบหมายผู้แทนเข้าร่วมประชุมแทน</div>
+                            <span class="text-xs text-slate-500 block">สถานที่จัดประชุม</span>
+                            <span class="font-semibold text-slate-800">ณ โรงแรมอมารี ดอนเมือง แอร์พอร์ต กทม.</span>
                         </div>
-                    </label>
-
-                    <label class="radio-card" onclick="selectRadioCard(this)">
-                        <input type="radio" name="attendanceStatus" value="ไม่สามารถเข้าร่วมได้">
-                        <div>
-                            <strong>ไม่สามารถเข้าร่วมการประชุมได้</strong>
-                            <div class="radio-subtext">เนื่องจากติดภารกิจราชการสำคัญอื่น</div>
-                        </div>
-                    </label>
+                    </div>
                 </div>
-            </section>
 
-            <!-- ======================================================== -->
-            <!-- 🚀 ปุ่มส่งแบบตอบรับ                                       -->
-            <!-- ======================================================== -->
-            <div class="submit-container">
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span>บันทึกข้อมูลแบบตอบรับ</span>
-                    <svg style="width: 20px; height: 20px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </button>
+                <!-- Coordinator Contact Box -->
+                <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-4 text-xs text-slate-600">
+                    <div class="font-semibold text-blue-900 mb-2.5 flex items-center gap-2 pb-2 border-b border-blue-100">
+                        <i class="fa-solid fa-headset text-blue-600 text-sm"></i>
+                        <span class="text-sm">ข้อมูลผู้ประสานงานการประชุม</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-2">
+                        <div class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-blue-100/60">
+                            <span>1. น.ส.จันจิรา ชินศรี</span>
+                            <a href="tel:0817346345" class="text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 px-2 py-0.5 rounded border border-blue-200">081 734 6345</a>
+                        </div>
+                        <div class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-blue-100/60">
+                            <span>2. น.ส.ประกายแก้ว ยอดพรม</span>
+                            <a href="tel:0864501626" class="text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 px-2 py-0.5 rounded border border-blue-200">086 450 1626</a>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-blue-100 text-[11.5px] text-slate-500">
+                        <span>โทรศัพท์สำนักงาน: <a href="tel:025903865" class="text-blue-600 font-medium">0 2590 3865</a></span>
+                        <span>อีเมล: <a href="mailto:envocc4.0@gmail.com" class="text-blue-600 font-medium">envocc4.0@gmail.com</a></span>
+                    </div>
+                </div>
             </div>
+        </header>
 
-        </form>
+        <!-- ========================================== -->
+        <!-- กล่องแบบฟอร์ม (Form Card)                  -->
+        <!-- ========================================== -->
+        <main class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+            <form id="registrationForm" class="space-y-10" novalidate>
+                
+                <!-- Honeypot Bot Trap -->
+                <div class="hidden" aria-hidden="true">
+                    <input type="text" id="extra_company_url" name="extra_company_url" tabindex="-1" autocomplete="off">
+                </div>
+
+                <!-- Section 01: ข้อมูลผู้ตอบรับ / ผู้เข้าร่วม -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">1</span>
+                        <h2 class="text-xl font-bold text-slate-800">ข้อมูลผู้ตอบรับ / ผู้เข้าร่วม</h2>
+                        <span class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นทุกข้อ *</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Agency (เลือกระบบหน่วยงานแบบใหม่) -->
+                        <div class="md:col-span-2">
+                            <label class="form-label" for="agencyInput">ชื่อหน่วยงาน <span class="text-rose-500">*</span></label>
+                            
+                            <!-- หมวดหมู่เลือกด่วน (ไม่มีไอคอน และเพิ่มปุ่ม "อื่น ๆ") -->
+                            <div class="flex flex-wrap gap-2 mb-2.5" id="agencyCategoryTabs">
+                                <button type="button" class="agency-tab-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm transition-all" data-category="all">
+                                    ทั้งหมด
+                                </button>
+                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="hospital">
+                                    โรงพยาบาล
+                                </button>
+                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="ssj">
+                                    สสจ. (76 จังหวัด)
+                                </button>
+                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="skr">
+                                    สคร. 1-12
+                                </button>
+                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="central">
+                                    ส่วนกลาง / กทม.
+                                </button>
+                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="other">
+                                    อื่น ๆ (ระบุเอง)
+                                </button>
+                            </div>
+
+                            <!-- ช่องค้นหา + Dropdown -->
+                            <div class="relative" id="agencySelectWrapper">
+                                <div class="relative flex items-center">
+                                    <input type="text" id="agencyInput" name="agency" class="form-input pr-10" placeholder="พิมพ์ชื่อจังหวัด หรือคลิกเพื่อเลือกหน่วยงาน..." autocomplete="off" required>
+                                    <button type="button" id="agencyClearBtn" class="hidden absolute right-3 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 text-xs items-center justify-center transition-colors">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                    <i id="agencyArrowIcon" class="fa-solid fa-chevron-down absolute right-3.5 text-slate-400 text-xs pointer-events-none transition-transform duration-200"></i>
+                                </div>
+
+                                <div id="agencyDropdownList" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white border border-blue-400 rounded-xl shadow-2xl max-h-72 overflow-y-auto custom-scrollbar z-50 p-1.5">
+                                    <!-- รายการหน่วยงาน -->
+                                </div>
+                            </div>
+
+                            <!-- กล่องระบุชื่อโรงพยาบาล (แสดงเมื่อเลือกโรงพยาบาล) -->
+                            <div id="hospitalBox" class="hidden mt-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                                <label class="form-label text-emerald-800" for="hospitalNameInput">
+                                    โปรดระบุชื่อโรงพยาบาลของท่าน <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="hospitalNameInput" name="hospitalName" class="form-input bg-white border-emerald-300 focus:border-emerald-500" placeholder="เช่น บางบ่อ, ศูนย์ขอนแก่น, มหาราชนครราชสีมา...">
+                                <p class="text-xs text-emerald-600 mt-1.5">กรอกเฉพาะชื่อหรือชื่อเต็ม เช่น "บางบ่อ" ระบบจะบันทึกเป็น "โรงพยาบาลบางบ่อ" ให้อัตโนมัติ</p>
+                            </div>
+                        </div>
+
+                        <!-- Prefix -->
+                        <div>
+                            <label class="form-label" for="prefixSelect">คำนำหน้า <span class="text-rose-500">*</span></label>
+                            <select id="prefixSelect" name="prefix" class="form-input appearance-none" required style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23475569%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.65rem auto;">
+                                <option value="" disabled selected>-- เลือกคำนำหน้า --</option>
+                                <option value="นาย">นาย</option>
+                                <option value="นาง">นาง</option>
+                                <option value="นางสาว">นางสาว</option>
+                                <option value="other">อื่น ๆ (โปรดระบุ)</option>
+                            </select>
+                            <div id="customPrefixBox" class="hidden mt-3">
+                                <input type="text" id="customPrefixInput" name="customPrefix" class="form-input" placeholder="เช่น นพ., พญ., ดร.">
+                            </div>
+                        </div>
+
+                        <!-- Name (Thai Only) -->
+                        <div>
+                            <label class="form-label" for="fullNameInput">ชื่อ-สกุล <span class="text-rose-500">*</span></label>
+                            <input type="text" id="fullNameInput" name="fullName" class="form-input" placeholder="ภาษาไทยเท่านั้น" required>
+                            <span id="nameNotice" class="hidden text-xs text-rose-500 mt-1 block">กรอกได้เฉพาะภาษาไทยเท่านั้น</span>
+                        </div>
+
+                        <!-- Position (Thai Only) -->
+                        <div class="md:col-span-2">
+                            <label class="form-label" for="positionInput">ตำแหน่ง <span class="text-rose-500">*</span></label>
+                            <input type="text" id="positionInput" name="position" class="form-input" placeholder="เช่น นักวิชาการสาธารณสุขชำนาญการ (ภาษาไทย)" required>
+                            <span id="posNotice" class="hidden text-xs text-rose-500 mt-1 block">กรอกได้เฉพาะภาษาไทยเท่านั้น</span>
+                        </div>
+
+                        <!-- Phone (Numbers only, exactly 10 digits) -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="form-label mb-0" for="phoneInput">เบอร์โทรศัพท์ (มือถือ) <span class="text-rose-500">*</span></label>
+                                <span class="text-xs text-slate-400 font-mono" id="phoneCounter">0/10</span>
+                            </div>
+                            <input type="tel" id="phoneInput" name="phone" class="form-input font-mono" placeholder="08xxxxxxxx" maxlength="10" inputmode="numeric" required>
+                            <span id="phoneNotice" class="hidden text-xs text-rose-500 mt-1 block">ต้องเป็นตัวเลข 10 หลักพอดี</span>
+                        </div>
+
+                        <!-- Email (No Thai) -->
+                        <div>
+                            <label class="form-label" for="emailInput">อีเมล (E-mail) <span class="text-rose-500">*</span></label>
+                            <input type="email" id="emailInput" name="email" class="form-input" placeholder="yourname@domain.com" required>
+                            <span id="emailNotice" class="hidden text-xs text-rose-500 mt-1 block">ห้ามกรอกภาษาไทยในช่องอีเมล</span>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="border-slate-100">
+
+                <!-- Section 02: ความประสงค์ในการเข้าร่วม -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">2</span>
+                        <h2 class="text-xl font-bold text-slate-800">ความประสงค์ในการเข้าร่วม</h2>
+                        <span class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">บังคับเลือก *</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Option 1 -->
+                        <label class="relative block cursor-pointer group">
+                            <input type="radio" name="attendanceStatus" value="เข้าร่วมการประชุม" class="peer sr-only" required>
+                            <div class="h-full flex flex-col items-center justify-center p-6 border-2 border-slate-200 rounded-xl bg-white peer-checked:border-brand-primary peer-checked:bg-blue-50 peer-checked:shadow-md hover:border-blue-300 transition-all text-center">
+                                <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4 peer-checked:bg-brand-primary peer-checked:text-white text-slate-400 group-hover:text-blue-500 transition-colors duration-300">
+                                    <i class="fa-solid fa-user-check text-xl"></i>
+                                </div>
+                                <span class="font-medium text-slate-700 peer-checked:text-brand-primary leading-tight">มีความประสงค์เข้าร่วมการประชุม</span>
+                                <span class="text-xs text-slate-400 mt-2 block">เข้าร่วมตามกำหนดการ</span>
+                            </div>
+                        </label>
+
+                        <!-- Option 2 -->
+                        <label class="relative block cursor-pointer group">
+                            <input type="radio" name="attendanceStatus" value="มอบหมายผู้แทน" class="peer sr-only">
+                            <div class="h-full flex flex-col items-center justify-center p-6 border-2 border-slate-200 rounded-xl bg-white peer-checked:border-amber-500 peer-checked:bg-amber-50 peer-checked:shadow-md hover:border-amber-300 transition-all text-center">
+                                <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4 peer-checked:bg-amber-500 peer-checked:text-white text-slate-400 group-hover:text-amber-500 transition-colors duration-300">
+                                    <i class="fa-solid fa-users text-xl"></i>
+                                </div>
+                                <span class="font-medium text-slate-700 peer-checked:text-amber-600 leading-tight">มอบหมายผู้แทนเข้าร่วมการประชุม</span>
+                                <span class="text-xs text-slate-400 mt-2 block">ส่งผู้แทนเข้าร่วมแทน</span>
+                            </div>
+                        </label>
+
+                        <!-- Option 3 -->
+                        <label class="relative block cursor-pointer group">
+                            <input type="radio" name="attendanceStatus" value="ไม่สามารถเข้าร่วมได้" class="peer sr-only">
+                            <div class="h-full flex flex-col items-center justify-center p-6 border-2 border-slate-200 rounded-xl bg-white peer-checked:border-rose-500 peer-checked:bg-rose-50 peer-checked:shadow-md hover:border-rose-300 transition-all text-center">
+                                <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4 peer-checked:bg-rose-500 peer-checked:text-white text-slate-400 group-hover:text-rose-500 transition-colors duration-300">
+                                    <i class="fa-solid fa-user-xmark text-xl"></i>
+                                </div>
+                                <span class="font-medium text-slate-700 peer-checked:text-rose-600 leading-tight">ไม่สามารถเข้าร่วมการประชุมได้</span>
+                                <span class="text-xs text-slate-400 mt-2 block">ติดภารกิจราชการอื่น</span>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+                <hr class="border-slate-100">
+
+                <!-- Section 03: การคุ้มครองข้อมูลส่วนบุคคล (PDPA) -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">3</span>
+                        <h2 class="text-xl font-bold text-slate-800">การคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h2>
+                        <span class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นต้องยินยอม *</span>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5 text-sm text-slate-600 leading-relaxed max-h-48 overflow-y-auto custom-scrollbar">
+                        ผู้จัดการประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม ได้ตระหนักถึงความสำคัญของการคุ้มครองข้อมูลส่วนบุคคลของท่าน จึงจัดทำนโยบายฉบับนี้ เพื่อแจ้งให้ทราบถึงรายละเอียดที่เกี่ยวข้องกับการเก็บรวบรวม ใช้ และเปิดเผยข้อมูลส่วนบุคคล เพื่อให้เป็นไปตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562
+                        <br><br>
+                        <strong>1. วัตถุประสงค์:</strong><br>
+                        1.1 เพื่อนำไปประมวลผลการตอบรับ และจัดทำรายชื่อผู้เข้าร่วมการประชุม<br>
+                        1.2 เพื่อแจ้งรายละเอียดที่เกี่ยวข้องกับการประชุมฯ ครั้งนี้ให้แก่ท่านได้รับทราบ
+                        <br><br>
+                        <strong>2. ข้อมูลส่วนบุคคลที่เก็บรวบรวม:</strong><br>
+                        ชื่อ-นามสกุล, ตำแหน่ง, หน่วยงาน, เบอร์โทรศัพท์, อีเมล
+                        <br><br>
+                        <strong>3. ระยะเวลาในการเก็บรวบรวมข้อมูล:</strong><br>
+                        ผู้จัดการประชุมฯ จะเก็บรักษาข้อมูลส่วนบุคคลเป็นเวลา 6 เดือน และจะทำลายหรือลบข้อมูลดังกล่าวเมื่อพ้นกำหนด
+                    </div>
+
+                    <label class="flex items-start gap-4 cursor-pointer p-4 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 rounded-xl transition-all">
+                        <div class="flex items-center h-5 mt-0.5">
+                            <input type="checkbox" id="pdpaConsent" name="pdpaConsent" value="ยินยอม" required class="w-5 h-5 text-brand-primary border-gray-300 rounded focus:ring-brand-primary accent-blue-600">
+                        </div>
+                        <div class="text-sm text-slate-700">
+                            <span class="font-medium">ข้าพเจ้าได้อ่านและเข้าใจข้อความข้างต้นแล้ว</span> และยินยอมให้ผู้จัดการประชุมเก็บรวบรวม ใช้ และประมวลผลข้อมูลส่วนบุคคลตามนโยบายดังกล่าว <span class="text-rose-500">*</span>
+                        </div>
+                    </label>
+                </section>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button type="submit" id="submitBtn" class="w-full bg-brand-primary hover:bg-brand-secondary text-white font-semibold text-lg py-4 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition-all active:scale-[0.98] flex justify-center items-center gap-2 disabled:bg-slate-400 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-paper-plane"></i> <span>บันทึกข้อมูลแบบตอบรับ</span>
+                    </button>
+                </div>
+
+            </form>
+            
+            <div class="text-center mt-8 text-xs text-slate-400">
+                &copy; 2026 ระบบลงทะเบียนการประชุม
+            </div>
+        </main>
+
     </div>
 
     <script>
-        // ฐานข้อมูลหน่วยงานใน Searchable Dropdown
+        // Target Google Apps Script URL
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyPK_IMkw4lcuzqHkyEUrb_zvHRK0EjY6pQ_-WcHEoXhH_E5n4WyI6ZPcNcv3Oh-10-/exec";
+        const apiKey = "ENV_OCC_HEALTH_2026_DDC";
+
+        // Element References
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const agencyInput = document.getElementById('agencyInput');
+        const agencySelectWrapper = document.getElementById('agencySelectWrapper');
+        const agencyDropdownList = document.getElementById('agencyDropdownList');
+        const agencyClearBtn = document.getElementById('agencyClearBtn');
+        const agencyArrowIcon = document.getElementById('agencyArrowIcon');
+        const agencyTabs = document.querySelectorAll('.agency-tab-btn');
+        const hospitalBox = document.getElementById('hospitalBox');
+        const hospitalNameInput = document.getElementById('hospitalNameInput');
+        const prefixSelect = document.getElementById('prefixSelect');
+        const customPrefixBox = document.getElementById('customPrefixBox');
+        const customPrefixInput = document.getElementById('customPrefixInput');
+        const fullNameInput = document.getElementById('fullNameInput');
+        const nameNotice = document.getElementById('nameNotice');
+        const positionInput = document.getElementById('positionInput');
+        const posNotice = document.getElementById('posNotice');
+        const phoneInput = document.getElementById('phoneInput');
+        const phoneCounter = document.getElementById('phoneCounter');
+        const phoneNotice = document.getElementById('phoneNotice');
+        const emailInput = document.getElementById('emailInput');
+        const emailNotice = document.getElementById('emailNotice');
+        const pdpaConsent = document.getElementById('pdpaConsent');
+
+        // ฐานข้อมูลหน่วยงานแบ่งตามกลุ่มชัดเจน
         const agenciesData = [
             {
                 category: "โรงพยาบาล",
+                code: "hospital",
+                badgeText: "รพ.",
+                badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
                 items: [
                     "โรงพยาบาล"
                 ]
             },
             {
-                category: "หน่วยงานส่วนกลาง / กรุงเทพมหานคร",
-                items: [
-                    "สถาบันป้องกันควบคุมโรคเขตเมือง",
-                    "สำนักการแพทย์ กรุงเทพมหานคร",
-                    "สำนักอนามัย กรุงเทพมหานคร"
-                ]
-            },
-            {
                 category: "สำนักงานป้องกันควบคุมโรค (สคร. 1-12)",
+                code: "skr",
+                badgeText: "สคร.",
+                badgeColor: "bg-blue-100 text-blue-800 border-blue-200",
                 items: [
                     "สำนักงานป้องกันควบคุมโรคที่ 1 เชียงใหม่",
                     "สำนักงานป้องกันควบคุมโรคที่ 2 พิษณุโลก",
@@ -845,7 +452,21 @@
                 ]
             },
             {
+                category: "หน่วยงานส่วนกลาง / กรุงเทพมหานคร",
+                code: "central",
+                badgeText: "ส่วนกลาง",
+                badgeColor: "bg-purple-100 text-purple-800 border-purple-200",
+                items: [
+                    "สถาบันป้องกันควบคุมโรคเขตเมือง",
+                    "สำนักการแพทย์ กรุงเทพมหานคร",
+                    "สำนักอนามัย กรุงเทพมหานคร"
+                ]
+            },
+            {
                 category: "สำนักงานสาธารณสุขจังหวัด (สสจ. 76 จังหวัด)",
+                code: "ssj",
+                badgeText: "สสจ.",
+                badgeColor: "bg-amber-100 text-amber-800 border-amber-200",
                 items: [
                     "สำนักงานสาธารณสุขจังหวัดกระบี่",
                     "สำนักงานสาธารณสุขจังหวัดกาญจนบุรี",
@@ -927,165 +548,345 @@
             }
         ];
 
-        const agencyWrapper = document.getElementById('agencySelectWrapper');
-        const agencyInput = document.getElementById('agencyInput');
-        const agencyOptionsList = document.getElementById('agencyOptionsList');
-        const hospitalNameBox = document.getElementById('hospitalNameBox');
-        const hospitalNameInput = document.getElementById('hospitalName');
+        let currentCategoryFilter = 'all';
 
-        function renderAgencyOptions(filterText = '') {
-            agencyOptionsList.innerHTML = '';
-            const filter = filterText.trim().toLowerCase();
-            let hasMatch = false;
+        // เรนเดอร์รายการหน่วยงาน
+        function renderAgencyList(keyword = '') {
+            agencyDropdownList.innerHTML = '';
+            const search = keyword.trim().toLowerCase();
+            let totalMatches = 0;
 
-            agenciesData.forEach(group => {
-                const matchedItems = group.items.filter(item => item.toLowerCase().includes(filter));
+            const groupsToRender = (currentCategoryFilter === 'all')
+                ? agenciesData
+                : agenciesData.filter(g => g.code === currentCategoryFilter);
+
+            groupsToRender.forEach(group => {
+                const matchedItems = group.items.filter(item => item.toLowerCase().includes(search));
                 if (matchedItems.length > 0) {
-                    hasMatch = true;
-                    const catTitle = document.createElement('div');
-                    catTitle.className = 'dropdown-category-title';
-                    catTitle.textContent = group.category;
-                    agencyOptionsList.appendChild(catTitle);
+                    totalMatches += matchedItems.length;
+
+                    const groupHeader = document.createElement('div');
+                    groupHeader.className = 'sticky top-0 bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-md my-1 flex justify-between items-center z-10 border border-slate-200';
+                    groupHeader.innerHTML = `<span>${group.category}</span><span class="text-[11px] font-normal text-slate-500">(${matchedItems.length})</span>`;
+                    agencyDropdownList.appendChild(groupHeader);
 
                     matchedItems.forEach(item => {
                         const itemDiv = document.createElement('div');
-                        itemDiv.className = 'dropdown-item';
-                        itemDiv.textContent = item;
+                        itemDiv.className = 'px-3 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg cursor-pointer flex items-center justify-between transition-colors my-0.5';
+                        if (agencyInput.value === item) {
+                            itemDiv.className += ' bg-blue-50 text-blue-700 font-semibold';
+                        }
+
+                        let itemHtml = item;
+                        if (search) {
+                            const regex = new RegExp(`(${search})`, 'gi');
+                            itemHtml = item.replace(regex, '<span class="text-blue-600 font-bold bg-blue-100/60 px-0.5 rounded">$1</span>');
+                        }
+
+                        itemDiv.innerHTML = `
+                            <span>${itemHtml}</span>
+                            <span class="text-[10px] font-medium border px-1.5 py-0.5 rounded ${group.badgeColor}">${group.badgeText}</span>
+                        `;
                         itemDiv.onclick = () => selectAgency(item);
-                        agencyOptionsList.appendChild(itemDiv);
+                        agencyDropdownList.appendChild(itemDiv);
                     });
                 }
             });
 
-            if (!hasMatch) {
+            if (totalMatches === 0) {
                 const noResult = document.createElement('div');
-                noResult.className = 'dropdown-no-result';
-                noResult.textContent = 'ไม่พบหน่วยงานที่ค้นหา (สามารถระบุข้อความนี้ได้โดยตรง)';
-                agencyOptionsList.appendChild(noResult);
+                noResult.className = 'p-4 text-center text-xs text-slate-400';
+                noResult.textContent = 'ไม่พบหน่วยงานในระบบ (สามารถใช้ชื่อที่พิมพ์ได้โดยตรง)';
+                agencyDropdownList.appendChild(noResult);
             }
+
+            agencyClearBtn.style.display = agencyInput.value ? 'flex' : 'none';
         }
 
-        function selectAgency(value) {
-            agencyInput.value = value;
-            agencyWrapper.classList.remove('open');
-            checkHospitalField(value);
+        function selectAgency(name) {
+            agencyInput.value = name;
+            closeAgencyDropdown();
+            agencyClearBtn.style.display = 'flex';
+            checkHospitalState(name);
         }
 
-        function checkHospitalField(value) {
-            if (value.includes('โรงพยาบาล')) {
-                hospitalNameBox.style.display = 'block';
+        function checkHospitalState(val) {
+            if (val && val.includes('โรงพยาบาล')) {
+                hospitalBox.classList.remove('hidden');
                 hospitalNameInput.setAttribute('required', 'required');
+                setTimeout(() => hospitalNameInput.focus(), 150);
             } else {
-                hospitalNameBox.style.display = 'none';
+                hospitalBox.classList.add('hidden');
                 hospitalNameInput.removeAttribute('required');
                 hospitalNameInput.value = '';
             }
         }
 
-        agencyInput.addEventListener('focus', () => {
-            renderAgencyOptions(agencyInput.value);
-            agencyWrapper.classList.add('open');
-        });
+        function openAgencyDropdown() {
+            renderAgencyList(agencyInput.value);
+            agencyDropdownList.classList.remove('hidden');
+            agencyArrowIcon.style.transform = 'rotate(180deg)';
+        }
 
-        agencyInput.addEventListener('input', (e) => {
-            renderAgencyOptions(e.target.value);
-            agencyWrapper.classList.add('open');
-            checkHospitalField(e.target.value);
-        });
+        function closeAgencyDropdown() {
+            agencyDropdownList.classList.add('hidden');
+            agencyArrowIcon.style.transform = 'rotate(0deg)';
+        }
 
-        document.addEventListener('click', (e) => {
-            if (!agencyWrapper.contains(e.target)) {
-                agencyWrapper.classList.remove('open');
+        agencyInput.addEventListener('focus', function() {
+            if (currentCategoryFilter !== 'other') {
+                openAgencyDropdown();
             }
         });
 
-        function toggleCustomPrefix(value) {
-            const customPrefixGroup = document.getElementById('customPrefixGroup');
-            const customPrefixInput = document.getElementById('customPrefix');
-            if (value === 'other') {
-                customPrefixGroup.style.display = 'block';
+        agencyInput.addEventListener('click', function() {
+            if (currentCategoryFilter !== 'other') {
+                openAgencyDropdown();
+            }
+        });
+
+        agencyInput.addEventListener('input', function() {
+            if (currentCategoryFilter !== 'other') {
+                openAgencyDropdown();
+            }
+            checkHospitalState(this.value);
+            agencyClearBtn.style.display = this.value ? 'flex' : 'none';
+        });
+
+        agencyClearBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            agencyInput.value = '';
+            agencyClearBtn.style.display = 'none';
+            checkHospitalState('');
+            if (currentCategoryFilter !== 'other') {
+                renderAgencyList('');
+            }
+            agencyInput.focus();
+        });
+
+        // ควบคุมหมวดหมู่ตัวเลือกด่วน (Quick Tabs) + สลับแล้วล้างค่าเดิมทันที
+        agencyTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const cat = this.getAttribute('data-category');
+                currentCategoryFilter = cat;
+
+                // 1. ล้างค่าเดิมทั้งหมดทันทีเมื่อกดสลับหมวดหมู่
+                agencyInput.value = '';
+                hospitalNameInput.value = '';
+                hospitalBox.classList.add('hidden');
+                hospitalNameInput.removeAttribute('required');
+                agencyClearBtn.style.display = 'none';
+
+                // 2. สลับสไตล์ Active
+                agencyTabs.forEach(t => {
+                    t.className = 'agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all';
+                });
+                this.className = 'agency-tab-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm transition-all';
+
+                // 3. ปรับตามประเภทที่เลือก
+                if (cat === 'hospital') {
+                    selectAgency('โรงพยาบาล');
+                } else if (cat === 'other') {
+                    closeAgencyDropdown();
+                    agencyInput.placeholder = 'ระบุชื่อหน่วยงานของท่าน...';
+                    agencyInput.focus();
+                } else {
+                    agencyInput.placeholder = 'พิมพ์ชื่อจังหวัด หรือคลิกเพื่อเลือกหน่วยงาน...';
+                    openAgencyDropdown();
+                    agencyInput.focus();
+                }
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!agencySelectWrapper.contains(e.target) && !e.target.closest('#agencyCategoryTabs')) {
+                closeAgencyDropdown();
+            }
+        });
+
+        // 2. Custom Prefix toggle
+        prefixSelect.addEventListener('change', function() {
+            if (this.value === 'other') {
+                customPrefixBox.classList.remove('hidden');
                 customPrefixInput.setAttribute('required', 'required');
+                customPrefixInput.focus();
             } else {
-                customPrefixGroup.style.display = 'none';
+                customPrefixBox.classList.add('hidden');
                 customPrefixInput.removeAttribute('required');
                 customPrefixInput.value = '';
             }
-        }
+        });
 
-        function selectRadioCard(cardElement) {
-            document.querySelectorAll('.radio-card').forEach(card => card.classList.remove('active'));
-            cardElement.classList.add('active');
-            const radio = cardElement.querySelector('input[type="radio"]');
-            if (radio) radio.checked = true;
-        }
+        // 3. Name: Thai Only
+        fullNameInput.addEventListener('input', function() {
+            const nonThai = /[^\u0E00-\u0E7F\s]/g;
+            if (nonThai.test(this.value)) {
+                this.value = this.value.replace(nonThai, '');
+                nameNotice.classList.remove('hidden');
+                setTimeout(() => nameNotice.classList.add('hidden'), 2500);
+            }
+        });
 
-        // ==========================================
-        // การส่งฟอร์ม + SweetAlert2 แจ้งเตือน
-        // ==========================================
-        document.getElementById("attendanceForm").addEventListener("submit", function (e) {
+        // 4. Position: Thai Only
+        positionInput.addEventListener('input', function() {
+            const nonThai = /[^\u0E00-\u0E7F\s\(\)\.\-\/]/g;
+            if (nonThai.test(this.value)) {
+                this.value = this.value.replace(nonThai, '');
+                posNotice.classList.remove('hidden');
+                setTimeout(() => posNotice.classList.add('hidden'), 2500);
+            }
+        });
+
+        // 5. Phone: Numbers Only, exactly 10 digits
+        phoneInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+            const len = this.value.length;
+            phoneCounter.textContent = `${len}/10`;
+            
+            if (len === 10) {
+                phoneCounter.className = 'text-xs text-emerald-600 font-bold';
+                phoneNotice.classList.add('hidden');
+            } else if (len > 0) {
+                phoneCounter.className = 'text-xs text-rose-500 font-bold';
+                phoneNotice.classList.remove('hidden');
+            } else {
+                phoneCounter.className = 'text-xs text-slate-400';
+                phoneNotice.classList.add('hidden');
+            }
+        });
+
+        // 6. Email: No Thai
+        emailInput.addEventListener('input', function() {
+            const thaiRegex = /[\u0E00-\u0E7F]/g;
+            if (thaiRegex.test(this.value)) {
+                this.value = this.value.replace(thaiRegex, '');
+                emailNotice.classList.remove('hidden');
+                setTimeout(() => emailNotice.classList.add('hidden'), 2500);
+            }
+        });
+
+        // 7. Form Submission Handler
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const form = e.target;
-            const btn = document.getElementById("submitBtn");
             const formData = new FormData(form);
 
-            // 🍯 1. ตรวจสอบ Honeypot
-            const honeypotVal = formData.get("extra_company_url");
-            if (honeypotVal && honeypotVal.trim() !== "") {
+            // Honeypot Trap
+            if (formData.get('extra_company_url')) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'บันทึกข้อมูลสำเร็จ!',
+                    title: 'บันทึกข้อมูลสำเร็จ',
                     text: 'ขอขอบพระคุณสำหรับการตอบรับเข้าร่วมการประชุมฯ',
-                    confirmButtonColor: '#0f766e'
+                    confirmButtonColor: '#2563eb'
                 });
                 form.reset();
                 return;
             }
 
-            // ตรวจสอบความยินยอม PDPA
-            if (!document.getElementById("pdpaConsent").checked) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'โปรดยินยอมตามนโยบาย PDPA',
-                    text: 'กรุณากดยินยอมตามนโยบายคุ้มครองข้อมูลส่วนบุคคลก่อนส่งแบบตอบรับ',
-                    confirmButtonColor: '#0f766e'
-                });
+            // Agency check & Formatting (ไม่เอา โรงพยาบาล: บางบ่อ ให้เป็น โรงพยาบาลบางบ่อ)
+            let agencyVal = (formData.get('agency') || '').trim();
+            if (!agencyVal) {
+                Swal.fire({ icon: 'warning', title: 'โปรดระบุชื่อหน่วยงาน', confirmButtonColor: '#2563eb' });
+                agencyInput.focus();
+                return;
+            }
+            if (agencyVal.includes('โรงพยาบาล')) {
+                const hospVal = (formData.get('hospitalName') || '').trim();
+                if (!hospVal) {
+                    Swal.fire({ icon: 'warning', title: 'โปรดระบุชื่อโรงพยาบาลของท่าน', confirmButtonColor: '#2563eb' });
+                    hospitalNameInput.focus();
+                    return;
+                }
+                
+                // แปลงให้เป็นรูปแบบ "โรงพยาบาล..." เสมอ (ไม่มีเครื่องหมายโคลอน :)
+                let cleanedHosp = hospVal;
+                if (!cleanedHosp.startsWith('โรงพยาบาล')) {
+                    cleanedHosp = 'โรงพยาบาล' + cleanedHosp;
+                }
+                agencyVal = cleanedHosp;
+                formData.set('agency', agencyVal);
+            }
+
+            // Prefix check
+            const prefixVal = formData.get('prefix');
+            if (!prefixVal) {
+                Swal.fire({ icon: 'warning', title: 'โปรดเลือกคำนำหน้า', confirmButtonColor: '#2563eb' });
+                prefixSelect.focus();
+                return;
+            }
+            if (prefixVal === 'other') {
+                const customVal = (formData.get('customPrefix') || '').trim();
+                if (!customVal) {
+                    Swal.fire({ icon: 'warning', title: 'โปรดระบุคำนำหน้า', confirmButtonColor: '#2563eb' });
+                    customPrefixInput.focus();
+                    return;
+                }
+                formData.set('prefix', customVal);
+            }
+
+            // Full Name check (Thai only)
+            const fullNameVal = (formData.get('fullName') || '').trim();
+            if (!fullNameVal || !/^[\u0E00-\u0E7F\s]+$/.test(fullNameVal)) {
+                Swal.fire({ icon: 'warning', title: 'ชื่อ-สกุล ต้องเป็นภาษาไทยเท่านั้น', confirmButtonColor: '#2563eb' });
+                fullNameInput.focus();
                 return;
             }
 
-            // ตรวจสอบกรณีเลือกโรงพยาบาล
-            let agencyVal = formData.get("agency");
-            const hospitalVal = formData.get("hospitalName");
-            if (agencyVal.includes("โรงพยาบาล")) {
-                if (!hospitalVal || hospitalVal.trim() === "") {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'กรุณาระบุชื่อโรงพยาบาล',
-                        text: 'ท่านได้เลือกหน่วยงานโรงพยาบาล โปรดระบุชื่อโรงพยาบาลของท่านให้ชัดเจน',
-                        confirmButtonColor: '#0f766e'
-                    });
-                    document.getElementById('hospitalName').focus();
-                    return;
-                }
-                agencyVal = "โรงพยาบาล: " + hospitalVal.trim();
-                formData.set("agency", agencyVal);
+            // Position check (Thai only)
+            const posVal = (formData.get('position') || '').trim();
+            if (!posVal || !/^[\u0E00-\u0E7F\s\(\)\.\-\/]+$/.test(posVal)) {
+                Swal.fire({ icon: 'warning', title: 'ตำแหน่ง ต้องเป็นภาษาไทยเท่านั้น', confirmButtonColor: '#2563eb' });
+                positionInput.focus();
+                return;
             }
 
-            if (formData.get("prefix") === "other") {
-                formData.set("prefix", formData.get("customPrefix") || "อื่น ๆ");
+            // Phone check (exact 10 digits)
+            const phoneVal = (formData.get('phone') || '').trim().replace(/\D/g, '');
+            if (phoneVal.length !== 10) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'เบอร์โทรศัพท์ไม่ถูกต้อง',
+                    html: 'เบอร์โทรศัพท์ต้องเป็นตัวเลข <strong>10 หลักพอดี</strong><br><span class="text-sm text-slate-500">(ขณะนี้กรอก ' + phoneVal.length + ' หลัก)</span>',
+                    confirmButtonColor: '#2563eb'
+                });
+                phoneInput.focus();
+                return;
+            }
+            formData.set('phone', phoneVal);
+
+            // Email check (valid format and strictly no Thai)
+            const emailVal = (formData.get('email') || '').trim();
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailVal || /[\u0E00-\u0E7F]/.test(emailVal) || !emailRegex.test(emailVal)) {
+                Swal.fire({ icon: 'warning', title: 'รูปแบบอีเมลไม่ถูกต้อง หรือมีตัวอักษรภาษาไทย', confirmButtonColor: '#2563eb' });
+                emailInput.focus();
+                return;
             }
 
-            // 1. นำ URL ที่ได้จากการ Deploy Google Apps Script มาใส่ที่นี่
-            const scriptURL = "https://script.google.com/macros/s/AKfycbyPK_IMkw4lcuzqHkyEUrb_zvHRK0EjY6pQ_-WcHEoXhH_E5n4WyI6ZPcNcv3Oh-10-/exec";
+            // Attendance check
+            const attStatus = formData.get('attendanceStatus');
+            if (!attStatus) {
+                Swal.fire({ icon: 'warning', title: 'โปรดเลือกความประสงค์ในการเข้าร่วมการประชุม', confirmButtonColor: '#2563eb' });
+                return;
+            }
 
-            // 2. กำหนด API Key (ไม่ติด Secret Scanning ของ GitHub)
-            const apiKey = "ENV_OCC_HEALTH_2026_DDC";
-            formData.append("apiKey", apiKey);
+            // PDPA check
+            if (!pdpaConsent.checked) {
+                Swal.fire({ icon: 'warning', title: 'โปรดยินยอมตามนโยบาย PDPA', confirmButtonColor: '#2563eb' });
+                return;
+            }
 
-            // 🌀 แสดง SweetAlert2 กำลังโหลด
+            // Append API Key
+            formData.append('apiKey', apiKey);
+
+            // UI: Show loading
+            const originalBtnHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>กำลังบันทึกข้อมูล...</span>';
+
             Swal.fire({
                 title: 'กำลังส่งข้อมูล...',
-                text: 'กรุณารอสักครู่ ระบบกำลังบันทึกข้อมูลแบบตอบรับของท่าน',
+                text: 'กรุณารอสักครู่ ระบบกำลังนำส่งข้อมูลแบบตอบรับของท่าน',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 didOpen: () => {
@@ -1093,53 +894,56 @@
                 }
             });
 
-            btn.disabled = true;
-
-            // 3. ส่งข้อมูลไปยัง Google Apps Script
+            // Send to Google Apps Script
             fetch(scriptURL, {
-                method: "POST",
+                method: 'POST',
                 body: formData
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === "success") {
-                        // 🎉 แจ้งเตือนสำเร็จด้วย SweetAlert2
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'บันทึกข้อมูลสำเร็จ!',
-                            html: '<p style="font-size: 15px; margin-top: 8px;">ขอขอบพระคุณสำหรับการตอบรับเข้าร่วมการประชุมฯ</p><p style="font-size: 13.5px; color: #64748b; margin-top: 4px;">ฝ่ายเลขานุการจะติดต่อกลับเพื่อแจ้งรายละเอียดเพิ่มเติมต่อไป</p>',
-                            confirmButtonText: 'ตกลง',
-                            confirmButtonColor: '#0f766e'
-                        });
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'บันทึกข้อมูลสำเร็จเรียบร้อย',
+                        html: `<div class="text-left text-sm bg-blue-50 border border-blue-200 p-4 rounded-lg my-3 space-y-1">
+                            <div><strong>ผู้ตอบรับ:</strong> ${formData.get('prefix')}${fullNameVal}</div>
+                            <div><strong>ตำแหน่ง:</strong> ${posVal}</div>
+                            <div><strong>หน่วยงาน:</strong> ${formData.get('agency')}</div>
+                            <div><strong>สถานะ:</strong> ${attStatus}</div>
+                        </div>
+                        <p class="text-xs text-slate-500">ขอขอบพระคุณสำหรับการตอบรับเข้าร่วมการประชุมฯ</p>`,
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#2563eb'
+                    });
 
-                        form.reset();
-                        hospitalNameBox.style.display = 'none';
-                        document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('active'));
-                        document.getElementById('customPrefixGroup').style.display = 'none';
-                    } else {
-                        // ⚠️ แจ้งเตือนข้อผิดพลาด
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาด!',
-                            text: data.message || 'ไม่สามารถบันทึกข้อมูลได้',
-                            confirmButtonColor: '#ef4444'
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
+                    form.reset();
+                    hospitalBox.classList.add('hidden');
+                    customPrefixBox.classList.add('hidden');
+                    phoneCounter.textContent = '0/10';
+                    phoneCounter.className = 'text-xs text-slate-400 font-mono';
+                } else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้',
-                        text: 'โปรดตรวจสอบการตั้งค่า scriptURL หรือการเชื่อมต่ออินเทอร์เน็ตของท่าน',
-                        confirmButtonColor: '#ef4444'
+                        title: 'เกิดข้อผิดพลาด',
+                        text: data.message || 'ไม่สามารถบันทึกข้อมูลได้',
+                        confirmButtonColor: '#dc2626'
                     });
-                })
-                .finally(() => {
-                    btn.disabled = false;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้',
+                    text: 'กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของท่าน หรือลองใหม่อีกครั้ง',
+                    confirmButtonColor: '#dc2626'
                 });
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHtml;
+            });
         });
     </script>
 </body>
-
 </html>
