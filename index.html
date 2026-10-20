@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แบบตอบรับ ONLINE การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม</title>
-    
+    <title>EnvOcc Form</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -47,12 +48,14 @@
             color: #1e293b;
             transition: all 0.2s ease;
         }
+
         .form-input:focus {
             outline: none;
             background-color: #ffffff;
             border-color: #2563eb;
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
         }
+
         .form-label {
             display: block;
             font-size: 0.9rem;
@@ -73,21 +76,25 @@
             transition: all 0.2s ease;
             background-color: #ffffff;
         }
+
         .radio-card:hover {
             border-color: #cbd5e1;
             background-color: #f8fafc;
         }
-        .radio-input:checked + .radio-card {
+
+        .radio-input:checked+.radio-card {
             border-color: #2563eb;
             background-color: #eff6ff;
         }
-        
+
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background-color: #cbd5e1;
             border-radius: 20px;
@@ -99,38 +106,45 @@
         }
     </style>
 </head>
+
 <body class="text-slate-800 py-6 px-4 sm:px-6 lg:px-8">
 
     <div class="max-w-3xl mx-auto space-y-6">
-        
+
         <!-- ========================================== -->
         <!-- ส่วนหัวเรื่อง + ข้อมูลการประชุม (อยู่ด้านบน) -->
         <!-- ========================================== -->
         <header class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
             <!-- Banner Image -->
             <div class="border-b border-slate-100 bg-slate-50">
-                <img src="banner.png" alt="Banner การประชุม" class="w-full h-auto block object-cover max-h-56" onerror="this.parentElement.style.display='none'">
+                <img src="banner.png" alt="Banner การประชุม" class="w-full h-auto block object-cover max-h-56"
+                    onerror="this.parentElement.style.display='none'">
             </div>
 
             <div class="p-6 sm:p-8">
                 <!-- Badges Row -->
                 <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-                    <span class="inline-block px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full text-xs font-semibold">
+                    <span
+                        class="inline-block px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full text-xs font-semibold">
                         แบบตอบรับ ONLINE
                     </span>
-                    <span class="inline-block px-3 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-full text-xs font-medium">
+                    <span
+                        class="inline-block px-3 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-full text-xs font-medium">
                         โปรดตอบกลับภายในวันที่ <strong>13 พฤศจิกายน 2569</strong>
                     </span>
                 </div>
 
                 <!-- Event Title -->
                 <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-snug mb-5">
-                    <span class="text-blue-600 block sm:inline">แบบตอบรับ ONLINE</span> การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
+                    <span class="text-blue-600 block sm:inline">แบบตอบรับ ONLINE</span>
+                    การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
                 </h1>
 
                 <!-- Date Info (Location Removed) -->
-                <div class="flex items-center gap-3.5 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 mb-5">
-                    <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+                <div
+                    class="flex items-center gap-3.5 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 mb-5">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
                         <i class="fa-regular fa-calendar text-lg"></i>
                     </div>
                     <div>
@@ -141,23 +155,33 @@
 
                 <!-- Coordinator Contact Box -->
                 <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-4 text-xs text-slate-600">
-                    <div class="font-semibold text-blue-900 mb-2.5 flex items-center gap-2 pb-2 border-b border-blue-100">
+                    <div
+                        class="font-semibold text-blue-900 mb-2.5 flex items-center gap-2 pb-2 border-b border-blue-100">
                         <i class="fa-solid fa-headset text-blue-600 text-sm"></i>
                         <span class="text-sm">ข้อมูลผู้ประสานงานการประชุม</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-2">
-                        <div class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-blue-100/60">
+                        <div
+                            class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-blue-100/60">
                             <span>1. น.ส.จันจิรา ชินศรี</span>
-                            <a href="tel:0817346345" class="text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 px-2 py-0.5 rounded border border-blue-200">081 734 6345</a>
+                            <a href="tel:0817346345"
+                                class="text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 px-2 py-0.5 rounded border border-blue-200">081
+                                734 6345</a>
                         </div>
-                        <div class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-blue-100/60">
+                        <div
+                            class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-blue-100/60">
                             <span>2. น.ส.ประกายแก้ว ยอดพรม</span>
-                            <a href="tel:0864501626" class="text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 px-2 py-0.5 rounded border border-blue-200">086 450 1626</a>
+                            <a href="tel:0864501626"
+                                class="text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 px-2 py-0.5 rounded border border-blue-200">086
+                                450 1626</a>
                         </div>
                     </div>
-                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-blue-100 text-[11.5px] text-slate-500">
-                        <span>โทรศัพท์สำนักงาน: <a href="tel:025903865" class="text-blue-600 font-medium">0 2590 3865</a></span>
-                        <span>อีเมล: <a href="mailto:envocc4.0@gmail.com" class="text-blue-600 font-medium">envocc4.0@gmail.com</a></span>
+                    <div
+                        class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-blue-100 text-[11.5px] text-slate-500">
+                        <span>โทรศัพท์สำนักงาน: <a href="tel:025903865" class="text-blue-600 font-medium">0 2590
+                                3865</a></span>
+                        <span>อีเมล: <a href="mailto:envocc4.0@gmail.com"
+                                class="text-blue-600 font-medium">envocc4.0@gmail.com</a></span>
                     </div>
                 </div>
             </div>
@@ -168,7 +192,7 @@
         <!-- ========================================== -->
         <main class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
             <form id="registrationForm" class="space-y-10" novalidate>
-                
+
                 <!-- Honeypot Bot Trap -->
                 <div class="hidden" aria-hidden="true">
                     <input type="text" id="extra_company_url" name="extra_company_url" tabindex="-1" autocomplete="off">
@@ -177,34 +201,50 @@
                 <!-- Section 01: ข้อมูลผู้ตอบรับ / ผู้เข้าร่วม -->
                 <section>
                     <div class="flex items-center gap-3 mb-6">
-                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">1</span>
+                        <span
+                            class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">1</span>
                         <h2 class="text-xl font-bold text-slate-800">ข้อมูลผู้ตอบรับ / ผู้เข้าร่วม</h2>
-                        <span class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นทุกข้อ *</span>
+                        <span
+                            class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นทุกข้อ
+                            *</span>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Agency (เลือกระบบหน่วยงานแบบใหม่) -->
                         <div class="md:col-span-2">
-                            <label class="form-label" for="agencyInput">ชื่อหน่วยงาน <span class="text-rose-500">*</span></label>
-                            
+                            <label class="form-label" for="agencyInput">ชื่อหน่วยงาน <span
+                                    class="text-rose-500">*</span></label>
+
                             <!-- หมวดหมู่เลือกด่วน (ไม่มีไอคอน และเพิ่มปุ่ม "อื่น ๆ") -->
                             <div class="flex flex-wrap gap-2 mb-2.5" id="agencyCategoryTabs">
-                                <button type="button" class="agency-tab-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm transition-all" data-category="all">
+                                <button type="button"
+                                    class="agency-tab-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm transition-all"
+                                    data-category="all">
                                     ทั้งหมด
                                 </button>
-                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="hospital">
+                                <button type="button"
+                                    class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                    data-category="hospital">
                                     โรงพยาบาล
                                 </button>
-                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="ssj">
+                                <button type="button"
+                                    class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                    data-category="ssj">
                                     สสจ. (76 จังหวัด)
                                 </button>
-                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="skr">
+                                <button type="button"
+                                    class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                    data-category="skr">
                                     สคร. 1-12
                                 </button>
-                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="central">
+                                <button type="button"
+                                    class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                    data-category="central">
                                     ส่วนกลาง / กทม.
                                 </button>
-                                <button type="button" class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all" data-category="other">
+                                <button type="button"
+                                    class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                    data-category="other">
                                     อื่น ๆ (ระบุเอง)
                                 </button>
                             </div>
@@ -212,32 +252,43 @@
                             <!-- ช่องค้นหา + Dropdown -->
                             <div class="relative" id="agencySelectWrapper">
                                 <div class="relative flex items-center">
-                                    <input type="text" id="agencyInput" name="agency" class="form-input pr-10" placeholder="พิมพ์ชื่อจังหวัด หรือคลิกเพื่อเลือกหน่วยงาน..." autocomplete="off" required>
-                                    <button type="button" id="agencyClearBtn" class="hidden absolute right-3 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 text-xs items-center justify-center transition-colors">
+                                    <input type="text" id="agencyInput" name="agency" class="form-input pr-10"
+                                        placeholder="พิมพ์ชื่อจังหวัด หรือคลิกเพื่อเลือกหน่วยงาน..." autocomplete="off"
+                                        required>
+                                    <button type="button" id="agencyClearBtn"
+                                        class="hidden absolute right-3 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 text-xs items-center justify-center transition-colors">
                                         <i class="fa-solid fa-xmark"></i>
                                     </button>
-                                    <i id="agencyArrowIcon" class="fa-solid fa-chevron-down absolute right-3.5 text-slate-400 text-xs pointer-events-none transition-transform duration-200"></i>
+                                    <i id="agencyArrowIcon"
+                                        class="fa-solid fa-chevron-down absolute right-3.5 text-slate-400 text-xs pointer-events-none transition-transform duration-200"></i>
                                 </div>
 
-                                <div id="agencyDropdownList" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white border border-blue-400 rounded-xl shadow-2xl max-h-72 overflow-y-auto custom-scrollbar z-50 p-1.5">
+                                <div id="agencyDropdownList"
+                                    class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white border border-blue-400 rounded-xl shadow-2xl max-h-72 overflow-y-auto custom-scrollbar z-50 p-1.5">
                                     <!-- รายการหน่วยงาน -->
                                 </div>
                             </div>
 
                             <!-- กล่องระบุชื่อโรงพยาบาล (แสดงเมื่อเลือกโรงพยาบาล) -->
-                            <div id="hospitalBox" class="hidden mt-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                            <div id="hospitalBox"
+                                class="hidden mt-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
                                 <label class="form-label text-emerald-800" for="hospitalNameInput">
                                     โปรดระบุชื่อโรงพยาบาลของท่าน <span class="text-rose-500">*</span>
                                 </label>
-                                <input type="text" id="hospitalNameInput" name="hospitalName" class="form-input bg-white border-emerald-300 focus:border-emerald-500" placeholder="เช่น บางบ่อ, ศูนย์ขอนแก่น, มหาราชนครราชสีมา...">
-                                <p class="text-xs text-emerald-600 mt-1.5">กรอกเฉพาะชื่อหรือชื่อเต็ม เช่น "บางบ่อ" ระบบจะบันทึกเป็น "โรงพยาบาลบางบ่อ" ให้อัตโนมัติ</p>
+                                <input type="text" id="hospitalNameInput" name="hospitalName"
+                                    class="form-input bg-white border-emerald-300 focus:border-emerald-500"
+                                    placeholder="เช่น บางบ่อ, ศูนย์ขอนแก่น, มหาราชนครราชสีมา...">
+                                <p class="text-xs text-emerald-600 mt-1.5">กรอกเฉพาะชื่อหรือชื่อเต็ม เช่น "บางบ่อ"
+                                    ระบบจะบันทึกเป็น "โรงพยาบาลบางบ่อ" ให้อัตโนมัติ</p>
                             </div>
                         </div>
 
                         <!-- Prefix -->
                         <div>
-                            <label class="form-label" for="prefixSelect">คำนำหน้า <span class="text-rose-500">*</span></label>
-                            <select id="prefixSelect" name="prefix" class="form-input appearance-none" required style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23475569%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.65rem auto;">
+                            <label class="form-label" for="prefixSelect">คำนำหน้า <span
+                                    class="text-rose-500">*</span></label>
+                            <select id="prefixSelect" name="prefix" class="form-input appearance-none" required
+                                style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23475569%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.65rem auto;">
                                 <option value="" disabled selected>-- เลือกคำนำหน้า --</option>
                                 <option value="นาย">นาย</option>
                                 <option value="นาง">นาง</option>
@@ -245,39 +296,52 @@
                                 <option value="other">อื่น ๆ (โปรดระบุ)</option>
                             </select>
                             <div id="customPrefixBox" class="hidden mt-3">
-                                <input type="text" id="customPrefixInput" name="customPrefix" class="form-input" placeholder="เช่น นพ., พญ., ดร.">
+                                <input type="text" id="customPrefixInput" name="customPrefix" class="form-input"
+                                    placeholder="เช่น นพ., พญ., ดร.">
                             </div>
                         </div>
 
                         <!-- Name (Thai Only) -->
                         <div>
-                            <label class="form-label" for="fullNameInput">ชื่อ-สกุล <span class="text-rose-500">*</span></label>
-                            <input type="text" id="fullNameInput" name="fullName" class="form-input" placeholder="ภาษาไทยเท่านั้น" required>
-                            <span id="nameNotice" class="hidden text-xs text-rose-500 mt-1 block">กรอกได้เฉพาะภาษาไทยเท่านั้น</span>
+                            <label class="form-label" for="fullNameInput">ชื่อ-สกุล <span
+                                    class="text-rose-500">*</span></label>
+                            <input type="text" id="fullNameInput" name="fullName" class="form-input"
+                                placeholder="ภาษาไทยเท่านั้น" required>
+                            <span id="nameNotice"
+                                class="hidden text-xs text-rose-500 mt-1 block">กรอกได้เฉพาะภาษาไทยเท่านั้น</span>
                         </div>
 
                         <!-- Position (Thai Only) -->
                         <div class="md:col-span-2">
-                            <label class="form-label" for="positionInput">ตำแหน่ง <span class="text-rose-500">*</span></label>
-                            <input type="text" id="positionInput" name="position" class="form-input" placeholder="เช่น นักวิชาการสาธารณสุขชำนาญการ (ภาษาไทย)" required>
-                            <span id="posNotice" class="hidden text-xs text-rose-500 mt-1 block">กรอกได้เฉพาะภาษาไทยเท่านั้น</span>
+                            <label class="form-label" for="positionInput">ตำแหน่ง <span
+                                    class="text-rose-500">*</span></label>
+                            <input type="text" id="positionInput" name="position" class="form-input"
+                                placeholder="เช่น นักวิชาการสาธารณสุขชำนาญการ (ภาษาไทย)" required>
+                            <span id="posNotice"
+                                class="hidden text-xs text-rose-500 mt-1 block">กรอกได้เฉพาะภาษาไทยเท่านั้น</span>
                         </div>
 
                         <!-- Phone (Numbers only, exactly 10 digits) -->
                         <div>
                             <div class="flex justify-between items-center mb-2">
-                                <label class="form-label mb-0" for="phoneInput">เบอร์โทรศัพท์ (มือถือ) <span class="text-rose-500">*</span></label>
+                                <label class="form-label mb-0" for="phoneInput">เบอร์โทรศัพท์ (มือถือ) <span
+                                        class="text-rose-500">*</span></label>
                                 <span class="text-xs text-slate-400 font-mono" id="phoneCounter">0/10</span>
                             </div>
-                            <input type="tel" id="phoneInput" name="phone" class="form-input font-mono" placeholder="08xxxxxxxx" maxlength="10" inputmode="numeric" required>
-                            <span id="phoneNotice" class="hidden text-xs text-rose-500 mt-1 block">ต้องเป็นตัวเลข 10 หลักพอดี</span>
+                            <input type="tel" id="phoneInput" name="phone" class="form-input font-mono"
+                                placeholder="08xxxxxxxx" maxlength="10" inputmode="numeric" required>
+                            <span id="phoneNotice" class="hidden text-xs text-rose-500 mt-1 block">ต้องเป็นตัวเลข 10
+                                หลักพอดี</span>
                         </div>
 
                         <!-- Email (No Thai) -->
                         <div>
-                            <label class="form-label" for="emailInput">อีเมล (E-mail) <span class="text-rose-500">*</span></label>
-                            <input type="email" id="emailInput" name="email" class="form-input" placeholder="yourname@domain.com" required>
-                            <span id="emailNotice" class="hidden text-xs text-rose-500 mt-1 block">ห้ามกรอกภาษาไทยในช่องอีเมล</span>
+                            <label class="form-label" for="emailInput">อีเมล (E-mail) <span
+                                    class="text-rose-500">*</span></label>
+                            <input type="email" id="emailInput" name="email" class="form-input"
+                                placeholder="yourname@domain.com" required>
+                            <span id="emailNotice"
+                                class="hidden text-xs text-rose-500 mt-1 block">ห้ามกรอกภาษาไทยในช่องอีเมล</span>
                         </div>
                     </div>
                 </section>
@@ -287,21 +351,30 @@
                 <!-- Section 02: ความประสงค์ในการเข้าร่วม -->
                 <section>
                     <div class="flex items-center gap-3 mb-4">
-                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">2</span>
+                        <span
+                            class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">2</span>
                         <h2 class="text-xl font-bold text-slate-800">ความประสงค์ในการเข้าร่วม</h2>
-                        <span class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นต้องระบุ *</span>
+                        <span
+                            class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นต้องระบุ
+                            *</span>
                     </div>
 
-                    <label id="attendanceCard" for="attendanceCheck" class="flex items-start sm:items-center gap-4 p-5 border-2 border-slate-200 bg-white rounded-xl hover:border-blue-300 transition-all cursor-pointer select-none">
-                        <input type="checkbox" id="attendanceCheck" name="attendanceStatus" value="มีความประสงค์เข้าร่วมการประชุม" class="mt-0.5 sm:mt-0 w-5 h-5 text-blue-600 border-2 border-slate-300 rounded focus:ring-blue-500 cursor-pointer" required>
+                    <label id="attendanceCard" for="attendanceCheck"
+                        class="flex items-start sm:items-center gap-4 p-5 border-2 border-slate-200 bg-white rounded-xl hover:border-blue-300 transition-all cursor-pointer select-none">
+                        <input type="checkbox" id="attendanceCheck" name="attendanceStatus"
+                            value="มีความประสงค์เข้าร่วมการประชุม"
+                            class="mt-0.5 sm:mt-0 w-5 h-5 text-blue-600 border-2 border-slate-300 rounded focus:ring-blue-500 cursor-pointer"
+                            required>
                         <div class="flex-1">
                             <div class="font-semibold text-slate-800 text-base flex flex-wrap items-center gap-2">
                                 <span>มีความประสงค์เข้าร่วมการประชุม</span>
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                                     <i class="fa-solid fa-check text-[10px] mr-1"></i> ยืนยันเข้าร่วม
                                 </span>
                             </div>
-                            <p class="text-xs text-slate-500 mt-1">ขอยืนยันความประสงค์เข้าร่วมการประชุมตามวันและเวลาที่กำหนด</p>
+                            <p class="text-xs text-slate-500 mt-1">
+                                ขอยืนยันความประสงค์เข้าร่วมการประชุมตามวันและเวลาที่กำหนด</p>
                         </div>
                     </label>
                 </section>
@@ -311,13 +384,20 @@
                 <!-- Section 03: การคุ้มครองข้อมูลส่วนบุคคล (PDPA) -->
                 <section>
                     <div class="flex items-center gap-3 mb-6">
-                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">3</span>
+                        <span
+                            class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">3</span>
                         <h2 class="text-xl font-bold text-slate-800">การคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h2>
-                        <span class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นต้องยินยอม *</span>
+                        <span
+                            class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นต้องยินยอม
+                            *</span>
                     </div>
 
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5 text-sm text-slate-600 leading-relaxed max-h-48 overflow-y-auto custom-scrollbar">
-                        ผู้จัดการประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม ได้ตระหนักถึงความสำคัญของการคุ้มครองข้อมูลส่วนบุคคลของท่าน จึงจัดทำนโยบายฉบับนี้ เพื่อแจ้งให้ทราบถึงรายละเอียดที่เกี่ยวข้องกับการเก็บรวบรวม ใช้ และเปิดเผยข้อมูลส่วนบุคคล เพื่อให้เป็นไปตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562
+                    <div
+                        class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-5 text-sm text-slate-600 leading-relaxed max-h-48 overflow-y-auto custom-scrollbar">
+                        ผู้จัดการประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
+                        ได้ตระหนักถึงความสำคัญของการคุ้มครองข้อมูลส่วนบุคคลของท่าน จึงจัดทำนโยบายฉบับนี้
+                        เพื่อแจ้งให้ทราบถึงรายละเอียดที่เกี่ยวข้องกับการเก็บรวบรวม ใช้ และเปิดเผยข้อมูลส่วนบุคคล
+                        เพื่อให้เป็นไปตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562
                         <br><br>
                         <strong>1. วัตถุประสงค์:</strong><br>
                         1.1 เพื่อนำไปประมวลผลการตอบรับ และจัดทำรายชื่อผู้เข้าร่วมการประชุม<br>
@@ -327,28 +407,34 @@
                         ชื่อ-นามสกุล, ตำแหน่ง, หน่วยงาน, เบอร์โทรศัพท์, อีเมล
                         <br><br>
                         <strong>3. ระยะเวลาในการเก็บรวบรวมข้อมูล:</strong><br>
-                        ผู้จัดการประชุมฯ จะเก็บรักษาข้อมูลส่วนบุคคลเป็นเวลา 6 เดือน และจะทำลายหรือลบข้อมูลดังกล่าวเมื่อพ้นกำหนด
+                        ผู้จัดการประชุมฯ จะเก็บรักษาข้อมูลส่วนบุคคลเป็นเวลา 6 เดือน
+                        และจะทำลายหรือลบข้อมูลดังกล่าวเมื่อพ้นกำหนด
                     </div>
 
-                    <label class="flex items-start gap-4 cursor-pointer p-4 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 rounded-xl transition-all">
+                    <label
+                        class="flex items-start gap-4 cursor-pointer p-4 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 rounded-xl transition-all">
                         <div class="flex items-center h-5 mt-0.5">
-                            <input type="checkbox" id="pdpaConsent" name="pdpaConsent" value="ยินยอม" required class="w-5 h-5 text-brand-primary border-gray-300 rounded focus:ring-brand-primary accent-blue-600">
+                            <input type="checkbox" id="pdpaConsent" name="pdpaConsent" value="ยินยอม" required
+                                class="w-5 h-5 text-brand-primary border-gray-300 rounded focus:ring-brand-primary accent-blue-600">
                         </div>
                         <div class="text-sm text-slate-700">
-                            <span class="font-medium">ข้าพเจ้าได้อ่านและเข้าใจข้อความข้างต้นแล้ว</span> และยินยอมให้ผู้จัดการประชุมเก็บรวบรวม ใช้ และประมวลผลข้อมูลส่วนบุคคลตามนโยบายดังกล่าว <span class="text-rose-500">*</span>
+                            <span class="font-medium">ข้าพเจ้าได้อ่านและเข้าใจข้อความข้างต้นแล้ว</span>
+                            และยินยอมให้ผู้จัดการประชุมเก็บรวบรวม ใช้ และประมวลผลข้อมูลส่วนบุคคลตามนโยบายดังกล่าว <span
+                                class="text-rose-500">*</span>
                         </div>
                     </label>
                 </section>
 
                 <!-- Submit Button -->
                 <div class="pt-4">
-                    <button type="submit" id="submitBtn" class="w-full bg-brand-primary hover:bg-brand-secondary text-white font-semibold text-lg py-4 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition-all active:scale-[0.98] flex justify-center items-center gap-2 disabled:bg-slate-400 disabled:cursor-not-allowed">
+                    <button type="submit" id="submitBtn"
+                        class="w-full bg-brand-primary hover:bg-brand-secondary text-white font-semibold text-lg py-4 px-8 rounded-xl shadow-lg shadow-blue-500/30 transition-all active:scale-[0.98] flex justify-center items-center gap-2 disabled:bg-slate-400 disabled:cursor-not-allowed">
                         <i class="fa-solid fa-paper-plane"></i> <span>บันทึกข้อมูลแบบตอบรับ</span>
                     </button>
                 </div>
 
             </form>
-            
+
             <div class="text-center mt-8 text-xs text-slate-400">
                 &copy; 2026 ระบบลงทะเบียนการประชุม
             </div>
@@ -601,19 +687,19 @@
             agencyArrowIcon.style.transform = 'rotate(0deg)';
         }
 
-        agencyInput.addEventListener('focus', function() {
+        agencyInput.addEventListener('focus', function () {
             if (currentCategoryFilter !== 'other') {
                 openAgencyDropdown();
             }
         });
 
-        agencyInput.addEventListener('click', function() {
+        agencyInput.addEventListener('click', function () {
             if (currentCategoryFilter !== 'other') {
                 openAgencyDropdown();
             }
         });
 
-        agencyInput.addEventListener('input', function() {
+        agencyInput.addEventListener('input', function () {
             if (currentCategoryFilter !== 'other') {
                 openAgencyDropdown();
             }
@@ -621,7 +707,7 @@
             agencyClearBtn.style.display = this.value ? 'flex' : 'none';
         });
 
-        agencyClearBtn.addEventListener('click', function(e) {
+        agencyClearBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             agencyInput.value = '';
             agencyClearBtn.style.display = 'none';
@@ -634,7 +720,7 @@
 
         // ควบคุมหมวดหมู่ตัวเลือกด่วน (Quick Tabs) + สลับแล้วล้างค่าเดิมทันที
         agencyTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
+            tab.addEventListener('click', function () {
                 const cat = this.getAttribute('data-category');
                 currentCategoryFilter = cat;
 
@@ -666,14 +752,14 @@
             });
         });
 
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (!agencySelectWrapper.contains(e.target) && !e.target.closest('#agencyCategoryTabs')) {
                 closeAgencyDropdown();
             }
         });
 
         // 2. Custom Prefix toggle
-        prefixSelect.addEventListener('change', function() {
+        prefixSelect.addEventListener('change', function () {
             if (this.value === 'other') {
                 customPrefixBox.classList.remove('hidden');
                 customPrefixInput.setAttribute('required', 'required');
@@ -686,7 +772,7 @@
         });
 
         // 3. Name: Thai Only
-        fullNameInput.addEventListener('input', function() {
+        fullNameInput.addEventListener('input', function () {
             const nonThai = /[^\u0E00-\u0E7F\s]/g;
             if (nonThai.test(this.value)) {
                 this.value = this.value.replace(nonThai, '');
@@ -696,7 +782,7 @@
         });
 
         // 4. Position: Thai Only
-        positionInput.addEventListener('input', function() {
+        positionInput.addEventListener('input', function () {
             const nonThai = /[^\u0E00-\u0E7F\s\(\)\.\-\/]/g;
             if (nonThai.test(this.value)) {
                 this.value = this.value.replace(nonThai, '');
@@ -706,11 +792,11 @@
         });
 
         // 5. Phone: Numbers Only, exactly 10 digits
-        phoneInput.addEventListener('input', function() {
+        phoneInput.addEventListener('input', function () {
             this.value = this.value.replace(/\D/g, '').slice(0, 10);
             const len = this.value.length;
             phoneCounter.textContent = `${len}/10`;
-            
+
             if (len === 10) {
                 phoneCounter.className = 'text-xs text-emerald-600 font-bold';
                 phoneNotice.classList.add('hidden');
@@ -724,7 +810,7 @@
         });
 
         // 6. Email: No Thai
-        emailInput.addEventListener('input', function() {
+        emailInput.addEventListener('input', function () {
             const thaiRegex = /[\u0E00-\u0E7F]/g;
             if (thaiRegex.test(this.value)) {
                 this.value = this.value.replace(thaiRegex, '');
@@ -735,7 +821,7 @@
 
         // 6.2 Attendance Checkbox UI Toggle
         if (attendanceCheck && attendanceCard) {
-            attendanceCheck.addEventListener('change', function() {
+            attendanceCheck.addEventListener('change', function () {
                 if (this.checked) {
                     attendanceCard.classList.add('border-blue-600', 'bg-blue-50/70', 'shadow-sm');
                     attendanceCard.classList.remove('border-slate-200', 'bg-white');
@@ -747,7 +833,7 @@
         }
 
         // 7. Form Submission Handler
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             e.preventDefault();
 
             const formData = new FormData(form);
@@ -778,7 +864,7 @@
                     hospitalNameInput.focus();
                     return;
                 }
-                
+
                 // แปลงให้เป็นรูปแบบ "โรงพยาบาล..." เสมอ (ไม่มีเครื่องหมายโคลอน :)
                 let cleanedHosp = hospVal;
                 if (!cleanedHosp.startsWith('โรงพยาบาล')) {
@@ -887,55 +973,56 @@
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'บันทึกข้อมูลสำเร็จเรียบร้อย',
-                        html: `<div class="text-left text-sm bg-blue-50 border border-blue-200 p-4 rounded-lg my-3 space-y-1">
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'บันทึกข้อมูลสำเร็จเรียบร้อย',
+                            html: `<div class="text-left text-sm bg-blue-50 border border-blue-200 p-4 rounded-lg my-3 space-y-1">
                             <div><strong>ผู้ตอบรับ:</strong> ${formData.get('prefix')}${fullNameVal}</div>
                             <div><strong>ตำแหน่ง:</strong> ${posVal}</div>
                             <div><strong>หน่วยงาน:</strong> ${formData.get('agency')}</div>
                             <div><strong>สถานะ:</strong> ${attStatus}</div>
                         </div>
                         <p class="text-xs text-slate-500">ขอขอบพระคุณสำหรับการตอบรับเข้าร่วมการประชุมฯ</p>`,
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#2563eb'
-                    });
+                            confirmButtonText: 'ตกลง',
+                            confirmButtonColor: '#2563eb'
+                        });
 
-                    form.reset();
-                    hospitalBox.classList.add('hidden');
-                    customPrefixBox.classList.add('hidden');
-                    phoneCounter.textContent = '0/10';
-                    phoneCounter.className = 'text-xs text-slate-400 font-mono';
-                    if (attendanceCard) {
-                        attendanceCard.classList.remove('border-blue-600', 'bg-blue-50/70', 'shadow-sm');
-                        attendanceCard.classList.add('border-slate-200', 'bg-white');
+                        form.reset();
+                        hospitalBox.classList.add('hidden');
+                        customPrefixBox.classList.add('hidden');
+                        phoneCounter.textContent = '0/10';
+                        phoneCounter.className = 'text-xs text-slate-400 font-mono';
+                        if (attendanceCard) {
+                            attendanceCard.classList.remove('border-blue-600', 'bg-blue-50/70', 'shadow-sm');
+                            attendanceCard.classList.add('border-slate-200', 'bg-white');
+                        }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: data.message || 'ไม่สามารถบันทึกข้อมูลได้',
+                            confirmButtonColor: '#dc2626'
+                        });
                     }
-                } else {
+                })
+                .catch(err => {
+                    console.error(err);
                     Swal.fire({
                         icon: 'error',
-                        title: 'เกิดข้อผิดพลาด',
-                        text: data.message || 'ไม่สามารถบันทึกข้อมูลได้',
+                        title: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้',
+                        text: 'กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของท่าน หรือลองใหม่อีกครั้ง',
                         confirmButtonColor: '#dc2626'
                     });
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้',
-                    text: 'กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของท่าน หรือลองใหม่อีกครั้ง',
-                    confirmButtonColor: '#dc2626'
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
                 });
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnHtml;
-            });
         });
     </script>
 </body>
+
 </html>
