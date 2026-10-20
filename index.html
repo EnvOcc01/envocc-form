@@ -6,26 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แบบตอบรับ ONLINE การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลฯ</title>
 
+    <!-- ฟอนต์ Prompt & Sarabun จาก Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap"
         rel="stylesheet">
+
+    <!-- SweetAlert2 สำหรับแจ้งเตือนแบบพรีเมียม -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
-            --primary-color: #0d5c75;
-            --primary-hover: #083e50;
-            --secondary-color: #2a9d8f;
-            --bg-color: #f0f4f8;
+            --primary: #0f766e;
+            --primary-dark: #0a4f4a;
+            --secondary: #0284c7;
+            --danger: #ef4444;
             --card-bg: #ffffff;
-            --text-main: #2b2d42;
+            --text-main: #1e293b;
             --text-muted: #64748b;
-            --border-color: #cbd5e1;
-            --focus-ring: rgba(13, 92, 117, 0.25);
-            --danger: #dc2626;
-            --radius: 12px;
-            --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+            --border-color: #e2e8f0;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+            --shadow-hover: 0 20px 35px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -3px rgba(15, 23, 42, 0.04);
         }
 
         * {
@@ -36,83 +41,150 @@
 
         body {
             font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
+            background: linear-gradient(180deg, #eef6f9 0%, #f8fafc 400px, #f1f5f9 100%);
             color: var(--text-main);
-            line-height: 1.6;
-            padding: 24px 16px;
+            line-height: 1.65;
+            padding: 30px 16px 60px;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 780px;
+            max-width: 820px;
             margin: 0 auto;
         }
 
+        /* 🖼️ แบนเนอร์หัวเว็บ */
+        .banner-container {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            max-height: 380px;
+        }
+
+        /* กล่องหัวเรื่อง */
         .header-card {
-            background: linear-gradient(135deg, #0d5c75 0%, #1e3a8a 100%);
+            background: linear-gradient(135deg, #094754 0%, #0d5c75 50%, #0284c7 100%);
             color: #ffffff;
-            padding: 32px 28px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            padding: 36px 32px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
             margin-bottom: 24px;
             position: relative;
+            overflow: hidden;
         }
 
         .badge-dept {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            color: #e2e8f0;
-            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-size: 13.5px;
             font-weight: 500;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 12px;
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
         .header-title {
             font-family: 'Prompt', sans-serif;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
-            line-height: 1.45;
-            margin-bottom: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .deadline-banner {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background-color: #fff1f2;
-            color: #be123c;
-            padding: 8px 16px;
-            border-radius: 8px;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #991b1b;
+            padding: 10px 18px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 14.5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-left: 4px solid #e11d48;
         }
 
+        /* กล่องการ์ดเนื้อหา */
         .form-card {
             background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 28px;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: var(--radius-md);
+            padding: 32px 30px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .form-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(15, 118, 110, 0.25);
         }
 
         .section-title {
             font-family: 'Prompt', sans-serif;
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 18px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f5f9;
+            color: #0f172a;
+            flex-grow: 1;
         }
 
+        .required-tag {
+            font-size: 12px;
+            color: var(--danger);
+            background: #fef2f2;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        /* ข้อมูลผู้ประสานงาน */
         .contact-box {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 16px;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1.5px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            padding: 20px;
             font-size: 14.5px;
         }
 
@@ -120,8 +192,8 @@
             display: flex;
             flex-wrap: wrap;
             align-items: baseline;
-            gap: 6px;
-            margin-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .contact-item:last-child {
@@ -130,59 +202,100 @@
 
         .contact-name {
             font-weight: 600;
-            color: #1e293b;
+            color: #0f172a;
+        }
+
+        .contact-badge {
+            color: var(--text-muted);
+            font-size: 13.5px;
         }
 
         .contact-link {
-            color: var(--primary-color);
+            color: var(--primary);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
+            padding: 2px 8px;
+            background: #e0f2fe;
+            border-radius: 6px;
         }
 
+        .contact-link:hover {
+            background: #bae6fd;
+        }
+
+        /* PDPA Box */
         .pdpa-box {
             background-color: #fafbfc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 18px;
-            max-height: 250px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            max-height: 240px;
             overflow-y: auto;
             font-size: 13.5px;
-            line-height: 1.7;
+            line-height: 1.75;
             color: #334155;
         }
 
         .pdpa-box p {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             text-align: justify;
         }
 
         .pdpa-box ol {
             padding-left: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
+        .checkbox-wrapper {
+            background: #f0fdfa;
+            border: 1.5px solid #99f6e4;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            font-size: 14px;
+            color: #0f172a;
+            line-height: 1.6;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 19px;
+            height: 19px;
+            margin-right: 12px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* ช่องกรอกข้อมูล */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 18px;
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 680px) {
             .form-row {
                 grid-template-columns: 1fr;
             }
 
             .header-card,
             .form-card {
-                padding: 20px;
+                padding: 22px 18px;
             }
 
             .header-title {
-                font-size: 18px;
+                font-size: 19px;
             }
         }
 
@@ -191,34 +304,35 @@
             font-size: 14.5px;
             font-weight: 600;
             color: #1e293b;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
         }
 
         .required-star {
             color: var(--danger);
-            margin-left: 2px;
+            margin-left: 3px;
         }
 
         .form-input,
         .form-select {
             width: 100%;
-            padding: 11px 14px;
+            padding: 12px 16px;
             font-family: inherit;
             font-size: 14.5px;
+            color: var(--text-main);
             border: 1.5px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             outline: none;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             background-color: #ffffff;
         }
 
         .form-input:focus,
         .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3.5px var(--focus-ring);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
         }
 
-        /* 🔍 Searchable Dropdown Styles */
+        /* Searchable Dropdown */
         .searchable-select-wrapper {
             position: relative;
             width: 100%;
@@ -231,87 +345,49 @@
         }
 
         .search-input-container input {
-            padding-right: 36px;
+            padding-right: 40px;
+            cursor: text;
         }
 
         .search-arrow {
             position: absolute;
-            right: 12px;
+            right: 14px;
             pointer-events: none;
             color: #64748b;
-            transition: transform 0.2s ease;
-            font-size: 11px;
+            transition: transform 0.25s ease;
+            font-size: 12px;
         }
 
         .searchable-select-wrapper.open .search-arrow {
             transform: rotate(180deg);
+            color: var(--primary);
         }
 
         .dropdown-options-list {
             display: none;
             position: absolute;
-            top: calc(100% + 4px);
+            top: calc(100% + 6px);
             left: 0;
             right: 0;
             background: #ffffff;
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
-            max-height: 280px;
+            border: 1.5px solid var(--primary);
+            border-radius: var(--radius-sm);
+            max-height: 290px;
             overflow-y: auto;
-            z-index: 100;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
-            padding: 4px 0;
+            z-index: 1000;
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);
+            padding: 6px 0;
         }
 
         .searchable-select-wrapper.open .dropdown-options-list {
             display: block;
-            animation: fadeIn 0.15s ease-out;
+            animation: dropdownSlide 0.2s ease-out;
         }
 
-        .dropdown-category-title {
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--primary-color);
-            background-color: #f1f5f9;
-            letter-spacing: 0.5px;
-        }
-
-        .dropdown-item {
-            padding: 9px 14px;
-            font-size: 14px;
-            color: #1e293b;
-            cursor: pointer;
-            transition: background-color 0.15s ease;
-        }
-
-        .dropdown-item:hover {
-            background-color: #e0f2fe;
-            color: #0369a1;
-            font-weight: 500;
-        }
-
-        .dropdown-no-result {
-            padding: 12px 14px;
-            font-size: 13.5px;
-            color: #94a3b8;
-            text-align: center;
-        }
-
-        /* กล่องระบุชื่อโรงพยาบาล */
-        .hospital-box {
-            margin-top: 14px;
-            padding: 14px;
-            background-color: #f0fdf4;
-            border: 1.5px solid #86efac;
-            border-radius: 8px;
-            animation: fadeIn 0.25s ease-out;
-        }
-
-        @keyframes fadeIn {
+        @keyframes dropdownSlide {
             from {
                 opacity: 0;
-                transform: translateY(-4px);
+                transform: translateY(-8px);
             }
 
             to {
@@ -320,85 +396,137 @@
             }
         }
 
-        /* Radio Cards */
+        .dropdown-category-title {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            background-color: #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        .dropdown-item {
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #1e293b;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0fdfa;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .dropdown-no-result {
+            padding: 16px;
+            font-size: 14px;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        .hospital-box {
+            margin-top: 14px;
+            padding: 16px 18px;
+            background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1.5px solid #86efac;
+            border-radius: var(--radius-sm);
+            animation: dropdownSlide 0.3s ease-out;
+        }
+
+        /* Radio Card */
         .radio-option-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .radio-card {
             display: flex;
             align-items: center;
-            padding: 12px 16px;
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
+            padding: 16px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
             cursor: pointer;
             background-color: #ffffff;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
         }
 
         .radio-card:hover {
-            border-color: var(--secondary-color);
+            border-color: var(--secondary);
             background-color: #f8fafc;
+            transform: translateY(-1px);
         }
 
         .radio-card.active {
-            border-color: var(--primary-color);
-            background-color: #f0f9ff;
+            border-color: var(--primary);
+            background-color: #f0fdfa;
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.1);
         }
 
-        .radio-card input[type="radio"],
-        .checkbox-label input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 12px;
+        .radio-card input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 14px;
             cursor: pointer;
+            accent-color: var(--primary);
+            flex-shrink: 0;
         }
 
-        .checkbox-wrapper {
-            background-color: #f8fafc;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 14px;
-            margin-top: 14px;
+        .radio-card strong {
+            font-size: 15px;
+            color: #0f172a;
+            display: block;
         }
 
-        .checkbox-label {
-            display: flex;
-            align-items: flex-start;
-            cursor: pointer;
-            font-size: 14px;
-            color: #1e293b;
-            line-height: 1.5;
+        .radio-subtext {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ปุ่มส่งฟอร์ม */
+        .submit-container {
+            margin-top: 15px;
+            margin-bottom: 20px;
         }
 
         .submit-btn {
             width: 100%;
-            background: linear-gradient(135deg, var(--primary-color) 0%, #0f766e 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #0369a1 100%);
             color: #ffffff;
             border: none;
-            padding: 14px 24px;
+            padding: 18px 28px;
             font-family: 'Prompt', sans-serif;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(13, 92, 117, 0.25);
-            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px rgba(15, 118, 110, 0.28);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .submit-btn:hover {
-            background: linear-gradient(135deg, var(--primary-hover) 0%, #115e59 100%);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0284c7 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px rgba(15, 118, 110, 0.35);
         }
 
         .submit-btn:disabled {
             background: #94a3b8;
             cursor: not-allowed;
             box-shadow: none;
+            transform: none;
         }
 
-        /* 🍯 HONEYPOT CSS */
+        /* Honeypot Field */
         .honeypot-box {
             opacity: 0;
             position: absolute;
@@ -410,76 +538,163 @@
             overflow: hidden;
             pointer-events: none;
         }
+
+        .swal2-popup {
+            font-family: 'Prompt', 'Sarabun', sans-serif !important;
+            border-radius: 16px !important;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="container">
-        <!-- Header -->
-        <header class="header-card">
-            <div class="badge-dept">กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม กรมควบคุมโรค</div>
-            <h1 class="header-title">
-                แบบตอบรับ ONLINE
-                การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
-            </h1>
-            <div class="deadline-banner">
-                <span>⏰</span>
-                <span>โปรดตอบกลับภายในวันที่ <strong>13 พฤศจิกายน 2569</strong></span>
-            </div>
-        </header>
-
-        <!-- ข้อมูลผู้ประสานงาน -->
-        <section class="form-card">
-            <h2 class="section-title">ข้อมูลผู้ประสานงาน</h2>
-            <div class="contact-box">
-                <div class="contact-item">
-                    <span class="contact-name">1. นางสาวจันจิรา ชินศรี</span>
-                    <span>โทรศัพท์: <a class="contact-link" href="tel:0817346345">081 734 6345</a></span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-name">2. นางสาวประกายแก้ว ยอดพรม</span>
-                    <span>โทรศัพท์: <a class="contact-link" href="tel:0864501626">086 450 1626</a></span>
-                </div>
-                <div class="contact-item" style="border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 8px;">
-                    <span>กลุ่มเฝ้าระวังและตอบโต้ภาวะฉุกเฉิน กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม</span>
-                </div>
-                <div class="contact-item">
-                    <span>โทรศัพท์: <a class="contact-link" href="tel:025903865">0 2590 3865</a></span>
-                    <span>• อีเมล: <a class="contact-link"
-                            href="mailto:envocc4.0@gmail.com">envocc4.0@gmail.com</a></span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ฟอร์มตอบรับ -->
         <form id="attendanceForm">
 
-            <!-- 🍯 HONEYPOT TRAP -->
+            <!-- 🍯 Honeypot Trap ดักบอท -->
             <div class="honeypot-box" aria-hidden="true">
                 <input type="text" id="extra_company_url" name="extra_company_url" tabindex="-1" autocomplete="off">
             </div>
 
-            <!-- ข้อมูลผู้ตอบรับ -->
-            <section class="form-card">
-                <h2 class="section-title">ข้อมูลผู้ตอบรับ / ผู้เข้าร่วมการประชุม</h2>
+            <!-- ======================================================== -->
+            <!-- 🖼️ 1. BANNER + ชื่อประชุม + ข้อมูลผู้ประสานงาน            -->
+            <!-- ======================================================== -->
+            <div class="banner-container" id="bannerWrapper">
+                <img src="banner.png"
+                    alt="Banner การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลฯ"
+                    class="banner-img" onerror="this.parentElement.style.display='none'">
+            </div>
 
-                <!-- ช่องเลือกหน่วยงานแบบค้นหาได้ (Searchable Dropdown) -->
+            <header class="header-card">
+                <div class="badge-dept">
+                    <span>🏛️</span> กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม กรมควบคุมโรค
+                </div>
+                <h1 class="header-title">
+                    แบบตอบรับ ONLINE
+                    การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
+                </h1>
+                <div class="deadline-banner">
+                    <span>⏰</span>
+                    <span>โปรดตอบกลับภายในวันที่ <strong>13 พฤศจิกายน 2569</strong></span>
+                </div>
+            </header>
+
+            <!-- กล่องข้อมูลผู้ประสานงาน -->
+            <section class="form-card">
+                <div class="section-header">
+                    <div class="step-number">📞</div>
+                    <h2 class="section-title">ข้อมูลผู้ประสานงานการประชุม</h2>
+                </div>
+                <div class="contact-box">
+                    <div class="contact-item">
+                        <span class="contact-name">1. นางสาวจันจิรา ชินศรี</span>
+                        <span class="contact-badge">(นักวิชาการสาธารณสุขชำนาญการ)</span>
+                        <span>โทรศัพท์: <a class="contact-link" href="tel:0817346345">📞 081 734 6345</a></span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-name">2. นางสาวประกายแก้ว ยอดพรม</span>
+                        <span class="contact-badge">(นักวิชาการสาธารณสุขชำนาญการ)</span>
+                        <span>โทรศัพท์: <a class="contact-link" href="tel:0864501626">📞 086 450 1626</a></span>
+                    </div>
+                    <div class="contact-item"
+                        style="border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 8px;">
+                        <span><strong>กลุ่มงาน:</strong> กลุ่มเฝ้าระวังและตอบโต้ภาวะฉุกเฉิน
+                            กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>โทรศัพท์สำนักงาน: <a class="contact-link" href="tel:025903865">☎️ 0 2590 3865</a></span>
+                        <span>• อีเมล: <a class="contact-link" href="mailto:envocc4.0@gmail.com">✉️
+                                envocc4.0@gmail.com</a></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 🛡️ 2. นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)                  -->
+            <!-- ======================================================== -->
+            <section class="form-card">
+                <div class="section-header">
+                    <div class="step-number">1</div>
+                    <h2 class="section-title">นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h2>
+                    <span class="required-tag">จำเป็นต้องยินยอม</span>
+                </div>
+
+                <div class="pdpa-box">
+                    <p>
+                        กรมควบคุมโรค โดยกองโรคจากการประกอบอาชีพและสิ่งแวดล้อม
+                        ในฐานะผู้จัดการประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
+                        ได้ตระหนักถึงความสำคัญของการคุ้มครองข้อมูลส่วนบุคคลของท่าน
+                        จึงได้จัดทำนโยบายคุ้มครองข้อมูลส่วนบุคคลฉบับนี้
+                        เพื่อแจ้งให้ทราบถึงรายละเอียดที่เกี่ยวข้องกับการเก็บรวบรวม ใช้และเปิดเผยข้อมูลส่วนบุคคล
+                        เพื่อให้เป็นไปตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 และกฎหมาย กฎ ระเบียบ
+                        ที่เกี่ยวข้อง ดังนี้
+                    </p>
+
+                    <p><strong>1. วัตถุประสงค์ของการเก็บรวบรวม ใช้และเปิดเผยข้อมูลส่วนบุคคล</strong></p>
+                    <ol>
+                        <li>1.1 เพื่อให้ผู้จัดนำข้อมูลไปประมวลผลการตอบรับเข้าร่วมประชุมฯ
+                            และจัดทำรายชื่อผู้เข้าร่วมการประชุม</li>
+                        <li>1.2 เพื่อแจ้งรายละเอียดและการดำเนินงานต่าง ๆ ที่เกี่ยวข้องกับการประชุมฯ
+                            ครั้งนี้ให้แก่ท่านได้รับทราบ</li>
+                    </ol>
+
+                    <p><strong>2. ข้อมูลส่วนบุคคลที่เก็บรวบรวม</strong></p>
+                    <p>ข้อมูลส่วนบุคคลที่ท่านกรอกลงบนฟอร์มแบบตอบรับเข้าร่วมการประชุมฯ ได้แก่ ชื่อ-นามสกุล ตำแหน่ง
+                        กลุ่มงาน หน่วยงาน เบอร์โทรศัพท์ E-mail</p>
+
+                    <p><strong>3. ระยะเวลาในการเก็บรวบรวมข้อมูล</strong></p>
+                    <p>ผู้จัดการประชุมฯ จะเก็บรักษาข้อมูลส่วนบุคคลของท่านเป็นเวลา 6 เดือน หลังจากระยะเวลาดังกล่าว
+                        ผู้จัดประชุมฯ จะทำลายหรือลบข้อมูลส่วนบุคคลดังกล่าวจากการจัดเก็บหรือระบบของผู้จัด</p>
+
+                    <p><strong>4. ติดต่อเรา</strong></p>
+                    <p>
+                        หากท่านมีข้อเสนอแนะหรือต้องการสอบถามข้อมูลเกี่ยวกับการเก็บรวบรวมข้อมูลส่วนบุคคลของท่าน
+                        สามารถติดต่อได้ที่:<br>
+                        • <strong>ชื่อ:</strong> กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม<br>
+                        • <strong>ที่อยู่:</strong> โรคจากการประกอบอาชีพและสิ่งแวดล้อม ชั้น 2 อาคาร 10-11
+                        กรมควบคุมโรค<br>
+                        • <strong>เบอร์โทรศัพท์:</strong> 02 590 3865
+                    </p>
+                </div>
+
+                <div class="checkbox-wrapper">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="pdpaConsent" name="pdpaConsent" value="ยินยอม" required>
+                        <span>
+                            <strong>ข้าพเจ้าได้อ่านและเข้าใจข้อความซึ่งระบุไว้ข้างต้นอย่างชัดแจ้งแล้ว</strong>
+                            และยินยอมให้กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม กรมควบคุมโรค เก็บรวบรวม ใช้
+                            และประมวลผลข้อมูลส่วนบุคคลตามนโยบายคุ้มครองข้อมูลส่วนบุคคลดังกล่าว <span
+                                class="required-star">*</span>
+                        </span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- ======================================================== -->
+            <!-- 👤 3. ข้อมูลผู้ตอบรับ / ผู้เข้าร่วมการประชุม (บังคับทุกข้อ)     -->
+            <!-- ======================================================== -->
+            <section class="form-card">
+                <div class="section-header">
+                    <div class="step-number">2</div>
+                    <h2 class="section-title">ข้อมูลผู้ตอบรับ / ผู้เข้าร่วมการประชุม</h2>
+                    <span class="required-tag">บังคับกรอกทุกข้อ *</span>
+                </div>
+
+                <!-- ชื่อหน่วยงาน (Searchable Dropdown) -->
                 <div class="form-group">
                     <label class="field-label" for="agencyInput">ชื่อหน่วยงาน <span
                             class="required-star">*</span></label>
                     <div class="searchable-select-wrapper" id="agencySelectWrapper">
                         <div class="search-input-container">
                             <input type="text" id="agencyInput" name="agency" class="form-input"
-                                placeholder="🔍 พิมพ์เพื่อค้นหา หรือคลิกเพื่อเลือกหน่วยงาน..." autocomplete="off"
-                                required>
+                                placeholder="🔍 พิมพ์เพื่อค้นหา หรือคลิกเลือกหน่วยงาน..." autocomplete="off" required>
                             <span class="search-arrow">▼</span>
                         </div>
-                        <!-- รายการหน่วยงาน -->
+                        <!-- รายชื่อตัวเลือกหน่วยงาน -->
                         <div class="dropdown-options-list" id="agencyOptionsList"></div>
                     </div>
 
-                    <!-- ช่องกรอกชื่อโรงพยาบาลเพิ่มเติม (แสดงเมื่อเลือกโรงพยาบาล) -->
+                    <!-- กล่องระบุชื่อโรงพยาบาล (แสดงเมื่อเลือกโรงพยาบาล) -->
                     <div id="hospitalNameBox" class="hospital-box" style="display: none;">
                         <label class="field-label" for="hospitalName" style="color: #166534;">
                             🏥 โปรดระบุชื่อโรงพยาบาลของท่าน <span class="required-star">*</span>
@@ -490,6 +705,7 @@
                     </div>
                 </div>
 
+                <!-- คำนำหน้า -->
                 <div class="form-row">
                     <div class="form-group">
                         <label class="field-label" for="prefix">คำนำหน้า <span class="required-star">*</span></label>
@@ -510,6 +726,7 @@
                     </div>
                 </div>
 
+                <!-- ชื่อ-สกุล และ ตำแหน่ง -->
                 <div class="form-row">
                     <div class="form-group">
                         <label class="field-label" for="fullName">ชื่อ-สกุล <span class="required-star">*</span></label>
@@ -523,6 +740,7 @@
                     </div>
                 </div>
 
+                <!-- เบอร์โทรศัพท์ และ อีเมล (บังคับตอบทุกข้อ) -->
                 <div class="form-row">
                     <div class="form-group">
                         <label class="field-label" for="phone">เบอร์โทรศัพท์ (มือถือ) <span
@@ -531,75 +749,69 @@
                             pattern="[0-9]{9,10}" title="กรุณากรอกเบอร์โทร 9-10 หลัก" required>
                     </div>
                     <div class="form-group">
-                        <label class="field-label" for="email">อีเมล (E-mail)</label>
+                        <label class="field-label" for="email">อีเมล (E-mail) <span
+                                class="required-star">*</span></label>
                         <input type="email" id="email" name="email" class="form-input"
-                            placeholder="เช่น name@example.com">
+                            placeholder="เช่น yourname@domain.com" required>
                     </div>
                 </div>
             </section>
 
-            <!-- ความประสงค์เข้าร่วม -->
+            <!-- ======================================================== -->
+            <!-- 📋 4. ความประสงค์ในการเข้าร่วมการประชุม (บังคับเลือก)        -->
+            <!-- ======================================================== -->
             <section class="form-card">
-                <h2 class="section-title">ความประสงค์ในการเข้าร่วมการประชุม <span class="required-star">*</span></h2>
+                <div class="section-header">
+                    <div class="step-number">3</div>
+                    <h2 class="section-title">ความประสงค์ในการเข้าร่วมการประชุม</h2>
+                    <span class="required-tag">บังคับเลือก *</span>
+                </div>
+
                 <div class="radio-option-group">
-                    <label class="radio-card">
-                        <input type="radio" name="attendanceStatus" value="เข้าร่วมการประชุม" required
-                            onclick="selectRadioCard(this)">
-                        <div><strong>มีความประสงค์เข้าร่วมการประชุม</strong></div>
+                    <label class="radio-card" onclick="selectRadioCard(this)">
+                        <input type="radio" name="attendanceStatus" value="เข้าร่วมการประชุม" required>
+                        <div>
+                            <strong>มีความประสงค์เข้าร่วมการประชุม</strong>
+                            <div class="radio-subtext">สามารถเข้าร่วมประชุมตามวัน เวลา และสถานที่ที่กำหนด</div>
+                        </div>
                     </label>
-                    <label class="radio-card">
-                        <input type="radio" name="attendanceStatus" value="มอบหมายผู้แทน"
-                            onclick="selectRadioCard(this)">
-                        <div><strong>มอบหมายผู้แทนเข้าร่วมการประชุม</strong></div>
+
+                    <label class="radio-card" onclick="selectRadioCard(this)">
+                        <input type="radio" name="attendanceStatus" value="มอบหมายผู้แทน">
+                        <div>
+                            <strong>มอบหมายผู้แทนเข้าร่วมการประชุม</strong>
+                            <div class="radio-subtext">ติดภารกิจอื่น และได้มอบหมายผู้แทนเข้าร่วมประชุมแทน</div>
+                        </div>
                     </label>
-                    <label class="radio-card">
-                        <input type="radio" name="attendanceStatus" value="ไม่สามารถเข้าร่วมได้"
-                            onclick="selectRadioCard(this)">
-                        <div><strong>ไม่สามารถเข้าร่วมการประชุมได้</strong></div>
+
+                    <label class="radio-card" onclick="selectRadioCard(this)">
+                        <input type="radio" name="attendanceStatus" value="ไม่สามารถเข้าร่วมได้">
+                        <div>
+                            <strong>ไม่สามารถเข้าร่วมการประชุมได้</strong>
+                            <div class="radio-subtext">เนื่องจากติดภารกิจราชการสำคัญอื่น</div>
+                        </div>
                     </label>
                 </div>
             </section>
 
-            <!-- นโยบาย PDPA -->
-            <section class="form-card">
-                <h2 class="section-title">นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h2>
-                <div class="pdpa-box">
-                    <p>กรมควบคุมโรค โดยกองโรคจากการประกอบอาชีพและสิ่งแวดล้อม ในฐานะผู้จัดการประชุมฯ
-                        ได้จัดทำนโยบายคุ้มครองข้อมูลส่วนบุคคลฉบับนี้ เพื่อแจ้งให้ทราบถึงรายละเอียดการเก็บรวบรวม
-                        ใช้และเปิดเผยข้อมูลส่วนบุคคล เพื่อให้เป็นไปตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 ดังนี้
-                    </p>
-                    <p><strong>1. วัตถุประสงค์ของการเก็บรวบรวม</strong>
-                        เพื่อนำข้อมูลไปประมวลผลการตอบรับและจัดทำรายชื่อผู้เข้าร่วมประชุม
-                        รวมถึงแจ้งรายละเอียดที่เกี่ยวข้อง</p>
-                    <p><strong>2. ข้อมูลส่วนบุคคลที่เก็บรวบรวม</strong> ชื่อ-นามสกุล ตำแหน่ง กลุ่มงาน หน่วยงาน
-                        เบอร์โทรศัพท์ E-mail</p>
-                    <p><strong>3. ระยะเวลาในการเก็บรวบรวม</strong> เก็บรักษาไว้เป็นเวลา 6 เดือน
-                        หลังจากนั้นจะทำลายหรือลบข้อมูลออกจากระบบ</p>
-                    <p><strong>4. ติดต่อเรา</strong> กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม ชั้น 2 อาคาร 10-11
-                        กรมควบคุมโรค โทร: 02 590 3865</p>
-                </div>
-
-                <div class="checkbox-wrapper">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="pdpaConsent" name="pdpaConsent" value="ยินยอม" required>
-                        <span><strong>ข้าพเจ้าได้อ่านและเข้าใจข้อความข้างต้นอย่างชัดแจ้งแล้ว</strong>
-                            และยินยอมให้จัดเก็บและประมวลผลข้อมูลตามนโยบายคุ้มครองข้อมูลส่วนบุคคลดังกล่าว <span
-                                class="required-star">*</span></span>
-                    </label>
-                </div>
-            </section>
-
-            <!-- ปุ่มส่ง -->
-            <div style="margin-top: 10px;">
-                <button type="submit" class="submit-btn" id="submitBtn">บันทึกข้อมูลแบบตอบรับ</button>
+            <!-- ======================================================== -->
+            <!-- 🚀 ปุ่มส่งแบบตอบรับ                                       -->
+            <!-- ======================================================== -->
+            <div class="submit-container">
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span>บันทึกข้อมูลแบบตอบรับ</span>
+                    <svg style="width: 20px; height: 20px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
             </div>
+
         </form>
     </div>
 
     <script>
-        // ==========================================
-        // รายชื่อหน่วยงานทั้งหมด
-        // ==========================================
+        // ฐานข้อมูลหน่วยงานใน Searchable Dropdown
         const agenciesData = [
             {
                 category: "โรงพยาบาล",
@@ -715,7 +927,6 @@
             }
         ];
 
-        // จัดการ Searchable Dropdown
         const agencyWrapper = document.getElementById('agencySelectWrapper');
         const agencyInput = document.getElementById('agencyInput');
         const agencyOptionsList = document.getElementById('agencyOptionsList');
@@ -801,15 +1012,15 @@
             }
         }
 
-        function selectRadioCard(radioElement) {
+        function selectRadioCard(cardElement) {
             document.querySelectorAll('.radio-card').forEach(card => card.classList.remove('active'));
-            if (radioElement.checked) {
-                radioElement.closest('.radio-card').classList.add('active');
-            }
+            cardElement.classList.add('active');
+            const radio = cardElement.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
         }
 
         // ==========================================
-        // ส่งข้อมูลไปยัง Google Apps Script
+        // การส่งฟอร์ม + SweetAlert2 แจ้งเตือน
         // ==========================================
         document.getElementById("attendanceForm").addEventListener("submit", function (e) {
             e.preventDefault();
@@ -821,21 +1032,41 @@
             // 🍯 1. ตรวจสอบ Honeypot
             const honeypotVal = formData.get("extra_company_url");
             if (honeypotVal && honeypotVal.trim() !== "") {
-                alert("บันทึกข้อมูลสำเร็จ!");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'บันทึกข้อมูลสำเร็จ!',
+                    text: 'ขอขอบพระคุณสำหรับการตอบรับเข้าร่วมการประชุมฯ',
+                    confirmButtonColor: '#0f766e'
+                });
                 form.reset();
                 return;
             }
 
             // ตรวจสอบความยินยอม PDPA
             if (!document.getElementById("pdpaConsent").checked) {
-                alert("กรุณากดยินยอมตามนโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'โปรดยินยอมตามนโยบาย PDPA',
+                    text: 'กรุณากดยินยอมตามนโยบายคุ้มครองข้อมูลส่วนบุคคลก่อนส่งแบบตอบรับ',
+                    confirmButtonColor: '#0f766e'
+                });
                 return;
             }
 
-            // รวมชื่อโรงพยาบาลเข้ากับชื่อหน่วยงาน
+            // ตรวจสอบกรณีเลือกโรงพยาบาล
             let agencyVal = formData.get("agency");
             const hospitalVal = formData.get("hospitalName");
-            if (agencyVal.includes("โรงพยาบาล") && hospitalVal) {
+            if (agencyVal.includes("โรงพยาบาล")) {
+                if (!hospitalVal || hospitalVal.trim() === "") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'กรุณาระบุชื่อโรงพยาบาล',
+                        text: 'ท่านได้เลือกหน่วยงานโรงพยาบาล โปรดระบุชื่อโรงพยาบาลของท่านให้ชัดเจน',
+                        confirmButtonColor: '#0f766e'
+                    });
+                    document.getElementById('hospitalName').focus();
+                    return;
+                }
                 agencyVal = "โรงพยาบาล: " + hospitalVal.trim();
                 formData.set("agency", agencyVal);
             }
@@ -844,17 +1075,27 @@
                 formData.set("prefix", formData.get("customPrefix") || "อื่น ๆ");
             }
 
-            // 1. นำ Web App URL ของ Google Apps Script มาใส่ตรงนี้
-            const scriptURL = "https://script.google.com/macros/s/AKfycbxc50a6rDalLzlEYRc2vcOCkaRNgMSy1c9pCjPTQeSknZBpmxR4gZ9TL7u1mPEzIJJl/exec";
+            // 1. นำ URL ที่ได้จากการ Deploy Google Apps Script มาใส่ที่นี่
+            const scriptURL = "ใส่_URL_ของ_GOOGLE_APPS_SCRIPT_ที่นี่";
 
-            // 2. กำหนด API Key
+            // 2. กำหนด API Key (ไม่ติด Secret Scanning ของ GitHub)
             const apiKey = "ENV_OCC_HEALTH_2026_DDC";
             formData.append("apiKey", apiKey);
 
-            btn.textContent = "กำลังส่งข้อมูล...";
+            // 🌀 แสดง SweetAlert2 กำลังโหลด
+            Swal.fire({
+                title: 'กำลังส่งข้อมูล...',
+                text: 'กรุณารอสักครู่ ระบบกำลังบันทึกข้อมูลแบบตอบรับของท่าน',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             btn.disabled = true;
 
-            // 3. ยิงข้อมูลจาก GitHub Pages
+            // 3. ส่งข้อมูลไปยัง Google Apps Script
             fetch(scriptURL, {
                 method: "POST",
                 body: formData
@@ -862,21 +1103,39 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
-                        alert("✅ บันทึกข้อมูลแบบตอบรับเรียบร้อยแล้ว ขอขอบพระคุณเป็นอย่างยิ่ง");
+                        // 🎉 แจ้งเตือนสำเร็จด้วย SweetAlert2
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'บันทึกข้อมูลสำเร็จ!',
+                            html: '<p style="font-size: 15px; margin-top: 8px;">ขอขอบพระคุณสำหรับการตอบรับเข้าร่วมการประชุมฯ</p><p style="font-size: 13.5px; color: #64748b; margin-top: 4px;">ฝ่ายเลขานุการจะติดต่อกลับเพื่อแจ้งรายละเอียดเพิ่มเติมต่อไป</p>',
+                            confirmButtonText: 'ตกลง',
+                            confirmButtonColor: '#0f766e'
+                        });
+
                         form.reset();
                         hospitalNameBox.style.display = 'none';
                         document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('active'));
                         document.getElementById('customPrefixGroup').style.display = 'none';
                     } else {
-                        alert("⚠️ เกิดข้อผิดพลาด: " + (data.message || "ไม่สามารถบันทึกได้"));
+                        // ⚠️ แจ้งเตือนข้อผิดพลาด
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด!',
+                            text: data.message || 'ไม่สามารถบันทึกข้อมูลได้',
+                            confirmButtonColor: '#ef4444'
+                        });
                     }
                 })
                 .catch(error => {
                     console.error("Error:", error);
-                    alert("⚠️ ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ (โปรดตรวจสอบการตั้งค่า scriptURL)");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้',
+                        text: 'โปรดตรวจสอบการตั้งค่า scriptURL หรือการเชื่อมต่ออินเทอร์เน็ตของท่าน',
+                        confirmButtonColor: '#ef4444'
+                    });
                 })
                 .finally(() => {
-                    btn.textContent = "บันทึกข้อมูลแบบตอบรับ";
                     btn.disabled = false;
                 });
         });
