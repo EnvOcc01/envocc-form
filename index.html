@@ -1,38 +1,886 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบตอบรับ ONLINE การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลฯ</title>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
 
-  <title>ระบบลงข้อมูล ICD-10</title>
+    <style>
+        :root {
+            --primary-color: #0d5c75;
+            --primary-hover: #083e50;
+            --secondary-color: #2a9d8f;
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --text-main: #2b2d42;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --focus-ring: rgba(13, 92, 117, 0.25);
+            --danger: #dc2626;
+            --radius: 12px;
+            --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+        }
 
-  <style>
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-  </style>
+        body {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 24px 16px;
+        }
+
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .header-card {
+            background: linear-gradient(135deg, #0d5c75 0%, #1e3a8a 100%);
+            color: #ffffff;
+            padding: 32px 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .badge-dept {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: #e2e8f0;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .header-title {
+            font-family: 'Prompt', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.45;
+            margin-bottom: 16px;
+        }
+
+        .deadline-banner {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #fff1f2;
+            color: #be123c;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            border-left: 4px solid #e11d48;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .section-title {
+            font-family: 'Prompt', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .contact-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 14.5px;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .contact-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .pdpa-box {
+            background-color: #fafbfc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px;
+            max-height: 250px;
+            overflow-y: auto;
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .pdpa-box p {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        .pdpa-box ol {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header-card,
+            .form-card {
+                padding: 20px;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
+        }
+
+        label.field-label {
+            display: block;
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .required-star {
+            color: var(--danger);
+            margin-left: 2px;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 11px 14px;
+            font-family: inherit;
+            font-size: 14.5px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.2s;
+            background-color: #ffffff;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3.5px var(--focus-ring);
+        }
+
+        /* 🔍 Searchable Dropdown Styles */
+        .searchable-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-container input {
+            padding-right: 36px;
+        }
+
+        .search-arrow {
+            position: absolute;
+            right: 12px;
+            pointer-events: none;
+            color: #64748b;
+            transition: transform 0.2s ease;
+            font-size: 11px;
+        }
+
+        .searchable-select-wrapper.open .search-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-options-list {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            max-height: 280px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+            padding: 4px 0;
+        }
+
+        .searchable-select-wrapper.open .dropdown-options-list {
+            display: block;
+            animation: fadeIn 0.15s ease-out;
+        }
+
+        .dropdown-category-title {
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-color);
+            background-color: #f1f5f9;
+            letter-spacing: 0.5px;
+        }
+
+        .dropdown-item {
+            padding: 9px 14px;
+            font-size: 14px;
+            color: #1e293b;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-weight: 500;
+        }
+
+        .dropdown-no-result {
+            padding: 12px 14px;
+            font-size: 13.5px;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        /* กล่องระบุชื่อโรงพยาบาล */
+        .hospital-box {
+            margin-top: 14px;
+            padding: 14px;
+            background-color: #f0fdf4;
+            border: 1.5px solid #86efac;
+            border-radius: 8px;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Radio Cards */
+        .radio-option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-card {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #ffffff;
+            transition: all 0.2s;
+        }
+
+        .radio-card:hover {
+            border-color: var(--secondary-color);
+            background-color: #f8fafc;
+        }
+
+        .radio-card.active {
+            border-color: var(--primary-color);
+            background-color: #f0f9ff;
+        }
+
+        .radio-card input[type="radio"],
+        .checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper {
+            background-color: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 14px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            font-size: 14px;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0f766e 100%);
+            color: #ffffff;
+            border: none;
+            padding: 14px 24px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(13, 92, 117, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, var(--primary-hover) 0%, #115e59 100%);
+        }
+
+        .submit-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* 🍯 HONEYPOT CSS */
+        .honeypot-box {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: -9999px;
+            height: 0;
+            width: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
-  <iframe
-    src="https://script.google.com/macros/s/AKfycbw_DrmguiZ8aufeUPa02_6jc5W0sdMOYiWy6vVGd09wvBblL7V8Fkh7GX6PNdDFE1wN/exec"
-    title="ระบบลงข้อมูล ICD-10"
-    allow="clipboard-read; clipboard-write"
-  ></iframe>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header-card">
+            <div class="badge-dept">กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม กรมควบคุมโรค</div>
+            <h1 class="header-title">
+                แบบตอบรับ ONLINE
+                การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
+            </h1>
+            <div class="deadline-banner">
+                <span>⏰</span>
+                <span>โปรดตอบกลับภายในวันที่ <strong>13 พฤศจิกายน 2569</strong></span>
+            </div>
+        </header>
+
+        <!-- ข้อมูลผู้ประสานงาน -->
+        <section class="form-card">
+            <h2 class="section-title">ข้อมูลผู้ประสานงาน</h2>
+            <div class="contact-box">
+                <div class="contact-item">
+                    <span class="contact-name">1. นางสาวจันจิรา ชินศรี</span>
+                    <span>โทรศัพท์: <a class="contact-link" href="tel:0817346345">081 734 6345</a></span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-name">2. นางสาวประกายแก้ว ยอดพรม</span>
+                    <span>โทรศัพท์: <a class="contact-link" href="tel:0864501626">086 450 1626</a></span>
+                </div>
+                <div class="contact-item" style="border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 8px;">
+                    <span>กลุ่มเฝ้าระวังและตอบโต้ภาวะฉุกเฉิน กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม</span>
+                </div>
+                <div class="contact-item">
+                    <span>โทรศัพท์: <a class="contact-link" href="tel:025903865">0 2590 3865</a></span>
+                    <span>• อีเมล: <a class="contact-link"
+                            href="mailto:envocc4.0@gmail.com">envocc4.0@gmail.com</a></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ฟอร์มตอบรับ -->
+        <form id="attendanceForm">
+
+            <!-- 🍯 HONEYPOT TRAP -->
+            <div class="honeypot-box" aria-hidden="true">
+                <input type="text" id="extra_company_url" name="extra_company_url" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- ข้อมูลผู้ตอบรับ -->
+            <section class="form-card">
+                <h2 class="section-title">ข้อมูลผู้ตอบรับ / ผู้เข้าร่วมการประชุม</h2>
+
+                <!-- ช่องเลือกหน่วยงานแบบค้นหาได้ (Searchable Dropdown) -->
+                <div class="form-group">
+                    <label class="field-label" for="agencyInput">ชื่อหน่วยงาน <span
+                            class="required-star">*</span></label>
+                    <div class="searchable-select-wrapper" id="agencySelectWrapper">
+                        <div class="search-input-container">
+                            <input type="text" id="agencyInput" name="agency" class="form-input"
+                                placeholder="🔍 พิมพ์เพื่อค้นหา หรือคลิกเพื่อเลือกหน่วยงาน..." autocomplete="off"
+                                required>
+                            <span class="search-arrow">▼</span>
+                        </div>
+                        <!-- รายการหน่วยงาน -->
+                        <div class="dropdown-options-list" id="agencyOptionsList"></div>
+                    </div>
+
+                    <!-- ช่องกรอกชื่อโรงพยาบาลเพิ่มเติม (แสดงเมื่อเลือกโรงพยาบาล) -->
+                    <div id="hospitalNameBox" class="hospital-box" style="display: none;">
+                        <label class="field-label" for="hospitalName" style="color: #166534;">
+                            🏥 โปรดระบุชื่อโรงพยาบาลของท่าน <span class="required-star">*</span>
+                        </label>
+                        <input type="text" id="hospitalName" name="hospitalName" class="form-input"
+                            placeholder="เช่น โรงพยาบาลศูนย์ขอนแก่น, โรงพยาบาลมหาราชนครราชสีมา, โรงพยาบาลทั่วไป..."
+                            style="background:#fff;">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="field-label" for="prefix">คำนำหน้า <span class="required-star">*</span></label>
+                        <select id="prefix" name="prefix" class="form-select" onchange="toggleCustomPrefix(this.value)"
+                            required>
+                            <option value="" disabled selected>-- เลือกคำนำหน้า --</option>
+                            <option value="นาย">นาย</option>
+                            <option value="นาง">นาง</option>
+                            <option value="นางสาว">นางสาว</option>
+                            <option value="other">อื่น ๆ (โปรดระบุ)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="customPrefixGroup" style="display: none;">
+                        <label class="field-label" for="customPrefix">ระบุคำนำหน้า <span
+                                class="required-star">*</span></label>
+                        <input type="text" id="customPrefix" name="customPrefix" class="form-input"
+                            placeholder="เช่น นพ., พญ., ดร.">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="field-label" for="fullName">ชื่อ-สกุล <span class="required-star">*</span></label>
+                        <input type="text" id="fullName" name="fullName" class="form-input"
+                            placeholder="ระบุชื่อและนามสกุล" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" for="position">ตำแหน่ง <span class="required-star">*</span></label>
+                        <input type="text" id="position" name="position" class="form-input"
+                            placeholder="เช่น นักวิชาการสาธารณสุขปฏิบัติการ" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="field-label" for="phone">เบอร์โทรศัพท์ (มือถือ) <span
+                                class="required-star">*</span></label>
+                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="เช่น 0812345678"
+                            pattern="[0-9]{9,10}" title="กรุณากรอกเบอร์โทร 9-10 หลัก" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label" for="email">อีเมล (E-mail)</label>
+                        <input type="email" id="email" name="email" class="form-input"
+                            placeholder="เช่น name@example.com">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ความประสงค์เข้าร่วม -->
+            <section class="form-card">
+                <h2 class="section-title">ความประสงค์ในการเข้าร่วมการประชุม <span class="required-star">*</span></h2>
+                <div class="radio-option-group">
+                    <label class="radio-card">
+                        <input type="radio" name="attendanceStatus" value="เข้าร่วมการประชุม" required
+                            onclick="selectRadioCard(this)">
+                        <div><strong>มีความประสงค์เข้าร่วมการประชุม</strong></div>
+                    </label>
+                    <label class="radio-card">
+                        <input type="radio" name="attendanceStatus" value="มอบหมายผู้แทน"
+                            onclick="selectRadioCard(this)">
+                        <div><strong>มอบหมายผู้แทนเข้าร่วมการประชุม</strong></div>
+                    </label>
+                    <label class="radio-card">
+                        <input type="radio" name="attendanceStatus" value="ไม่สามารถเข้าร่วมได้"
+                            onclick="selectRadioCard(this)">
+                        <div><strong>ไม่สามารถเข้าร่วมการประชุมได้</strong></div>
+                    </label>
+                </div>
+            </section>
+
+            <!-- นโยบาย PDPA -->
+            <section class="form-card">
+                <h2 class="section-title">นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h2>
+                <div class="pdpa-box">
+                    <p>กรมควบคุมโรค โดยกองโรคจากการประกอบอาชีพและสิ่งแวดล้อม ในฐานะผู้จัดการประชุมฯ
+                        ได้จัดทำนโยบายคุ้มครองข้อมูลส่วนบุคคลฉบับนี้ เพื่อแจ้งให้ทราบถึงรายละเอียดการเก็บรวบรวม
+                        ใช้และเปิดเผยข้อมูลส่วนบุคคล เพื่อให้เป็นไปตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 ดังนี้
+                    </p>
+                    <p><strong>1. วัตถุประสงค์ของการเก็บรวบรวม</strong>
+                        เพื่อนำข้อมูลไปประมวลผลการตอบรับและจัดทำรายชื่อผู้เข้าร่วมประชุม
+                        รวมถึงแจ้งรายละเอียดที่เกี่ยวข้อง</p>
+                    <p><strong>2. ข้อมูลส่วนบุคคลที่เก็บรวบรวม</strong> ชื่อ-นามสกุล ตำแหน่ง กลุ่มงาน หน่วยงาน
+                        เบอร์โทรศัพท์ E-mail</p>
+                    <p><strong>3. ระยะเวลาในการเก็บรวบรวม</strong> เก็บรักษาไว้เป็นเวลา 6 เดือน
+                        หลังจากนั้นจะทำลายหรือลบข้อมูลออกจากระบบ</p>
+                    <p><strong>4. ติดต่อเรา</strong> กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม ชั้น 2 อาคาร 10-11
+                        กรมควบคุมโรค โทร: 02 590 3865</p>
+                </div>
+
+                <div class="checkbox-wrapper">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="pdpaConsent" name="pdpaConsent" value="ยินยอม" required>
+                        <span><strong>ข้าพเจ้าได้อ่านและเข้าใจข้อความข้างต้นอย่างชัดแจ้งแล้ว</strong>
+                            และยินยอมให้จัดเก็บและประมวลผลข้อมูลตามนโยบายคุ้มครองข้อมูลส่วนบุคคลดังกล่าว <span
+                                class="required-star">*</span></span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- ปุ่มส่ง -->
+            <div style="margin-top: 10px;">
+                <button type="submit" class="submit-btn" id="submitBtn">บันทึกข้อมูลแบบตอบรับ</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // ==========================================
+        // รายชื่อหน่วยงานทั้งหมด
+        // ==========================================
+        const agenciesData = [
+            {
+                category: "โรงพยาบาล",
+                items: [
+                    "โรงพยาบาล"
+                ]
+            },
+            {
+                category: "หน่วยงานส่วนกลาง / กรุงเทพมหานคร",
+                items: [
+                    "สถาบันป้องกันควบคุมโรคเขตเมือง",
+                    "สำนักการแพทย์ กรุงเทพมหานคร",
+                    "สำนักอนามัย กรุงเทพมหานคร"
+                ]
+            },
+            {
+                category: "สำนักงานป้องกันควบคุมโรค (สคร. 1-12)",
+                items: [
+                    "สำนักงานป้องกันควบคุมโรคที่ 1 เชียงใหม่",
+                    "สำนักงานป้องกันควบคุมโรคที่ 2 พิษณุโลก",
+                    "สำนักงานป้องกันควบคุมโรคที่ 3 นครสวรรค์",
+                    "สำนักงานป้องกันควบคุมโรคที่ 4 สระบุรี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 5 ราชบุรี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 6 ชลบุรี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 7 ขอนแก่น",
+                    "สำนักงานป้องกันควบคุมโรคที่ 8 อุดรธานี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 9 นครราชสีมา",
+                    "สำนักงานป้องกันควบคุมโรคที่ 10 อุบลราชธานี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 11 นครศรีธรรมราช",
+                    "สำนักงานป้องกันควบคุมโรคที่ 12 สงขลา"
+                ]
+            },
+            {
+                category: "สำนักงานสาธารณสุขจังหวัด (สสจ. 76 จังหวัด)",
+                items: [
+                    "สำนักงานสาธารณสุขจังหวัดกระบี่",
+                    "สำนักงานสาธารณสุขจังหวัดกาญจนบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดกาฬสินธุ์",
+                    "สำนักงานสาธารณสุขจังหวัดกำแพงเพชร",
+                    "สำนักงานสาธารณสุขจังหวัดขอนแก่น",
+                    "สำนักงานสาธารณสุขจังหวัดจันทบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดฉะเชิงเทรา",
+                    "สำนักงานสาธารณสุขจังหวัดชลบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดชัยนาท",
+                    "สำนักงานสาธารณสุขจังหวัดชัยภูมิ",
+                    "สำนักงานสาธารณสุขจังหวัดชุมพร",
+                    "สำนักงานสาธารณสุขจังหวัดเชียงราย",
+                    "สำนักงานสาธารณสุขจังหวัดเชียงใหม่",
+                    "สำนักงานสาธารณสุขจังหวัดตรัง",
+                    "สำนักงานสาธารณสุขจังหวัดตราด",
+                    "สำนักงานสาธารณสุขจังหวัดตาก",
+                    "สำนักงานสาธารณสุขจังหวัดนครนายก",
+                    "สำนักงานสาธารณสุขจังหวัดนครปฐม",
+                    "สำนักงานสาธารณสุขจังหวัดนครพนม",
+                    "สำนักงานสาธารณสุขจังหวัดนครราชสีมา",
+                    "สำนักงานสาธารณสุขจังหวัดนครศรีธรรมราช",
+                    "สำนักงานสาธารณสุขจังหวัดนครสวรรค์",
+                    "สำนักงานสาธารณสุขจังหวัดนนทบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดนราธิวาส",
+                    "สำนักงานสาธารณสุขจังหวัดน่าน",
+                    "สำนักงานสาธารณสุขจังหวัดบึงกาฬ",
+                    "สำนักงานสาธารณสุขจังหวัดบุรีรัมย์",
+                    "สำนักงานสาธารณสุขจังหวัดปทุมธานี",
+                    "สำนักงานสาธารณสุขจังหวัดประจวบคีรีขันธ์",
+                    "สำนักงานสาธารณสุขจังหวัดปราจีนบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดปัตตานี",
+                    "สำนักงานสาธารณสุขจังหวัดพระนครศรีอยุธยา",
+                    "สำนักงานสาธารณสุขจังหวัดพะเยา",
+                    "สำนักงานสาธารณสุขจังหวัดพังงา",
+                    "สำนักงานสาธารณสุขจังหวัดพัทลุง",
+                    "สำนักงานสาธารณสุขจังหวัดพิจิตร",
+                    "สำนักงานสาธารณสุขจังหวัดพิษณุโลก",
+                    "สำนักงานสาธารณสุขจังหวัดเพชรบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดเพชรบูรณ์",
+                    "สำนักงานสาธารณสุขจังหวัดแพร่",
+                    "สำนักงานสาธารณสุขจังหวัดภูเก็ต",
+                    "สำนักงานสาธารณสุขจังหวัดมหาสารคาม",
+                    "สำนักงานสาธารณสุขจังหวัดมุกดาหาร",
+                    "สำนักงานสาธารณสุขจังหวัดแม่ฮ่องสอน",
+                    "สำนักงานสาธารณสุขจังหวัดยโสธร",
+                    "สำนักงานสาธารณสุขจังหวัดยะลา",
+                    "สำนักงานสาธารณสุขจังหวัดร้อยเอ็ด",
+                    "สำนักงานสาธารณสุขจังหวัดระนอง",
+                    "สำนักงานสาธารณสุขจังหวัดระยอง",
+                    "สำนักงานสาธารณสุขจังหวัดราชบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดลพบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดลำปาง",
+                    "สำนักงานสาธารณสุขจังหวัดลำพูน",
+                    "สำนักงานสาธารณสุขจังหวัดเลย",
+                    "สำนักงานสาธารณสุขจังหวัดศรีสะเกษ",
+                    "สำนักงานสาธารณสุขจังหวัดสกลนคร",
+                    "สำนักงานสาธารณสุขจังหวัดสงขลา",
+                    "สำนักงานสาธารณสุขจังหวัดสตูล",
+                    "สำนักงานสาธารณสุขจังหวัดสมุทรปราการ",
+                    "สำนักงานสาธารณสุขจังหวัดสมุทรสงคราม",
+                    "สำนักงานสาธารณสุขจังหวัดสมุทรสาคร",
+                    "สำนักงานสาธารณสุขจังหวัดสระแก้ว",
+                    "สำนักงานสาธารณสุขจังหวัดสระบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดสิงห์บุรี",
+                    "สำนักงานสาธารณสุขจังหวัดสุโขทัย",
+                    "สำนักงานสาธารณสุขจังหวัดสุพรรณบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดสุราษฎร์ธานี",
+                    "สำนักงานสาธารณสุขจังหวัดสุรินทร์",
+                    "สำนักงานสาธารณสุขจังหวัดหนองคาย",
+                    "สำนักงานสาธารณสุขจังหวัดหนองบัวลำภู",
+                    "สำนักงานสาธารณสุขจังหวัดอ่างทอง",
+                    "สำนักงานสาธารณสุขจังหวัดอำนาจเจริญ",
+                    "สำนักงานสาธารณสุขจังหวัดอุดรธานี",
+                    "สำนักงานสาธารณสุขจังหวัดอุตรดิตถ์",
+                    "สำนักงานสาธารณสุขจังหวัดอุทัยธานี",
+                    "สำนักงานสาธารณสุขจังหวัดอุบลราชธานี"
+                ]
+            }
+        ];
+
+        // จัดการ Searchable Dropdown
+        const agencyWrapper = document.getElementById('agencySelectWrapper');
+        const agencyInput = document.getElementById('agencyInput');
+        const agencyOptionsList = document.getElementById('agencyOptionsList');
+        const hospitalNameBox = document.getElementById('hospitalNameBox');
+        const hospitalNameInput = document.getElementById('hospitalName');
+
+        function renderAgencyOptions(filterText = '') {
+            agencyOptionsList.innerHTML = '';
+            const filter = filterText.trim().toLowerCase();
+            let hasMatch = false;
+
+            agenciesData.forEach(group => {
+                const matchedItems = group.items.filter(item => item.toLowerCase().includes(filter));
+                if (matchedItems.length > 0) {
+                    hasMatch = true;
+                    const catTitle = document.createElement('div');
+                    catTitle.className = 'dropdown-category-title';
+                    catTitle.textContent = group.category;
+                    agencyOptionsList.appendChild(catTitle);
+
+                    matchedItems.forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'dropdown-item';
+                        itemDiv.textContent = item;
+                        itemDiv.onclick = () => selectAgency(item);
+                        agencyOptionsList.appendChild(itemDiv);
+                    });
+                }
+            });
+
+            if (!hasMatch) {
+                const noResult = document.createElement('div');
+                noResult.className = 'dropdown-no-result';
+                noResult.textContent = 'ไม่พบหน่วยงานที่ค้นหา (สามารถระบุข้อความนี้ได้โดยตรง)';
+                agencyOptionsList.appendChild(noResult);
+            }
+        }
+
+        function selectAgency(value) {
+            agencyInput.value = value;
+            agencyWrapper.classList.remove('open');
+            checkHospitalField(value);
+        }
+
+        function checkHospitalField(value) {
+            if (value.includes('โรงพยาบาล')) {
+                hospitalNameBox.style.display = 'block';
+                hospitalNameInput.setAttribute('required', 'required');
+            } else {
+                hospitalNameBox.style.display = 'none';
+                hospitalNameInput.removeAttribute('required');
+                hospitalNameInput.value = '';
+            }
+        }
+
+        agencyInput.addEventListener('focus', () => {
+            renderAgencyOptions(agencyInput.value);
+            agencyWrapper.classList.add('open');
+        });
+
+        agencyInput.addEventListener('input', (e) => {
+            renderAgencyOptions(e.target.value);
+            agencyWrapper.classList.add('open');
+            checkHospitalField(e.target.value);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!agencyWrapper.contains(e.target)) {
+                agencyWrapper.classList.remove('open');
+            }
+        });
+
+        function toggleCustomPrefix(value) {
+            const customPrefixGroup = document.getElementById('customPrefixGroup');
+            const customPrefixInput = document.getElementById('customPrefix');
+            if (value === 'other') {
+                customPrefixGroup.style.display = 'block';
+                customPrefixInput.setAttribute('required', 'required');
+            } else {
+                customPrefixGroup.style.display = 'none';
+                customPrefixInput.removeAttribute('required');
+                customPrefixInput.value = '';
+            }
+        }
+
+        function selectRadioCard(radioElement) {
+            document.querySelectorAll('.radio-card').forEach(card => card.classList.remove('active'));
+            if (radioElement.checked) {
+                radioElement.closest('.radio-card').classList.add('active');
+            }
+        }
+
+        // ==========================================
+        // ส่งข้อมูลไปยัง Google Apps Script
+        // ==========================================
+        document.getElementById("attendanceForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const btn = document.getElementById("submitBtn");
+            const formData = new FormData(form);
+
+            // 🍯 1. ตรวจสอบ Honeypot
+            const honeypotVal = formData.get("extra_company_url");
+            if (honeypotVal && honeypotVal.trim() !== "") {
+                alert("บันทึกข้อมูลสำเร็จ!");
+                form.reset();
+                return;
+            }
+
+            // ตรวจสอบความยินยอม PDPA
+            if (!document.getElementById("pdpaConsent").checked) {
+                alert("กรุณากดยินยอมตามนโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)");
+                return;
+            }
+
+            // รวมชื่อโรงพยาบาลเข้ากับชื่อหน่วยงาน
+            let agencyVal = formData.get("agency");
+            const hospitalVal = formData.get("hospitalName");
+            if (agencyVal.includes("โรงพยาบาล") && hospitalVal) {
+                agencyVal = "โรงพยาบาล: " + hospitalVal.trim();
+                formData.set("agency", agencyVal);
+            }
+
+            if (formData.get("prefix") === "other") {
+                formData.set("prefix", formData.get("customPrefix") || "อื่น ๆ");
+            }
+
+            // 1. นำ Web App URL ของ Google Apps Script มาใส่ตรงนี้
+            const scriptURL = "https://script.google.com/macros/s/AKfycbxc50a6rDalLzlEYRc2vcOCkaRNgMSy1c9pCjPTQeSknZBpmxR4gZ9TL7u1mPEzIJJl/exec";
+
+            // 2. กำหนด API Key
+            const apiKey = "ENV_OCC_HEALTH_2026_DDC";
+            formData.append("apiKey", apiKey);
+
+            btn.textContent = "กำลังส่งข้อมูล...";
+            btn.disabled = true;
+
+            // 3. ยิงข้อมูลจาก GitHub Pages
+            fetch(scriptURL, {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        alert("✅ บันทึกข้อมูลแบบตอบรับเรียบร้อยแล้ว ขอขอบพระคุณเป็นอย่างยิ่ง");
+                        form.reset();
+                        hospitalNameBox.style.display = 'none';
+                        document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('active'));
+                        document.getElementById('customPrefixGroup').style.display = 'none';
+                    } else {
+                        alert("⚠️ เกิดข้อผิดพลาด: " + (data.message || "ไม่สามารถบันทึกได้"));
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("⚠️ ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ (โปรดตรวจสอบการตั้งค่า scriptURL)");
+                })
+                .finally(() => {
+                    btn.textContent = "บันทึกข้อมูลแบบตอบรับ";
+                    btn.disabled = false;
+                });
+        });
+    </script>
 </body>
+
 </html>
