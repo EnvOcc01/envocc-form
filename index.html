@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แบบตอบรับการเข้าร่วมการประชุม | ระบบลงทะเบียน</title>
+    <title>แบบตอบรับ ONLINE การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,7 +116,7 @@
                 <!-- Badges Row -->
                 <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
                     <span class="inline-block px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full text-xs font-semibold">
-                        แบบตอบรับการเข้าร่วมการประชุม
+                        แบบตอบรับ ONLINE
                     </span>
                     <span class="inline-block px-3 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-full text-xs font-medium">
                         โปรดตอบกลับภายในวันที่ <strong>13 พฤศจิกายน 2569</strong>
@@ -125,26 +125,17 @@
 
                 <!-- Event Title -->
                 <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-snug mb-5">
-                    การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูล
-                    <span class="text-blue-600 block mt-1">เพื่อการเฝ้าระวังโรคและภัยสุขภาพ</span>
-                    จากการประกอบอาชีพและสิ่งแวดล้อม
+                    <span class="text-blue-600 block sm:inline">แบบตอบรับ ONLINE</span> การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
                 </h1>
 
-                <!-- Date & Location -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 mb-5">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-regular fa-calendar text-blue-600 text-base w-5"></i>
-                        <div>
-                            <span class="text-xs text-slate-500 block">วันที่จัดประชุม</span>
-                            <span class="font-semibold text-slate-800">25 - 27 พฤศจิกายน 2569</span>
-                        </div>
+                <!-- Date Info (Location Removed) -->
+                <div class="flex items-center gap-3.5 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 mb-5">
+                    <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-regular fa-calendar text-lg"></i>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-location-dot text-rose-500 text-base w-5"></i>
-                        <div>
-                            <span class="text-xs text-slate-500 block">สถานที่จัดประชุม</span>
-                            <span class="font-semibold text-slate-800">ณ โรงแรมอมารี ดอนเมือง แอร์พอร์ต กทม.</span>
-                        </div>
+                    <div>
+                        <span class="text-xs text-slate-500 block">วันที่จัดประชุม</span>
+                        <span class="font-semibold text-slate-800 text-base">25 - 27 พฤศจิกายน 2569</span>
                     </div>
                 </div>
 
@@ -295,49 +286,24 @@
 
                 <!-- Section 02: ความประสงค์ในการเข้าร่วม -->
                 <section>
-                    <div class="flex items-center gap-3 mb-6">
+                    <div class="flex items-center gap-3 mb-4">
                         <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-brand-primary font-bold text-sm">2</span>
                         <h2 class="text-xl font-bold text-slate-800">ความประสงค์ในการเข้าร่วม</h2>
-                        <span class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">บังคับเลือก *</span>
+                        <span class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded">จำเป็นต้องระบุ *</span>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- Option 1 -->
-                        <label class="relative block cursor-pointer group">
-                            <input type="radio" name="attendanceStatus" value="เข้าร่วมการประชุม" class="peer sr-only" required>
-                            <div class="h-full flex flex-col items-center justify-center p-6 border-2 border-slate-200 rounded-xl bg-white peer-checked:border-brand-primary peer-checked:bg-blue-50 peer-checked:shadow-md hover:border-blue-300 transition-all text-center">
-                                <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4 peer-checked:bg-brand-primary peer-checked:text-white text-slate-400 group-hover:text-blue-500 transition-colors duration-300">
-                                    <i class="fa-solid fa-user-check text-xl"></i>
-                                </div>
-                                <span class="font-medium text-slate-700 peer-checked:text-brand-primary leading-tight">มีความประสงค์เข้าร่วมการประชุม</span>
-                                <span class="text-xs text-slate-400 mt-2 block">เข้าร่วมตามกำหนดการ</span>
+                    <label id="attendanceCard" for="attendanceCheck" class="flex items-start sm:items-center gap-4 p-5 border-2 border-slate-200 bg-white rounded-xl hover:border-blue-300 transition-all cursor-pointer select-none">
+                        <input type="checkbox" id="attendanceCheck" name="attendanceStatus" value="มีความประสงค์เข้าร่วมการประชุม" class="mt-0.5 sm:mt-0 w-5 h-5 text-blue-600 border-2 border-slate-300 rounded focus:ring-blue-500 cursor-pointer" required>
+                        <div class="flex-1">
+                            <div class="font-semibold text-slate-800 text-base flex flex-wrap items-center gap-2">
+                                <span>มีความประสงค์เข้าร่วมการประชุม</span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                                    <i class="fa-solid fa-check text-[10px] mr-1"></i> ยืนยันเข้าร่วม
+                                </span>
                             </div>
-                        </label>
-
-                        <!-- Option 2 -->
-                        <label class="relative block cursor-pointer group">
-                            <input type="radio" name="attendanceStatus" value="มอบหมายผู้แทน" class="peer sr-only">
-                            <div class="h-full flex flex-col items-center justify-center p-6 border-2 border-slate-200 rounded-xl bg-white peer-checked:border-amber-500 peer-checked:bg-amber-50 peer-checked:shadow-md hover:border-amber-300 transition-all text-center">
-                                <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4 peer-checked:bg-amber-500 peer-checked:text-white text-slate-400 group-hover:text-amber-500 transition-colors duration-300">
-                                    <i class="fa-solid fa-users text-xl"></i>
-                                </div>
-                                <span class="font-medium text-slate-700 peer-checked:text-amber-600 leading-tight">มอบหมายผู้แทนเข้าร่วมการประชุม</span>
-                                <span class="text-xs text-slate-400 mt-2 block">ส่งผู้แทนเข้าร่วมแทน</span>
-                            </div>
-                        </label>
-
-                        <!-- Option 3 -->
-                        <label class="relative block cursor-pointer group">
-                            <input type="radio" name="attendanceStatus" value="ไม่สามารถเข้าร่วมได้" class="peer sr-only">
-                            <div class="h-full flex flex-col items-center justify-center p-6 border-2 border-slate-200 rounded-xl bg-white peer-checked:border-rose-500 peer-checked:bg-rose-50 peer-checked:shadow-md hover:border-rose-300 transition-all text-center">
-                                <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-4 peer-checked:bg-rose-500 peer-checked:text-white text-slate-400 group-hover:text-rose-500 transition-colors duration-300">
-                                    <i class="fa-solid fa-user-xmark text-xl"></i>
-                                </div>
-                                <span class="font-medium text-slate-700 peer-checked:text-rose-600 leading-tight">ไม่สามารถเข้าร่วมการประชุมได้</span>
-                                <span class="text-xs text-slate-400 mt-2 block">ติดภารกิจราชการอื่น</span>
-                            </div>
-                        </label>
-                    </div>
+                            <p class="text-xs text-slate-500 mt-1">ขอยืนยันความประสงค์เข้าร่วมการประชุมตามวันและเวลาที่กำหนด</p>
+                        </div>
+                    </label>
                 </section>
 
                 <hr class="border-slate-100">
@@ -419,6 +385,8 @@
         const emailInput = document.getElementById('emailInput');
         const emailNotice = document.getElementById('emailNotice');
         const pdpaConsent = document.getElementById('pdpaConsent');
+        const attendanceCheck = document.getElementById('attendanceCheck');
+        const attendanceCard = document.getElementById('attendanceCard');
 
         // ฐานข้อมูลหน่วยงานแบ่งตามกลุ่มชัดเจน
         const agenciesData = [
@@ -765,6 +733,19 @@
             }
         });
 
+        // 6.2 Attendance Checkbox UI Toggle
+        if (attendanceCheck && attendanceCard) {
+            attendanceCheck.addEventListener('change', function() {
+                if (this.checked) {
+                    attendanceCard.classList.add('border-blue-600', 'bg-blue-50/70', 'shadow-sm');
+                    attendanceCard.classList.remove('border-slate-200', 'bg-white');
+                } else {
+                    attendanceCard.classList.remove('border-blue-600', 'bg-blue-50/70', 'shadow-sm');
+                    attendanceCard.classList.add('border-slate-200', 'bg-white');
+                }
+            });
+        }
+
         // 7. Form Submission Handler
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -863,12 +844,19 @@
                 return;
             }
 
-            // Attendance check
-            const attStatus = formData.get('attendanceStatus');
-            if (!attStatus) {
-                Swal.fire({ icon: 'warning', title: 'โปรดเลือกความประสงค์ในการเข้าร่วมการประชุม', confirmButtonColor: '#2563eb' });
+            // Attendance check (เงื่อนไข: บังคับติ๊ก มีความประสงค์เข้าร่วมการประชุม ถ้าไม่ติ๊กจะไม่สามารถส่งข้อมูลได้)
+            if (!attendanceCheck || !attendanceCheck.checked) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'โปรดเลือกความประสงค์ในการเข้าร่วมการประชุม',
+                    text: 'กรุณาติ๊กยืนยัน "มีความประสงค์เข้าร่วมการประชุม" ก่อนดำเนินการส่งแบบตอบรับ',
+                    confirmButtonColor: '#2563eb'
+                });
+                if (attendanceCheck) attendanceCheck.focus();
                 return;
             }
+            const attStatus = attendanceCheck.value || 'มีความประสงค์เข้าร่วมการประชุม';
+            formData.set('attendanceStatus', attStatus);
 
             // PDPA check
             if (!pdpaConsent.checked) {
@@ -921,6 +909,10 @@
                     customPrefixBox.classList.add('hidden');
                     phoneCounter.textContent = '0/10';
                     phoneCounter.className = 'text-xs text-slate-400 font-mono';
+                    if (attendanceCard) {
+                        attendanceCard.classList.remove('border-blue-600', 'bg-blue-50/70', 'shadow-sm');
+                        attendanceCard.classList.add('border-slate-200', 'bg-white');
+                    }
                 } else {
                     Swal.fire({
                         icon: 'error',
