@@ -168,6 +168,7 @@
                                 class="text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 px-2 py-0.5 rounded border border-blue-200">081
                                 734 6345</a>
                         </div>
+
                         <div
                             class="flex justify-between items-center bg-white px-3 py-1.5 rounded-lg border border-blue-100/60">
                             <span>2. น.ส.ประกายแก้ว ยอดพรม</span>
@@ -281,6 +282,14 @@
                                 <p class="text-xs text-emerald-600 mt-1.5">กรอกเฉพาะชื่อหรือชื่อเต็ม เช่น "บางบ่อ"
                                     ระบบจะบันทึกเป็น "โรงพยาบาลบางบ่อ" ให้อัตโนมัติ</p>
                             </div>
+                        </div>
+
+                        <!-- Province -->
+                        <div class="md:col-span-2">
+                            <label class="form-label" for="provinceSelect">จังหวัดที่ตั้งหน่วยงาน <span class="text-rose-500">*</span></label>
+                            <select id="provinceSelect" name="province" class="form-input appearance-none" required>
+                                <option value="" disabled selected>-- เลือกจังหวัดที่ตั้งหน่วยงาน --</option>
+                            </select>
                         </div>
 
                         <!-- Prefix -->
@@ -458,6 +467,7 @@
         const agencyTabs = document.querySelectorAll('.agency-tab-btn');
         const hospitalBox = document.getElementById('hospitalBox');
         const hospitalNameInput = document.getElementById('hospitalNameInput');
+        const provinceSelect = document.getElementById('provinceSelect');
         const prefixSelect = document.getElementById('prefixSelect');
         const customPrefixBox = document.getElementById('customPrefixBox');
         const customPrefixInput = document.getElementById('customPrefixInput');
@@ -473,6 +483,9 @@
         const pdpaConsent = document.getElementById('pdpaConsent');
         const attendanceCheck = document.getElementById('attendanceCheck');
         const attendanceCard = document.getElementById('attendanceCard');
+
+        const provinces = ['กระบี่','กาญจนบุรี','กาฬสินธุ์','กำแพงเพชร','ขอนแก่น','จันทบุรี','ฉะเชิงเทรา','ชลบุรี','ชัยนาท','ชัยภูมิ','ชุมพร','เชียงราย','เชียงใหม่','ตรัง','ตราด','ตาก','นครนายก','นครปฐม','นครพนม','นครราชสีมา','นครศรีธรรมราช','นครสวรรค์','นนทบุรี','นราธิวาส','น่าน','บึงกาฬ','บุรีรัมย์','ปทุมธานี','ประจวบคีรีขันธ์','ปราจีนบุรี','ปัตตานี','พระนครศรีอยุธยา','พะเยา','พังงา','พัทลุง','พิจิตร','พิษณุโลก','เพชรบุรี','เพชรบูรณ์','แพร่','ภูเก็ต','มหาสารคาม','มุกดาหาร','แม่ฮ่องสอน','ยโสธร','ยะลา','ร้อยเอ็ด','ระนอง','ระยอง','ราชบุรี','ลพบุรี','ลำปาง','ลำพูน','เลย','ศรีสะเกษ','สกลนคร','สงขลา','สตูล','สมุทรปราการ','สมุทรสงคราม','สมุทรสาคร','สระแก้ว','สระบุรี','สิงห์บุรี','สุโขทัย','สุพรรณบุรี','สุราษฎร์ธานี','สุรินทร์','หนองคาย','หนองบัวลำภู','อ่างทอง','อำนาจเจริญ','อุดรธานี','อุตรดิตถ์','อุทัยธานี','อุบลราชธานี','กรุงเทพมหานคร'];
+        provinces.forEach(province => provinceSelect.add(new Option(province, province)));
 
         // ฐานข้อมูลหน่วยงานแบ่งตามกลุ่มชัดเจน
         const agenciesData = [
@@ -872,6 +885,13 @@
                 }
                 agencyVal = cleanedHosp;
                 formData.set('agency', agencyVal);
+            }
+
+            const provinceVal = (formData.get('province') || '').trim();
+            if (!provinceVal) {
+                Swal.fire({ icon: 'warning', title: 'โปรดเลือกจังหวัดที่ตั้งหน่วยงาน', confirmButtonColor: '#2563eb' });
+                provinceSelect.focus();
+                return;
             }
 
             // Prefix check
