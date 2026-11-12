@@ -496,6 +496,7 @@
     <script>
         // Google Apps Script URL & API Key
         const scriptURL = "https://script.google.com/macros/s/AKfycbwzWdvWvS7VliUf2WXJEFpW8VyYnPkTelawzvIINpfxwjgAY61eFptsi10JOaLH230q/exec";
+        const POSTTEST_PAGE_ENABLED = false;
         let requestToken = '';
 
         // ==============================================================
@@ -998,6 +999,14 @@
         }
 
         async function initializeQuizAvailability() {
+            if (!POSTTEST_PAGE_ENABLED) {
+                stepProfileCard.classList.add('hidden');
+                const closedNotice = document.createElement('section');
+                closedNotice.className = 'quiz-card p-8 sm:p-12 text-center';
+                closedNotice.innerHTML = '<div class="mx-auto mb-4 w-14 h-14 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center text-2xl"><i class="fa-solid fa-lock"></i></div><h2 class="text-xl sm:text-2xl font-bold text-slate-800">ปิดแบบทดสอบหลังเรียน</h2><p class="mt-2 text-sm text-slate-500">ขณะนี้ระบบปิดรับคำตอบแบบทดสอบหลังเรียนแล้ว</p>';
+                stepProfileCard.parentNode.insertBefore(closedNotice, stepProfileCard);
+                return;
+            }
             try {
                 await loadQuestions();
             } catch (error) {
