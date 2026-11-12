@@ -454,7 +454,7 @@
 
     <script>
         // Target Google Apps Script URL
-        const scriptURL = "https://script.google.com/macros/s/AKfycbw1HNrjC6OXk21vRDPlpGV755ivvwIlxHWMP938HGlojEYuZo1Uarbxr2SFd_iyjJo/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwzWdvWvS7VliUf2WXJEFpW8VyYnPkTelawzvIINpfxwjgAY61eFptsi10JOaLH230q/exec";
         let requestToken = '';
         fetch(`${scriptURL}?action=token`).then(response => response.json()).then(data => {
             requestToken = data.token || '';
