@@ -444,7 +444,8 @@
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
                                 <span class="font-bold text-blue-700 text-sm sm:text-base">
-                                    ข้อที่ตอบแล้ว <span id="answeredCounterDisplay">0</span> จาก <span id="questionTotalDisplay">0</span> ข้อ
+                                    ข้อที่ตอบแล้ว <span id="answeredCounterDisplay">0</span> จาก <span
+                                        id="questionTotalDisplay">0</span> ข้อ
                                 </span>
                             </div>
                             <div class="flex items-center gap-2">
@@ -1304,7 +1305,7 @@
                 })
                 .catch(err => {
                     console.error("GAS Submission failed:", err);
-                    Swal.fire({ icon: 'error', title: 'ส่งคำตอบไม่สำเร็จ', text: 'กรุณาตรวจสอบการเชื่อมต่อแล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
+                    Swal.fire({ icon: 'error', title: 'ส่งคำตอบไม่สำเร็จ', text: err.message || 'กรุณาตรวจสอบการเชื่อมต่อแล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
                 })
                 .finally(() => {
                     submitBtn.disabled = false;
