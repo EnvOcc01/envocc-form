@@ -997,6 +997,27 @@
             renderQuestions();
         }
 
+        async function initializeQuizAvailability() {
+            try {
+                await loadQuestions();
+            } catch (error) {
+                if (!String(error.message || '').includes('ปิดรับคำตอบ')) return;
+                stepProfileCard.classList.add('hidden');
+                const closedNotice = document.createElement('section');
+                closedNotice.className = 'quiz-card p-8 sm:p-12 text-center';
+                closedNotice.innerHTML = `
+                    <div class="mx-auto mb-4 w-14 h-14 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-800">ปิดแบบทดสอบหลังเรียน</h2>
+                    <p class="mt-2 text-sm text-slate-500">ขณะนี้ระบบปิดรับคำตอบแบบทดสอบหลังเรียนแล้ว</p>
+                `;
+                stepProfileCard.parentNode.insertBefore(closedNotice, stepProfileCard);
+            }
+        }
+
+        initializeQuizAvailability();
+
         function loadQuestionsJsonp(url) {
             return new Promise((resolve, reject) => {
                 const callbackName = `questionsCallback_${Date.now()}`;
