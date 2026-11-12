@@ -456,9 +456,15 @@
         // Target Google Apps Script URL
         const scriptURL = "https://script.google.com/macros/s/AKfycbwzWdvWvS7VliUf2WXJEFpW8VyYnPkTelawzvIINpfxwjgAY61eFptsi10JOaLH230q/exec";
         let requestToken = '';
-        fetch(`${scriptURL}?action=token`).then(response => response.json()).then(data => {
+        const tokenCallback = `registrationToken_${Date.now()}`;
+        window[tokenCallback] = data => {
             requestToken = data.token || '';
-        }).catch(() => { });
+            delete window[tokenCallback];
+        };
+        const tokenScript = document.createElement('script');
+        tokenScript.src = `${scriptURL}?action=token&callback=${tokenCallback}`;
+        tokenScript.onerror = () => { delete window[tokenCallback]; };
+        document.head.appendChild(tokenScript);
 
         // Element References
         const form = document.getElementById('registrationForm');
