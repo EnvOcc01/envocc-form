@@ -998,12 +998,7 @@
                 tokenPromise = loadRegistrationToken().catch(() => '');
             }
             await tokenPromise;
-            if (!requestToken) {
-                Swal.fire({ icon: 'error', title: 'เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ', text: 'กรุณารีเฟรชหน้าเว็บแล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
-                return;
-            }
-
-            formData.append('requestToken', requestToken);
+            if (requestToken) formData.append('requestToken', requestToken);
 
             // UI: Show loading
             const originalBtnHtml = submitBtn.innerHTML;
