@@ -33,12 +33,12 @@
     </script>
     <style>
         body {
-            background-color: #f8fbff;
+            background-color: #fff5f5;
             background-image:
-                radial-gradient(ellipse 80% 50% at 95% 5%, rgba(186, 230, 253, 0.55) 0%, rgba(224, 242, 254, 0.35) 30%, transparent 70%),
-                radial-gradient(ellipse 70% 50% at 5% 40%, rgba(199, 210, 254, 0.45) 0%, rgba(224, 238, 255, 0.3) 30%, transparent 65%),
-                radial-gradient(ellipse 60% 50% at 90% 85%, rgba(191, 219, 254, 0.45) 0%, rgba(238, 246, 255, 0.2) 35%, transparent 65%),
-                radial-gradient(ellipse 50% 40% at 15% 95%, rgba(224, 242, 254, 0.4) 0%, transparent 60%);
+                radial-gradient(ellipse 80% 50% at 95% 5%, rgba(254, 205, 211, 0.65) 0%, rgba(255, 228, 230, 0.45) 30%, transparent 70%),
+                radial-gradient(ellipse 70% 50% at 5% 40%, rgba(254, 215, 218, 0.55) 0%, rgba(255, 239, 240, 0.4) 30%, transparent 65%),
+                radial-gradient(ellipse 60% 50% at 90% 85%, rgba(252, 165, 165, 0.35) 0%, rgba(255, 241, 242, 0.3) 35%, transparent 65%),
+                radial-gradient(ellipse 50% 40% at 15% 95%, rgba(254, 226, 226, 0.65) 0%, transparent 60%);
             background-attachment: fixed;
             background-repeat: no-repeat;
             min-height: 100vh;
@@ -168,13 +168,13 @@
     <!-- Ambient Mesh Glow Backdrops -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10" aria-hidden="true">
         <div
-            class="absolute -top-[10%] -right-[10%] w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full bg-sky-200/40 blur-3xl">
+            class="absolute -top-[10%] -right-[10%] w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full bg-rose-200/60 blur-3xl">
         </div>
         <div
-            class="absolute top-[30%] -left-[15%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-100/50 blur-3xl">
+            class="absolute top-[30%] -left-[15%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-red-100/70 blur-3xl">
         </div>
         <div
-            class="absolute -bottom-[10%] right-[10%] w-[45vw] h-[45vw] max-w-[550px] max-h-[550px] rounded-full bg-indigo-100/40 blur-3xl">
+            class="absolute -bottom-[10%] right-[10%] w-[45vw] h-[45vw] max-w-[550px] max-h-[550px] rounded-full bg-orange-100/60 blur-3xl">
         </div>
     </div>
 
@@ -207,7 +207,7 @@
                     <span class="text-slate-300">•</span>
                     <span class="flex items-center gap-1.5 font-medium text-slate-700">
                         <i class="fa-solid fa-list-check text-blue-600"></i>
-                        มีทั้งหมด 10 ข้อ
+                        มีทั้งหมด <span id="questionTotalHeader">0</span> ข้อ
                     </span>
                     <span class="text-slate-300">•</span>
                     <span class="flex items-center gap-1.5 font-medium text-slate-700">
@@ -444,7 +444,7 @@
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
                                 <span class="font-bold text-blue-700 text-sm sm:text-base">
-                                    ข้อที่ตอบแล้ว <span id="answeredCounterDisplay">0</span> จาก 10 ข้อ
+                                    ข้อที่ตอบแล้ว <span id="answeredCounterDisplay">0</span> จาก <span id="questionTotalDisplay">0</span> ข้อ
                                 </span>
                             </div>
                             <div class="flex items-center gap-2">
@@ -955,6 +955,8 @@
         function updateProgress() {
             let answeredCount = 0;
             const total = posttestQuestions.length;
+            document.getElementById('questionTotalHeader').textContent = total;
+            document.getElementById('questionTotalDisplay').textContent = total;
 
             posttestQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
@@ -971,7 +973,7 @@
             if (answeredCounterDisplay) answeredCounterDisplay.textContent = answeredCount;
 
             if (answeredCount === total) {
-                completionStatusText.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> ตอบครบทั้ง 10 ข้อแล้ว พร้อมส่งคำตอบ</span>';
+                completionStatusText.innerHTML = `<span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> ตอบครบทั้ง ${total} ข้อแล้ว พร้อมส่งคำตอบ</span>`;
                 summaryCard.className = 'p-4 rounded-xl border border-emerald-200 bg-emerald-50/60 flex items-start gap-3';
             } else {
                 const remaining = total - answeredCount;
@@ -988,7 +990,7 @@
         async function loadQuestions() {
             const data = await loadQuestionsJsonp(`${scriptURL}?formType=posttest`);
             if (data.status !== 'success' || !Array.isArray(data.questions) || data.questions.length === 0) {
-                throw new Error('ไม่พบชุดคำถามจากเซิร์ฟเวอร์');
+                throw new Error(data.message || 'ไม่พบชุดคำถามจากเซิร์ฟเวอร์');
             }
             posttestQuestions.push(...data.questions);
             requestToken = data.token || '';
@@ -1097,7 +1099,7 @@
                     try {
                         await loadQuestions();
                     } catch (error) {
-                        await Swal.fire({ icon: 'error', title: 'โหลดคำถามไม่สำเร็จ', text: 'กรุณาตรวจสอบ URL ของ Apps Script แล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
+                        await Swal.fire({ icon: 'info', title: 'ปิดแบบทดสอบหลังเรียน', text: error.message || 'ระบบปิดให้บริการชั่วคราว', confirmButtonColor: '#2563eb' });
                         startTestBtn.disabled = false;
                         startTestBtn.querySelector('span').textContent = 'เริ่มทำแบบทดสอบ';
                         return;
@@ -1311,7 +1313,7 @@
                         <div><strong>วัน-เวลาที่ส่ง:</strong> ${dateStr} น.</div>
                     </div>
 
-                    ${certificateToken ? `<a href="cert.html" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-3 rounded-xl transition"><i class="fa-solid fa-certificate"></i> เปิดใบประกาศนียบัตร</a>` : ''}
+                    ${certificateToken ? `<a href="cert.html" target="_blank" rel="noopener" onclick="setTimeout(() => { try { window.close(); } catch (e) {} }, 150);" class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-3 rounded-xl transition"><i class="fa-solid fa-certificate"></i> เปิดใบประกาศนียบัตร</a>` : ''}
 
                     <p class="text-xs text-slate-500 italic">เตรียมพร้อมพบกับเนื้อหาเข้มข้นในการประชุมเชิงปฏิบัติการฯ</p>
                 </div>

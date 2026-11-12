@@ -207,7 +207,7 @@
                     <span class="text-slate-300">•</span>
                     <span class="flex items-center gap-1.5 font-medium text-slate-700">
                         <i class="fa-solid fa-list-check text-blue-600"></i>
-                        มีทั้งหมด 10 ข้อ
+                        มีทั้งหมด <span id="questionTotalHeader">0</span> ข้อ
                     </span>
                     <span class="text-slate-300">•</span>
                     <span class="flex items-center gap-1.5 font-medium text-slate-700">
@@ -444,7 +444,7 @@
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
                                 <span class="font-bold text-blue-700 text-sm sm:text-base">
-                                    ข้อที่ตอบแล้ว <span id="answeredCounterDisplay">0</span> จาก 10 ข้อ
+                                    ข้อที่ตอบแล้ว <span id="answeredCounterDisplay">0</span> จาก <span id="questionTotalDisplay">0</span> ข้อ
                                 </span>
                             </div>
                             <div class="flex items-center gap-2">
@@ -955,6 +955,8 @@
         function updateProgress() {
             let answeredCount = 0;
             const total = pretestQuestions.length;
+            document.getElementById('questionTotalHeader').textContent = total;
+            document.getElementById('questionTotalDisplay').textContent = total;
 
             pretestQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
@@ -971,7 +973,7 @@
             if (answeredCounterDisplay) answeredCounterDisplay.textContent = answeredCount;
 
             if (answeredCount === total) {
-                completionStatusText.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> ตอบครบทั้ง 10 ข้อแล้ว พร้อมส่งคำตอบ</span>';
+                completionStatusText.innerHTML = `<span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> ตอบครบทั้ง ${total} ข้อแล้ว พร้อมส่งคำตอบ</span>`;
                 summaryCard.className = 'p-4 rounded-xl border border-emerald-200 bg-emerald-50/60 flex items-start gap-3';
             } else {
                 const remaining = total - answeredCount;
@@ -988,7 +990,7 @@
         async function loadQuestions() {
             const data = await loadQuestionsJsonp(`${scriptURL}?formType=pretest`);
             if (data.status !== 'success' || !Array.isArray(data.questions) || data.questions.length === 0) {
-                throw new Error('ไม่พบชุดคำถามจากเซิร์ฟเวอร์');
+                throw new Error(data.message || 'ไม่พบชุดคำถามจากเซิร์ฟเวอร์');
             }
             pretestQuestions.push(...data.questions);
             requestToken = data.token || '';
@@ -1097,7 +1099,7 @@
                     try {
                         await loadQuestions();
                     } catch (error) {
-                        await Swal.fire({ icon: 'error', title: 'โหลดคำถามไม่สำเร็จ', text: 'กรุณาตรวจสอบ URL ของ Apps Script แล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
+                        await Swal.fire({ icon: 'info', title: 'ปิดแบบทดสอบก่อนเรียน', text: error.message || 'ระบบปิดให้บริการชั่วคราว', confirmButtonColor: '#2563eb' });
                         startTestBtn.disabled = false;
                         startTestBtn.querySelector('span').textContent = 'เริ่มทำแบบทดสอบ';
                         return;
