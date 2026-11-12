@@ -456,15 +456,27 @@
         // Target Google Apps Script URL
         const scriptURL = "https://script.google.com/macros/s/AKfycbwzWdvWvS7VliUf2WXJEFpW8VyYnPkTelawzvIINpfxwjgAY61eFptsi10JOaLH230q/exec";
         let requestToken = '';
-        const tokenCallback = `registrationToken_${Date.now()}`;
-        window[tokenCallback] = data => {
-            requestToken = data.token || '';
-            delete window[tokenCallback];
-        };
-        const tokenScript = document.createElement('script');
-        tokenScript.src = `${scriptURL}?action=token&callback=${tokenCallback}`;
-        tokenScript.onerror = () => { delete window[tokenCallback]; };
-        document.head.appendChild(tokenScript);
+        let tokenIssuedAt = 0;
+        let tokenPromise;
+        function loadRegistrationToken() {
+            return new Promise((resolve, reject) => {
+                const callbackName = `registrationToken_${Date.now()}`;
+                const tokenScript = document.createElement('script');
+                const timeout = setTimeout(() => { cleanup(); reject(new Error('โหลด token หมดเวลา')); }, 15000);
+                window[callbackName] = data => {
+                    if (!data || !data.token) { cleanup(); reject(new Error('ไม่ได้รับ token')); return; }
+                    requestToken = data.token;
+                    tokenIssuedAt = Date.now();
+                    cleanup();
+                    resolve(requestToken);
+                };
+                tokenScript.src = `${scriptURL}?action=token&callback=${callbackName}`;
+                tokenScript.onerror = () => { cleanup(); reject(new Error('โหลด token ไม่สำเร็จ')); };
+                document.head.appendChild(tokenScript);
+                function cleanup() { clearTimeout(timeout); delete window[callbackName]; tokenScript.remove(); }
+            });
+        }
+        tokenPromise = loadRegistrationToken().catch(() => '');
 
         // Element References
         const form = document.getElementById('registrationForm');
@@ -856,7 +868,7 @@
         }
 
         // 7. Form Submission Handler
-        form.addEventListener('submit', function (e) {
+        form.addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const formData = new FormData(form);
@@ -980,7 +992,17 @@
                 return;
             }
 
-            // Append API Key
+            if (!requestToken || Date.now() - tokenIssuedAt > 8 * 60 * 1000) {
+                requestToken = '';
+                tokenIssuedAt = 0;
+                tokenPromise = loadRegistrationToken().catch(() => '');
+            }
+            await tokenPromise;
+            if (!requestToken) {
+                Swal.fire({ icon: 'error', title: 'เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ', text: 'กรุณารีเฟรชหน้าเว็บแล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
+                return;
+            }
+
             formData.append('requestToken', requestToken);
 
             // UI: Show loading
