@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบก่อนเรียน (Pre-test) | การประชุมเชิงปฏิบัติการ EnvOcc</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Prompt"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            primary: '#2563eb',   // Blue-600
+                            secondary: '#1e40af', // Blue-800
+                            dark: '#0f172a',      // Slate-900
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fbff;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 95% 5%, rgba(186, 230, 253, 0.55) 0%, rgba(224, 242, 254, 0.35) 30%, transparent 70%),
+                radial-gradient(ellipse 70% 50% at 5% 40%, rgba(199, 210, 254, 0.45) 0%, rgba(224, 238, 255, 0.3) 30%, transparent 65%),
+                radial-gradient(ellipse 60% 50% at 90% 85%, rgba(191, 219, 254, 0.45) 0%, rgba(238, 246, 255, 0.2) 35%, transparent 65%),
+                radial-gradient(ellipse 50% 40% at 15% 95%, rgba(224, 242, 254, 0.4) 0%, transparent 60%);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Modern floating white card */
+        .quiz-card {
+            background-color: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 45px -15px rgba(37, 99, 235, 0.05), 0 2px 8px -2px rgba(15, 23, 42, 0.03);
+            transition: all 0.25s ease;
+        }
+
+        /* Custom Form Inputs */
+        .form-input {
+            width: 100%;
+            background-color: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            color: #1e293b;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            background-color: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Choice Card Styles */
+        .choice-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.875rem;
+            padding: 0.9rem 1.1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #ffffff;
+            user-select: none;
+        }
+
+        .choice-card:hover {
+            border-color: #93c5fd;
+            background-color: #f8fbff;
+            transform: translateY(-1px);
+        }
+
+        .choice-card:hover .radio-circle {
+            border-color: #60a5fa;
+        }
+
+        .choice-input:checked+.choice-card {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            box-shadow: 0 4px 14px -3px rgba(37, 99, 235, 0.12);
+        }
+
+        .choice-input:checked+.choice-card .radio-circle {
+            border-color: #2563eb;
+            background-color: #2563eb;
+        }
+
+        .choice-input:checked+.choice-card .radio-dot {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+
+        .swal2-popup {
+            font-family: 'Prompt', sans-serif !important;
+            border-radius: 1.25rem !important;
+        }
+
+        @keyframes pulse-border {
+
+            0%,
+            100% {
+                border-color: #f43f5e;
+                box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4);
+            }
+
+            50% {
+                border-color: #e11d48;
+                box-shadow: 0 0 0 6px rgba(244, 63, 94, 0.15);
+            }
+        }
+
+        .unanswered-pulse {
+            animation: pulse-border 1.5s infinite;
+            background-color: #fff1f2 !important;
+            padding: 1rem !important;
+            border-radius: 1rem !important;
+            border: 1.5px solid #f43f5e !important;
+        }
+    </style>
+</head>
+
+<body class="text-slate-800 py-8 px-4 sm:px-6 lg:px-8 relative">
+
+    <!-- Ambient Mesh Glow Backdrops -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10" aria-hidden="true">
+        <div
+            class="absolute -top-[10%] -right-[10%] w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full bg-sky-200/40 blur-3xl">
+        </div>
+        <div
+            class="absolute top-[30%] -left-[15%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-100/50 blur-3xl">
+        </div>
+        <div
+            class="absolute -bottom-[10%] right-[10%] w-[45vw] h-[45vw] max-w-[550px] max-h-[550px] rounded-full bg-indigo-100/40 blur-3xl">
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto space-y-6">
+
+        <!-- ========================================== -->
+        <!-- Card 1: ส่วนหัวเรื่อง + ข้อมูลการประชุม       -->
+        <!-- ========================================== -->
+        <header class="quiz-card p-6 sm:p-8 relative overflow-hidden">
+            <!-- Subtle ambient highlight corner -->
+            <div class="absolute -top-16 -right-16 w-48 h-48 bg-blue-100/50 rounded-full blur-2xl pointer-events-none">
+            </div>
+
+            <div class="relative z-10">
+                <!-- Title -->
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 leading-snug">
+                    แบบทดสอบก่อนเรียน (Pre-test)
+                </h1>
+                <p class="text-slate-500 text-sm sm:text-base font-normal mt-2 leading-relaxed">
+                    การประชุมเชิงปฏิบัติการพัฒนาศักยภาพการวิเคราะห์และใช้ประโยชน์จากข้อมูลเพื่อการเฝ้าระวังโรคและภัยสุขภาพจากการประกอบอาชีพและสิ่งแวดล้อม
+                </p>
+
+                <!-- Date & Meta Row -->
+                <div
+                    class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-slate-500 pt-4 border-t border-slate-100 mt-4">
+                    <span class="flex items-center gap-1.5 font-medium text-slate-700">
+                        <i class="fa-regular fa-calendar text-blue-600"></i>
+                        25 - 27 พฤศจิกายน 2569
+                    </span>
+                    <span class="text-slate-300">•</span>
+                    <span class="flex items-center gap-1.5 font-medium text-slate-700">
+                        <i class="fa-solid fa-list-check text-blue-600"></i>
+                        มีทั้งหมด 10 ข้อ
+                    </span>
+                    <span class="text-slate-300">•</span>
+                    <span class="flex items-center gap-1.5 font-medium text-slate-700">
+                        <i class="fa-regular fa-clock text-blue-600"></i>
+                        ประเมินความรู้ก่อนเรียน
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========================================== -->
+        <!-- ฟอร์มส่งข้อมูล (ครอบคลุม Card 2, 3, 4)      -->
+        <!-- ========================================== -->
+        <form id="pretestForm" class="space-y-6" novalidate>
+
+            <!-- Honeypot Bot Trap -->
+            <div class="hidden" aria-hidden="true">
+                <input type="text" id="extra_company_url" name="extra_company_url" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- ========================================== -->
+            <!-- Card 2: ข้อมูลผู้ทำแบบทดสอบ (ขั้นตอนที่ 1)   -->
+            <!-- ========================================== -->
+            <section id="stepProfileCard" class="quiz-card p-6 sm:p-9 transition-all">
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                    <span
+                        class="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-50 text-blue-600 font-bold text-sm">1</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-800">ข้อมูลผู้ทำแบบทดสอบ</h2>
+                    <span
+                        class="ml-auto text-xs font-medium text-rose-500 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100">จำเป็นทุกข้อ
+                        *</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Agency -->
+                    <div class="md:col-span-2">
+                        <label class="form-label" for="agencyInput">ชื่อหน่วยงาน <span
+                                class="text-rose-500">*</span></label>
+
+                        <!-- หมวดหมู่เลือกด่วน -->
+                        <div class="flex flex-wrap gap-2 mb-2.5" id="agencyCategoryTabs">
+                            <button type="button"
+                                class="agency-tab-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm transition-all"
+                                data-category="all">
+                                ทั้งหมด
+                            </button>
+                            <button type="button"
+                                class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                data-category="hospital">
+                                โรงพยาบาล
+                            </button>
+                            <button type="button"
+                                class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                data-category="ssj">
+                                สสจ. (76 จังหวัด)
+                            </button>
+                            <button type="button"
+                                class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                data-category="skr">
+                                สคร. 1-12
+                            </button>
+                            <button type="button"
+                                class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                data-category="central">
+                                ส่วนกลาง / กทม.
+                            </button>
+                            <button type="button"
+                                class="agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all"
+                                data-category="other">
+                                อื่น ๆ (ระบุเอง)
+                            </button>
+                        </div>
+
+                        <!-- ช่องค้นหา + Dropdown -->
+                        <div class="relative" id="agencySelectWrapper">
+                            <div class="relative flex items-center">
+                                <input type="text" id="agencyInput" name="agency" class="form-input pr-10"
+                                    placeholder="พิมพ์ชื่อจังหวัด หรือคลิกเพื่อเลือกหน่วยงาน..." autocomplete="off"
+                                    required>
+                                <button type="button" id="agencyClearBtn"
+                                    class="hidden absolute right-3 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 text-xs items-center justify-center transition-colors">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                                <i id="agencyArrowIcon"
+                                    class="fa-solid fa-chevron-down absolute right-3.5 text-slate-400 text-xs pointer-events-none transition-transform duration-200"></i>
+                            </div>
+
+                            <div id="agencyDropdownList"
+                                class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white border border-blue-400 rounded-xl shadow-2xl max-h-72 overflow-y-auto custom-scrollbar z-50 p-1.5">
+                                <!-- รายการหน่วยงาน -->
+                            </div>
+                        </div>
+
+                        <!-- กล่องระบุชื่อโรงพยาบาล -->
+                        <div id="hospitalBox"
+                            class="hidden mt-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                            <label class="form-label text-emerald-800" for="hospitalNameInput">
+                                โปรดระบุชื่อโรงพยาบาลของท่าน <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="hospitalNameInput" name="hospitalName"
+                                class="form-input bg-white border-emerald-300 focus:border-emerald-500"
+                                placeholder="เช่น บางบ่อ, ศูนย์ขอนแก่น, มหาราชนครราชสีมา...">
+                            <p class="text-xs text-emerald-600 mt-1.5">กรอกเฉพาะชื่อหรือชื่อเต็ม เช่น "บางบ่อ"
+                                ระบบจะบันทึกเป็น "โรงพยาบาลบางบ่อ" ให้อัตโนมัติ</p>
+                        </div>
+                    </div>
+
+                    <!-- Province -->
+                    <div class="md:col-span-2">
+                        <label class="form-label" for="provinceSelect">จังหวัดที่ตั้งหน่วยงาน <span
+                                class="text-rose-500">*</span></label>
+                        <select id="provinceSelect" name="province" class="form-input appearance-none" required
+                            style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23475569%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.65rem auto;">
+                            <option value="" disabled selected>-- เลือกจังหวัดที่ตั้งหน่วยงาน --</option>
+                        </select>
+                    </div>
+
+                    <!-- Prefix -->
+                    <div>
+                        <label class="form-label" for="prefixSelect">คำนำหน้า <span
+                                class="text-rose-500">*</span></label>
+                        <select id="prefixSelect" name="prefix" class="form-input appearance-none" required
+                            style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23475569%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.65rem auto;">
+                            <option value="" disabled selected>-- เลือกคำนำหน้า --</option>
+                            <option value="นาย">นาย</option>
+                            <option value="นาง">นาง</option>
+                            <option value="นางสาว">นางสาว</option>
+                            <option value="other">อื่น ๆ (โปรดระบุ)</option>
+                        </select>
+                        <div id="customPrefixBox" class="hidden mt-3">
+                            <input type="text" id="customPrefixInput" name="customPrefix" class="form-input"
+                                placeholder="เช่น นพ., พญ., ดร.">
+                        </div>
+                    </div>
+
+                    <!-- Name (Thai Only) -->
+                    <div>
+                        <label class="form-label" for="fullNameInput">ชื่อ-สกุล <span
+                                class="text-rose-500">*</span></label>
+                        <input type="text" id="fullNameInput" name="fullName" class="form-input"
+                            placeholder="ภาษาไทยเท่านั้น" required>
+                        <span id="nameNotice"
+                            class="hidden text-xs text-rose-500 mt-1 block">กรอกได้เฉพาะภาษาไทยเท่านั้น</span>
+                    </div>
+
+                    <!-- Position (Thai Only) -->
+                    <div class="md:col-span-2">
+                        <label class="form-label" for="positionInput">ตำแหน่ง <span
+                                class="text-rose-500">*</span></label>
+                        <input type="text" id="positionInput" name="position" class="form-input"
+                            placeholder="เช่น นักวิชาการสาธารณสุขชำนาญการ (ภาษาไทย)" required>
+                        <span id="posNotice"
+                            class="hidden text-xs text-rose-500 mt-1 block">กรอกได้เฉพาะภาษาไทยเท่านั้น</span>
+                    </div>
+
+                    <!-- Phone (10 digits) -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="form-label mb-0" for="phoneInput">เบอร์โทรศัพท์ (มือถือ) <span
+                                    class="text-rose-500">*</span></label>
+                            <span class="text-xs text-slate-400 font-mono" id="phoneCounter">0/10</span>
+                        </div>
+                        <input type="tel" id="phoneInput" name="phone" class="form-input font-mono"
+                            placeholder="08xxxxxxxx" maxlength="10" inputmode="numeric" required>
+                        <span id="phoneNotice" class="hidden text-xs text-rose-500 mt-1 block">ต้องเป็นตัวเลข 10
+                            หลักพอดี</span>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="form-label" for="emailInput">อีเมล (E-mail) <span
+                                class="text-rose-500">*</span></label>
+                        <input type="email" id="emailInput" name="email" class="form-input"
+                            placeholder="yourname@domain.com" required>
+                        <span id="emailNotice"
+                            class="hidden text-xs text-rose-500 mt-1 block">ห้ามกรอกภาษาไทยในช่องอีเมล</span>
+                    </div>
+                </div>
+
+                <!-- ปุ่มไปขั้นตอนทำแบบทดสอบ -->
+                <div class="pt-5 border-t border-slate-100 mt-6 flex justify-end">
+                    <button type="button" id="startTestBtn"
+                        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-primary hover:bg-brand-secondary text-white font-medium text-sm py-2.5 px-6 rounded-xl shadow-md shadow-blue-500/15 hover:shadow-lg transition-all active:scale-[0.98]">
+                        <span>เริ่มทำแบบทดสอบ</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- ส่วนคำถามแบบทดสอบ (ซ่อนไว้เมื่อเปิดหน้าเว็บ) -->
+            <!-- ========================================== -->
+            <div id="stepQuestionsWrapper" class="space-y-6 hidden">
+
+                <!-- Card 3: คำถามแบบทดสอบก่อนเรียน (ขั้นตอนที่ 2) -->
+                <section class="quiz-card p-6 sm:p-9">
+                    <!-- แถบสรุปชื่อผู้สอบ + ปุ่มแก้ไขข้อมูล -->
+                    <div
+                        class="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-blue-50/70 border border-blue-100/80 rounded-2xl text-xs sm:text-sm text-slate-700 mb-6">
+                        <div class="flex items-center gap-2 font-medium">
+                            <i class="fa-solid fa-user-check text-blue-600"></i>
+                            <span>ผู้ทำแบบทดสอบ: <strong id="summaryParticipantName"
+                                    class="text-slate-900"></strong></span>
+                            <span class="text-slate-300 hidden sm:inline">•</span>
+                            <span id="summaryParticipantAgency" class="text-slate-600 hidden sm:inline"></span>
+                        </div>
+                        <button type="button" id="editProfileBtn"
+                            class="text-xs text-blue-600 hover:text-blue-800 font-semibold underline flex items-center gap-1.5 transition-colors">
+                            <i class="fa-solid fa-pen-to-square"></i> แก้ไขข้อมูลผู้ทำแบบทดสอบ
+                        </button>
+                    </div>
+
+                    <!-- Header of Section 2 -->
+                    <div class="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-100">
+                        <div class="flex items-center gap-2.5">
+                            <span
+                                class="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-50 text-blue-600 font-bold text-sm">2</span>
+                            <div>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-800">คำถามแบบทดสอบก่อนเรียน</h2>
+                                <p class="text-xs text-slate-500 mt-0.5">
+                                    เลือกคำตอบที่ถูกต้องที่สุดเพียงข้อเดียวในแต่ละข้อ</p>
+                            </div>
+                        </div>
+                        <span
+                            class="px-3.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100/80">
+                            <span id="answeredCounterBadge">0 / 10 ข้อ</span>
+                        </span>
+                    </div>
+
+                    <!-- Sticky Progress Bar: ลอยตามตลอดการทำข้อสอบทั้ง 20 ข้อ -->
+                    <div
+                        class="sticky top-4 z-30 mb-6 bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl p-4 shadow-lg shadow-blue-500/5 transition-all">
+                        <div class="flex justify-between items-center text-xs mb-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+                                <span class="font-bold text-blue-700 text-sm sm:text-base">
+                                    ข้อที่ตอบแล้ว <span id="answeredCounterDisplay">0</span> จาก 10 ข้อ
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-400 font-mono text-xs tracking-wider">ความคืบหน้า</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                            <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- 20 Questions Container (ไม่มีการ์ดครอบแต่ละข้อ) -->
+                    <div id="questionsContainer" class="divide-y divide-slate-100">
+                        <!-- 20 Questions rendered dynamically by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Card 4: การสรุปสถานะ & ปุ่มส่งแบบทดสอบ -->
+                <section class="quiz-card p-6 sm:p-9 space-y-5">
+                    <div id="summaryCard"
+                        class="p-4 rounded-2xl border border-blue-100 bg-blue-50/60 flex items-start gap-3">
+                        <i class="fa-solid fa-circle-question text-blue-600 text-lg mt-0.5"></i>
+                        <div class="text-xs sm:text-sm text-slate-600">
+                            <p class="font-semibold text-blue-900 mb-0.5">ตรวจสอบความครบถ้วนก่อนส่งคำตอบ</p>
+                            <p id="completionStatusText">ท่านยังทำแบบทดสอบไม่ครบ กรุณาตอบให้ครบทั้ง 10 ข้อ</p>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div>
+                        <button type="submit" id="submitBtn"
+                            class="w-full bg-brand-primary hover:bg-brand-secondary text-white font-semibold text-base sm:text-lg py-4 px-8 rounded-2xl shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all active:scale-[0.99] flex justify-center items-center gap-2 disabled:bg-slate-400 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-paper-plane text-sm"></i>
+                            <span>ส่งคำตอบแบบทดสอบก่อนเรียน</span>
+                        </button>
+                    </div>
+
+                    <div class="text-center pt-2 text-xs text-slate-400">
+                        กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม กรมควบคุมโรค
+                    </div>
+                </section>
+            </div>
+
+        </form>
+
+    </div>
+
+    <script>
+        // Google Apps Script URL & API Key
+        const scriptURL = "https://script.google.com/macros/s/AKfycbw1HNrjC6OXk21vRDPlpGV755ivvwIlxHWMP938HGlojEYuZo1Uarbxr2SFd_iyjJo/exec";
+        let requestToken = '';
+
+        // ==============================================================
+        // ฐานข้อมูลข้อสอบแบบทดสอบก่อนเรียน (20 ข้อ)
+        // ==============================================================
+        const pretestQuestions = [];
+        // Choice labels ก, ข, ค, ง
+        const choiceLabels = ["ก", "ข", "ค", "ง"];
+
+        // Element References
+        const form = document.getElementById('pretestForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const startTestBtn = document.getElementById('startTestBtn');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const stepProfileCard = document.getElementById('stepProfileCard');
+        const stepQuestionsWrapper = document.getElementById('stepQuestionsWrapper');
+        const summaryParticipantName = document.getElementById('summaryParticipantName');
+        const summaryParticipantAgency = document.getElementById('summaryParticipantAgency');
+
+        const agencyInput = document.getElementById('agencyInput');
+        const agencySelectWrapper = document.getElementById('agencySelectWrapper');
+        const agencyDropdownList = document.getElementById('agencyDropdownList');
+        const agencyClearBtn = document.getElementById('agencyClearBtn');
+        const agencyArrowIcon = document.getElementById('agencyArrowIcon');
+        const agencyTabs = document.querySelectorAll('.agency-tab-btn');
+        const hospitalBox = document.getElementById('hospitalBox');
+        const hospitalNameInput = document.getElementById('hospitalNameInput');
+        const provinceSelect = document.getElementById('provinceSelect');
+        const prefixSelect = document.getElementById('prefixSelect');
+        const customPrefixBox = document.getElementById('customPrefixBox');
+        const customPrefixInput = document.getElementById('customPrefixInput');
+        const fullNameInput = document.getElementById('fullNameInput');
+        const nameNotice = document.getElementById('nameNotice');
+        const positionInput = document.getElementById('positionInput');
+        const posNotice = document.getElementById('posNotice');
+        const phoneInput = document.getElementById('phoneInput');
+        const phoneCounter = document.getElementById('phoneCounter');
+        const phoneNotice = document.getElementById('phoneNotice');
+        const emailInput = document.getElementById('emailInput');
+        const emailNotice = document.getElementById('emailNotice');
+        const questionsContainer = document.getElementById('questionsContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const answeredCounterBadge = document.getElementById('answeredCounterBadge');
+        const completionStatusText = document.getElementById('completionStatusText');
+        const summaryCard = document.getElementById('summaryCard');
+
+        // จังหวัด 77 จังหวัด
+        const provinces = ['กระบี่', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร', 'ขอนแก่น', 'จันทบุรี', 'ฉะเชิงเทรา', 'ชลบุรี', 'ชัยนาท', 'ชัยภูมิ', 'ชุมพร', 'เชียงราย', 'เชียงใหม่', 'ตรัง', 'ตราด', 'ตาก', 'นครนายก', 'นครปฐม', 'นครพนม', 'นครราชสีมา', 'นครศรีธรรมราช', 'นครสวรรค์', 'นนทบุรี', 'นราธิวาส', 'น่าน', 'บึงกาฬ', 'บุรีรัมย์', 'ปทุมธานี', 'ประจวบคีรีขันธ์', 'ปราจีนบุรี', 'ปัตตานี', 'พระนครศรีอยุธยา', 'พะเยา', 'พังงา', 'พัทลุง', 'พิจิตร', 'พิษณุโลก', 'เพชรบุรี', 'เพชรบูรณ์', 'แพร่', 'ภูเก็ต', 'มหาสารคาม', 'มุกดาหาร', 'แม่ฮ่องสอน', 'ยโสธร', 'ยะลา', 'ร้อยเอ็ด', 'ระนอง', 'ระยอง', 'ราชบุรี', 'ลพบุรี', 'ลำปาง', 'ลำพูน', 'เลย', 'ศรีสะเกษ', 'สกลนคร', 'สงขลา', 'สตูล', 'สมุทรปราการ', 'สมุทรสงคราม', 'สมุทรสาคร', 'สระแก้ว', 'สระบุรี', 'สิงห์บุรี', 'สุโขทัย', 'สุพรรณบุรี', 'สุราษฎร์ธานี', 'สุรินทร์', 'หนองคาย', 'หนองบัวลำภู', 'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี', 'กรุงเทพมหานคร'];
+        provinces.forEach(province => provinceSelect.add(new Option(province, province)));
+
+        // ฐานข้อมูลหน่วยงาน
+        const agenciesData = [
+            {
+                category: "โรงพยาบาล",
+                code: "hospital",
+                badgeText: "รพ.",
+                badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+                items: [
+                    "โรงพยาบาล"
+                ]
+            },
+            {
+                category: "สำนักงานป้องกันควบคุมโรค (สคร. 1-12)",
+                code: "skr",
+                badgeText: "สคร.",
+                badgeColor: "bg-blue-100 text-blue-800 border-blue-200",
+                items: [
+                    "สำนักงานป้องกันควบคุมโรคที่ 1 เชียงใหม่",
+                    "สำนักงานป้องกันควบคุมโรคที่ 2 พิษณุโลก",
+                    "สำนักงานป้องกันควบคุมโรคที่ 3 นครสวรรค์",
+                    "สำนักงานป้องกันควบคุมโรคที่ 4 สระบุรี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 5 ราชบุรี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 6 ชลบุรี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 7 ขอนแก่น",
+                    "สำนักงานป้องกันควบคุมโรคที่ 8 อุดรธานี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 9 นครราชสีมา",
+                    "สำนักงานป้องกันควบคุมโรคที่ 10 อุบลราชธานี",
+                    "สำนักงานป้องกันควบคุมโรคที่ 11 นครศรีธรรมราช",
+                    "สำนักงานป้องกันควบคุมโรคที่ 12 สงขลา"
+                ]
+            },
+            {
+                category: "หน่วยงานส่วนกลาง / กรุงเทพมหานคร",
+                code: "central",
+                badgeText: "ส่วนกลาง",
+                badgeColor: "bg-purple-100 text-purple-800 border-purple-200",
+                items: [
+                    "กรมควบคุมโรค",
+                    "กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม",
+                    "สถาบันป้องกันควบคุมโรคเขตเมือง",
+                    "สำนักการแพทย์ กรุงเทพมหานคร",
+                    "สำนักอนามัย กรุงเทพมหานคร"
+                ]
+            },
+            {
+                category: "สำนักงานสาธารณสุขจังหวัด (สสจ. 76 จังหวัด)",
+                code: "ssj",
+                badgeText: "สสจ.",
+                badgeColor: "bg-amber-100 text-amber-800 border-amber-200",
+                items: [
+                    "สำนักงานสาธารณสุขจังหวัดกระบี่",
+                    "สำนักงานสาธารณสุขจังหวัดกาญจนบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดกาฬสินธุ์",
+                    "สำนักงานสาธารณสุขจังหวัดกำแพงเพชร",
+                    "สำนักงานสาธารณสุขจังหวัดขอนแก่น",
+                    "สำนักงานสาธารณสุขจังหวัดจันทบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดฉะเชิงเทรา",
+                    "สำนักงานสาธารณสุขจังหวัดชลบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดชัยนาท",
+                    "สำนักงานสาธารณสุขจังหวัดชัยภูมิ",
+                    "สำนักงานสาธารณสุขจังหวัดชุมพร",
+                    "สำนักงานสาธารณสุขจังหวัดเชียงราย",
+                    "สำนักงานสาธารณสุขจังหวัดเชียงใหม่",
+                    "สำนักงานสาธารณสุขจังหวัดตรัง",
+                    "สำนักงานสาธารณสุขจังหวัดตราด",
+                    "สำนักงานสาธารณสุขจังหวัดตาก",
+                    "สำนักงานสาธารณสุขจังหวัดนครนายก",
+                    "สำนักงานสาธารณสุขจังหวัดนครปฐม",
+                    "สำนักงานสาธารณสุขจังหวัดนครพนม",
+                    "สำนักงานสาธารณสุขจังหวัดนครราชสีมา",
+                    "สำนักงานสาธารณสุขจังหวัดนครศรีธรรมราช",
+                    "สำนักงานสาธารณสุขจังหวัดนครสวรรค์",
+                    "สำนักงานสาธารณสุขจังหวัดนนทบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดนราธิวาส",
+                    "สำนักงานสาธารณสุขจังหวัดน่าน",
+                    "สำนักงานสาธารณสุขจังหวัดบึงกาฬ",
+                    "สำนักงานสาธารณสุขจังหวัดบุรีรัมย์",
+                    "สำนักงานสาธารณสุขจังหวัดปทุมธานี",
+                    "สำนักงานสาธารณสุขจังหวัดประจวบคีรีขันธ์",
+                    "สำนักงานสาธารณสุขจังหวัดปราจีนบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดปัตตานี",
+                    "สำนักงานสาธารณสุขจังหวัดพระนครศรีอยุธยา",
+                    "สำนักงานสาธารณสุขจังหวัดพะเยา",
+                    "สำนักงานสาธารณสุขจังหวัดพังงา",
+                    "สำนักงานสาธารณสุขจังหวัดพัทลุง",
+                    "สำนักงานสาธารณสุขจังหวัดพิจิตร",
+                    "สำนักงานสาธารณสุขจังหวัดพิษณุโลก",
+                    "สำนักงานสาธารณสุขจังหวัดเพชรบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดเพชรบูรณ์",
+                    "สำนักงานสาธารณสุขจังหวัดแพร่",
+                    "สำนักงานสาธารณสุขจังหวัดภูเก็ต",
+                    "สำนักงานสาธารณสุขจังหวัดมหาสารคาม",
+                    "สำนักงานสาธารณสุขจังหวัดมุกดาหาร",
+                    "สำนักงานสาธารณสุขจังหวัดแม่ฮ่องสอน",
+                    "สำนักงานสาธารณสุขจังหวัดยโสธร",
+                    "สำนักงานสาธารณสุขจังหวัดยะลา",
+                    "สำนักงานสาธารณสุขจังหวัดร้อยเอ็ด",
+                    "สำนักงานสาธารณสุขจังหวัดระนอง",
+                    "สำนักงานสาธารณสุขจังหวัดระยอง",
+                    "สำนักงานสาธารณสุขจังหวัดราชบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดลพบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดลำปาง",
+                    "สำนักงานสาธารณสุขจังหวัดลำพูน",
+                    "สำนักงานสาธารณสุขจังหวัดเลย",
+                    "สำนักงานสาธารณสุขจังหวัดศรีสะเกษ",
+                    "สำนักงานสาธารณสุขจังหวัดสกลนคร",
+                    "สำนักงานสาธารณสุขจังหวัดสงขลา",
+                    "สำนักงานสาธารณสุขจังหวัดสตูล",
+                    "สำนักงานสาธารณสุขจังหวัดสมุทรปราการ",
+                    "สำนักงานสาธารณสุขจังหวัดสมุทรสงคราม",
+                    "สำนักงานสาธารณสุขจังหวัดสมุทรสาคร",
+                    "สำนักงานสาธารณสุขจังหวัดสระแก้ว",
+                    "สำนักงานสาธารณสุขจังหวัดสระบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดสิงห์บุรี",
+                    "สำนักงานสาธารณสุขจังหวัดสุโขทัย",
+                    "สำนักงานสาธารณสุขจังหวัดสุพรรณบุรี",
+                    "สำนักงานสาธารณสุขจังหวัดสุราษฎร์ธานี",
+                    "สำนักงานสาธารณสุขจังหวัดสุรินทร์",
+                    "สำนักงานสาธารณสุขจังหวัดหนองคาย",
+                    "สำนักงานสาธารณสุขจังหวัดหนองบัวลำภู",
+                    "สำนักงานสาธารณสุขจังหวัดอ่างทอง",
+                    "สำนักงานสาธารณสุขจังหวัดอำนาจเจริญ",
+                    "สำนักงานสาธารณสุขจังหวัดอุดรธานี",
+                    "สำนักงานสาธารณสุขจังหวัดอุตรดิตถ์",
+                    "สำนักงานสาธารณสุขจังหวัดอุทัยธานี",
+                    "สำนักงานสาธารณสุขจังหวัดอุบลราชธานี"
+                ]
+            }
+        ];
+
+        let currentCategoryFilter = 'all';
+
+        // เรนเดอร์รายการหน่วยงาน
+        function renderAgencyList(keyword = '') {
+            agencyDropdownList.innerHTML = '';
+            const search = keyword.trim().toLowerCase();
+            let totalMatches = 0;
+
+            const groupsToRender = (currentCategoryFilter === 'all')
+                ? agenciesData
+                : agenciesData.filter(g => g.code === currentCategoryFilter);
+
+            groupsToRender.forEach(group => {
+                const matchedItems = group.items.filter(item => item.toLowerCase().includes(search));
+                if (matchedItems.length > 0) {
+                    totalMatches += matchedItems.length;
+
+                    const groupHeader = document.createElement('div');
+                    groupHeader.className = 'sticky top-0 bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-md my-1 flex justify-between items-center z-10 border border-slate-200';
+                    groupHeader.innerHTML = `<span>${group.category}</span><span class="text-[11px] font-normal text-slate-500">(${matchedItems.length})</span>`;
+                    agencyDropdownList.appendChild(groupHeader);
+
+                    matchedItems.forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'px-3 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg cursor-pointer flex items-center justify-between transition-colors my-0.5';
+                        if (agencyInput.value === item) {
+                            itemDiv.className += ' bg-blue-50 text-blue-700 font-semibold';
+                        }
+
+                        let itemHtml = item;
+                        if (search) {
+                            const regex = new RegExp(`(${search})`, 'gi');
+                            itemHtml = item.replace(regex, '<span class="text-blue-600 font-bold bg-blue-100/60 px-0.5 rounded">$1</span>');
+                        }
+
+                        itemDiv.innerHTML = `
+                            <span>${itemHtml}</span>
+                            <span class="text-[10px] font-medium border px-1.5 py-0.5 rounded ${group.badgeColor}">${group.badgeText}</span>
+                        `;
+                        itemDiv.onclick = () => selectAgency(item);
+                        agencyDropdownList.appendChild(itemDiv);
+                    });
+                }
+            });
+
+            if (totalMatches === 0) {
+                const noResult = document.createElement('div');
+                noResult.className = 'p-4 text-center text-xs text-slate-400';
+                noResult.textContent = 'ไม่พบหน่วยงานในระบบ (สามารถใช้ชื่อที่พิมพ์ได้โดยตรง)';
+                agencyDropdownList.appendChild(noResult);
+            }
+
+            agencyClearBtn.style.display = agencyInput.value ? 'flex' : 'none';
+        }
+
+        function selectAgency(name) {
+            agencyInput.value = name;
+            closeAgencyDropdown();
+            agencyClearBtn.style.display = 'flex';
+            checkHospitalState(name);
+        }
+
+        function checkHospitalState(val) {
+            if (val && val.includes('โรงพยาบาล')) {
+                hospitalBox.classList.remove('hidden');
+                hospitalNameInput.setAttribute('required', 'required');
+                setTimeout(() => hospitalNameInput.focus(), 150);
+            } else {
+                hospitalBox.classList.add('hidden');
+                hospitalNameInput.removeAttribute('required');
+                hospitalNameInput.value = '';
+            }
+        }
+
+        function openAgencyDropdown() {
+            renderAgencyList(agencyInput.value);
+            agencyDropdownList.classList.remove('hidden');
+            agencyArrowIcon.style.transform = 'rotate(180deg)';
+        }
+
+        function closeAgencyDropdown() {
+            agencyDropdownList.classList.add('hidden');
+            agencyArrowIcon.style.transform = 'rotate(0deg)';
+        }
+
+        agencyInput.addEventListener('focus', function () {
+            if (currentCategoryFilter !== 'other') openAgencyDropdown();
+        });
+
+        agencyInput.addEventListener('click', function () {
+            if (currentCategoryFilter !== 'other') openAgencyDropdown();
+        });
+
+        agencyInput.addEventListener('input', function () {
+            if (currentCategoryFilter !== 'other') openAgencyDropdown();
+            checkHospitalState(this.value);
+            agencyClearBtn.style.display = this.value ? 'flex' : 'none';
+        });
+
+        agencyClearBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            agencyInput.value = '';
+            agencyClearBtn.style.display = 'none';
+            checkHospitalState('');
+            if (currentCategoryFilter !== 'other') renderAgencyList('');
+            agencyInput.focus();
+        });
+
+        // ควบคุมหมวดหมู่ตัวเลือกด่วน
+        agencyTabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                const cat = this.getAttribute('data-category');
+                currentCategoryFilter = cat;
+
+                agencyInput.value = '';
+                hospitalNameInput.value = '';
+                hospitalBox.classList.add('hidden');
+                hospitalNameInput.removeAttribute('required');
+                agencyClearBtn.style.display = 'none';
+
+                agencyTabs.forEach(t => {
+                    t.className = 'agency-tab-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all';
+                });
+                this.className = 'agency-tab-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white shadow-sm transition-all';
+
+                if (cat === 'hospital') {
+                    selectAgency('โรงพยาบาล');
+                } else if (cat === 'other') {
+                    closeAgencyDropdown();
+                    agencyInput.placeholder = 'ระบุชื่อหน่วยงานของท่าน...';
+                    agencyInput.focus();
+                } else {
+                    agencyInput.placeholder = 'พิมพ์ชื่อจังหวัด หรือคลิกเพื่อเลือกหน่วยงาน...';
+                    openAgencyDropdown();
+                    agencyInput.focus();
+                }
+            });
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!agencySelectWrapper.contains(e.target) && !e.target.closest('#agencyCategoryTabs')) {
+                closeAgencyDropdown();
+            }
+        });
+
+        // คำนำหน้า
+        prefixSelect.addEventListener('change', function () {
+            if (this.value === 'other') {
+                customPrefixBox.classList.remove('hidden');
+                customPrefixInput.setAttribute('required', 'required');
+                customPrefixInput.focus();
+            } else {
+                customPrefixBox.classList.add('hidden');
+                customPrefixInput.removeAttribute('required');
+                customPrefixInput.value = '';
+            }
+        });
+
+        // ชื่อ-สกุล (ภาษาไทยเท่านั้น)
+        fullNameInput.addEventListener('input', function () {
+            const nonThai = /[^\u0E00-\u0E7F\s]/g;
+            if (nonThai.test(this.value)) {
+                this.value = this.value.replace(nonThai, '');
+                nameNotice.classList.remove('hidden');
+                setTimeout(() => nameNotice.classList.add('hidden'), 2500);
+            }
+        });
+
+        // ตำแหน่ง (ภาษาไทยเท่านั้น)
+        positionInput.addEventListener('input', function () {
+            const nonThai = /[^\u0E00-\u0E7F\s\(\)\.\-\/]/g;
+            if (nonThai.test(this.value)) {
+                this.value = this.value.replace(nonThai, '');
+                posNotice.classList.remove('hidden');
+                setTimeout(() => posNotice.classList.add('hidden'), 2500);
+            }
+        });
+
+        // เบอร์โทรศัพท์ 10 หลัก
+        phoneInput.addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+            const len = this.value.length;
+            phoneCounter.textContent = `${len}/10`;
+
+            if (len === 10) {
+                phoneCounter.className = 'text-xs text-emerald-600 font-bold';
+                phoneNotice.classList.add('hidden');
+            } else if (len > 0) {
+                phoneCounter.className = 'text-xs text-rose-500 font-bold';
+                phoneNotice.classList.remove('hidden');
+            } else {
+                phoneCounter.className = 'text-xs text-slate-400';
+                phoneNotice.classList.add('hidden');
+            }
+        });
+
+        // อีเมล (ห้ามภาษาไทย)
+        emailInput.addEventListener('input', function () {
+            const thaiRegex = /[\u0E00-\u0E7F]/g;
+            if (thaiRegex.test(this.value)) {
+                this.value = this.value.replace(thaiRegex, '');
+                emailNotice.classList.remove('hidden');
+                setTimeout(() => emailNotice.classList.add('hidden'), 2500);
+            }
+        });
+
+        // ==============================================================
+        // ฟังก์ชันเรนเดอร์ข้อสอบ 20 ข้อ (สะอาด คลีน อ่านสบายตา)
+        // ==============================================================
+        function renderQuestions() {
+            questionsContainer.innerHTML = '';
+
+            pretestQuestions.forEach((q) => {
+                const questionCard = document.createElement('div');
+                questionCard.id = `qCard_${q.id}`;
+                questionCard.className = 'py-6 first:pt-0 last:pb-0 transition-all space-y-3.5';
+
+                // Question Prompt with Number Badge
+                const qHeader = document.createElement('div');
+                qHeader.className = 'flex items-start gap-3';
+                qHeader.innerHTML = `
+                    <span class="w-7 h-7 rounded-full bg-black text-white font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                        ${q.id}
+                    </span>
+                    <h3 class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed pt-0.5">
+                        ${q.question}
+                    </h3>
+                `;
+                questionCard.appendChild(qHeader);
+
+                // Choices List
+                const choicesGroup = document.createElement('div');
+                choicesGroup.className = 'space-y-2.5 pt-1 pl-0 sm:pl-10';
+
+                q.choices.forEach((choiceText, cIdx) => {
+                    const choiceId = `q${q.id}_c${cIdx}`;
+
+                    const labelWrapper = document.createElement('label');
+                    labelWrapper.htmlFor = choiceId;
+                    labelWrapper.className = 'block';
+
+                    labelWrapper.innerHTML = `
+                        <input type="radio" id="${choiceId}" name="question_${q.id}" value="${cIdx}" class="choice-input hidden" required>
+                        <div class="choice-card">
+                            <div class="radio-circle w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all bg-white">
+                                <span class="radio-dot w-2 h-2 rounded-full bg-white opacity-0 transform scale-50 transition-all duration-150"></span>
+                            </div>
+                            <div class="text-xs sm:text-sm text-slate-700 flex-1 leading-relaxed pt-0.5">
+                                ${choiceText}
+                            </div>
+                        </div>
+                    `;
+
+                    choicesGroup.appendChild(labelWrapper);
+                });
+
+                questionCard.appendChild(choicesGroup);
+                questionsContainer.appendChild(questionCard);
+            });
+
+            // Event listener สำหรับการตอบคำถาม
+            questionsContainer.addEventListener('change', function (e) {
+                if (e.target && e.target.classList.contains('choice-input')) {
+                    const card = e.target.closest('[id^="qCard_"]');
+                    if (card) {
+                        card.classList.remove('unanswered-pulse', 'border-rose-400');
+                    }
+                    updateProgress();
+                }
+            });
+        }
+
+        // ==============================================================
+        // อัปเดตความคืบหน้าการตอบคำถาม (Progress)
+        // ==============================================================
+        function updateProgress() {
+            let answeredCount = 0;
+            const total = pretestQuestions.length;
+
+            pretestQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                if (selected) {
+                    answeredCount++;
+                }
+            });
+
+            const percent = Math.round((answeredCount / total) * 100);
+            progressBar.style.width = `${percent}%`;
+            if (progressText) progressText.textContent = `${percent}%`;
+            if (answeredCounterBadge) answeredCounterBadge.textContent = `${answeredCount} / ${total} ข้อ`;
+            const answeredCounterDisplay = document.getElementById('answeredCounterDisplay');
+            if (answeredCounterDisplay) answeredCounterDisplay.textContent = answeredCount;
+
+            if (answeredCount === total) {
+                completionStatusText.innerHTML = '<span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> ตอบครบทั้ง 10 ข้อแล้ว พร้อมส่งคำตอบ</span>';
+                summaryCard.className = 'p-4 rounded-xl border border-emerald-200 bg-emerald-50/60 flex items-start gap-3';
+            } else {
+                const remaining = total - answeredCount;
+                completionStatusText.innerHTML = `ยังตอบไม่ครบ <strong>(เหลืออีก ${remaining} ข้อ)</strong> กรุณาตอบให้ครบก่อนส่งแบบทดสอบ`;
+                summaryCard.className = 'p-4 rounded-xl border border-blue-100 bg-blue-50/60 flex items-start gap-3';
+            }
+
+            return { answeredCount, total };
+        }
+
+        // เรียกเรนเดอร์คำถามครั้งแรก
+        renderQuestions();
+
+        async function loadQuestions() {
+            const response = await fetch(`${scriptURL}?formType=pretest`);
+            const data = await response.json();
+            if (data.status !== 'success' || !Array.isArray(data.questions) || data.questions.length === 0) {
+                throw new Error('ไม่พบชุดคำถามจากเซิร์ฟเวอร์');
+            }
+            pretestQuestions.push(...data.questions);
+            requestToken = data.token || '';
+            renderQuestions();
+        }
+
+        // ==============================================================
+        // ตรวจสอบความถูกต้องของข้อมูลผู้ทำแบบทดสอบ (Step 1 Validation)
+        // ==============================================================
+        function validateProfile() {
+            const agencyVal = (agencyInput.value || '').trim();
+            if (!agencyVal) {
+                Swal.fire({ icon: 'warning', title: 'โปรดระบุชื่อหน่วยงาน', confirmButtonColor: '#2563eb' });
+                agencyInput.focus();
+                return false;
+            }
+            if (agencyVal.includes('โรงพยาบาล')) {
+                const hospVal = (hospitalNameInput.value || '').trim();
+                if (!hospVal) {
+                    Swal.fire({ icon: 'warning', title: 'โปรดระบุชื่อโรงพยาบาลของท่าน', confirmButtonColor: '#2563eb' });
+                    hospitalNameInput.focus();
+                    return false;
+                }
+            }
+
+            const provinceVal = (provinceSelect.value || '').trim();
+            if (!provinceVal) {
+                Swal.fire({ icon: 'warning', title: 'โปรดเลือกจังหวัดที่ตั้งหน่วยงาน', confirmButtonColor: '#2563eb' });
+                provinceSelect.focus();
+                return false;
+            }
+
+            const prefixVal = prefixSelect.value;
+            if (!prefixVal) {
+                Swal.fire({ icon: 'warning', title: 'โปรดเลือกคำนำหน้า', confirmButtonColor: '#2563eb' });
+                prefixSelect.focus();
+                return false;
+            }
+            if (prefixVal === 'other') {
+                const customVal = (customPrefixInput.value || '').trim();
+                if (!customVal) {
+                    Swal.fire({ icon: 'warning', title: 'โปรดระบุคำนำหน้า', confirmButtonColor: '#2563eb' });
+                    customPrefixInput.focus();
+                    return false;
+                }
+            }
+
+            const fullNameVal = (fullNameInput.value || '').trim();
+            if (!fullNameVal || !/^[\u0E00-\u0E7F\s]+$/.test(fullNameVal)) {
+                Swal.fire({ icon: 'warning', title: 'ชื่อ-สกุล ต้องเป็นภาษาไทยเท่านั้น', confirmButtonColor: '#2563eb' });
+                fullNameInput.focus();
+                return false;
+            }
+
+            const posVal = (positionInput.value || '').trim();
+            if (!posVal || !/^[\u0E00-\u0E7F\s\(\)\.\-\/]+$/.test(posVal)) {
+                Swal.fire({ icon: 'warning', title: 'ตำแหน่ง ต้องเป็นภาษาไทยเท่านั้น', confirmButtonColor: '#2563eb' });
+                positionInput.focus();
+                return false;
+            }
+
+            const phoneVal = (phoneInput.value || '').trim().replace(/\D/g, '');
+            if (phoneVal.length !== 10) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'เบอร์โทรศัพท์ไม่ถูกต้อง',
+                    html: `เบอร์โทรศัพท์ต้องเป็นตัวเลข <strong>10 หลักพอดี</strong><br><span class="text-sm text-slate-500">(ขณะนี้กรอก ${phoneVal.length} หลัก)</span>`,
+                    confirmButtonColor: '#2563eb'
+                });
+                phoneInput.focus();
+                return false;
+            }
+
+            const emailVal = (emailInput.value || '').trim();
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailVal || /[\u0E00-\u0E7F]/.test(emailVal) || !emailRegex.test(emailVal)) {
+                Swal.fire({ icon: 'warning', title: 'รูปแบบอีเมลไม่ถูกต้อง หรือมีตัวอักษรภาษาไทย', confirmButtonColor: '#2563eb' });
+                emailInput.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        // สลับไปส่วนคำถามแบบทดสอบ (Step 1 -> Step 2)
+        if (startTestBtn) {
+            startTestBtn.addEventListener('click', async function () {
+                if (!validateProfile()) return;
+
+                if (pretestQuestions.length === 0) {
+                    startTestBtn.disabled = true;
+                    startTestBtn.querySelector('span').textContent = 'กำลังโหลดคำถาม...';
+                    try {
+                        await loadQuestions();
+                    } catch (error) {
+                        await Swal.fire({ icon: 'error', title: 'โหลดคำถามไม่สำเร็จ', text: 'กรุณาตรวจสอบ URL ของ Apps Script แล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
+                        startTestBtn.disabled = false;
+                        startTestBtn.querySelector('span').textContent = 'เริ่มทำแบบทดสอบ';
+                        return;
+                    }
+                    startTestBtn.disabled = false;
+                    startTestBtn.querySelector('span').textContent = 'เริ่มทำแบบทดสอบ';
+                }
+
+                let displayAgency = agencyInput.value.trim();
+                if (displayAgency.includes('โรงพยาบาล')) {
+                    let hosp = hospitalNameInput.value.trim();
+                    if (!hosp.startsWith('โรงพยาบาล')) hosp = 'โรงพยาบาล' + hosp;
+                    displayAgency = hosp;
+                }
+
+                let pfx = prefixSelect.value === 'other' ? customPrefixInput.value.trim() : prefixSelect.value;
+                summaryParticipantName.textContent = `${pfx}${fullNameInput.value.trim()}`;
+                summaryParticipantAgency.textContent = `${displayAgency} (${provinceSelect.value})`;
+
+                stepProfileCard.classList.add('hidden');
+                stepQuestionsWrapper.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // ย้อนกลับมาแก้ไขข้อมูลผู้ทำแบบทดสอบ (Step 2 -> Step 1)
+        if (editProfileBtn) {
+            editProfileBtn.addEventListener('click', function () {
+                stepQuestionsWrapper.classList.add('hidden');
+                stepProfileCard.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // ==============================================================
+        // ตรวจสอบและส่งข้อมูล (Form Submission)
+        // ==============================================================
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            // Honeypot Trap
+            if (formData.get('extra_company_url')) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'บันทึกข้อมูลสำเร็จ',
+                    text: 'ขอขอบพระคุณสำหรับการทำแบบทดสอบก่อนเรียน',
+                    confirmButtonColor: '#2563eb'
+                });
+                form.reset();
+                return;
+            }
+
+            // 1. ตรวจสอบข้อมูลผู้ทำแบบทดสอบ
+            if (!validateProfile()) {
+                stepQuestionsWrapper.classList.add('hidden');
+                stepProfileCard.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            let agencyVal = (formData.get('agency') || '').trim();
+            if (agencyVal.includes('โรงพยาบาล')) {
+                const hospVal = (formData.get('hospitalName') || '').trim();
+                let cleanedHosp = hospVal;
+                if (!cleanedHosp.startsWith('โรงพยาบาล')) {
+                    cleanedHosp = 'โรงพยาบาล' + cleanedHosp;
+                }
+                agencyVal = cleanedHosp;
+                formData.set('agency', agencyVal);
+            }
+
+            const prefixVal = formData.get('prefix');
+            if (prefixVal === 'other') {
+                const customVal = (formData.get('customPrefix') || '').trim();
+                formData.set('prefix', customVal);
+            }
+
+            const fullNameVal = (formData.get('fullName') || '').trim();
+            const posVal = (formData.get('position') || '').trim();
+            const provinceVal = (formData.get('province') || '').trim();
+
+            const phoneVal = (formData.get('phone') || '').trim().replace(/\D/g, '');
+            formData.set('phone', phoneVal);
+
+            // 2. ตรวจสอบคำตอบแบบทดสอบให้ครบทุกข้อ (20 ข้อ)
+            const unansweredQuestions = [];
+            const userAnswers = {};
+            let score = 0;
+
+            pretestQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                const card = document.getElementById(`qCard_${q.id}`);
+
+                if (!selected) {
+                    unansweredQuestions.push(q.id);
+                    if (card) {
+                        card.classList.add('unanswered-pulse', 'border-rose-400');
+                    }
+                } else {
+                    const ansIndex = parseInt(selected.value, 10);
+                    userAnswers[`q${q.id}`] = ansIndex;
+                    if (ansIndex === q.correctAnswer) {
+                        score++;
+                    }
+                    if (card) {
+                        card.classList.remove('unanswered-pulse', 'border-rose-400');
+                    }
+                }
+            });
+
+            if (unansweredQuestions.length > 0) {
+                const firstUnanswered = unansweredQuestions[0];
+                const targetCard = document.getElementById(`qCard_${firstUnanswered}`);
+                if (targetCard) {
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ยังทำแบบทดสอบไม่ครบ',
+                    html: `กรุณาตอบคำถามให้ครบทั้ง 10 ข้อ<br>ข้อที่ยังไม่ได้ตอบ: <strong>ข้อที่ ${unansweredQuestions.join(', ')}</strong>`,
+                    confirmButtonText: 'กลับไปตอบข้อที่เหลือ',
+                    confirmButtonColor: '#2563eb'
+                });
+                return;
+            }
+
+            // เตรียมข้อมูลส่งไปยัง Google Apps Script
+            const totalQuestions = pretestQuestions.length;
+            const percentage = Math.round((score / totalQuestions) * 100);
+
+            formData.append('formType', 'pretest');
+            formData.append('score', score);
+            formData.append('maxScore', totalQuestions);
+            formData.append('percentage', percentage);
+            formData.append('answersJson', JSON.stringify(userAnswers));
+
+            // แนบคำตอบทีละข้อ (ข้อ 1 - 20)
+            pretestQuestions.forEach(q => {
+                const ansIdx = userAnswers[`q${q.id}`];
+                formData.append(`answerIndex_${q.id}`, ansIdx);
+                formData.append(`answer_${q.id}`, `${choiceLabels[ansIdx]}: ${q.choices[ansIdx]}`);
+            });
+            formData.append('requestToken', requestToken);
+
+            // UI Loading
+            const originalBtnHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>กำลังบันทึกข้อมูล...</span>';
+
+            Swal.fire({
+                title: 'กำลังส่งคำตอบ...',
+                text: 'กรุณารอสักครู่ ระบบกำลังบันทึกข้อมูลแบบทดสอบก่อนเรียนของท่าน',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // ส่งข้อมูลไปยัง Google Apps Script
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status !== 'success') throw new Error(data.message || 'บันทึกข้อมูลไม่สำเร็จ');
+                    showSuccessConfirmation(fullNameVal, formData.get('prefix'), posVal, agencyVal, provinceVal, data.score, data.total, data.results);
+                })
+                .catch(err => {
+                    console.error("GAS Submission failed:", err);
+                    Swal.fire({ icon: 'error', title: 'ส่งคำตอบไม่สำเร็จ', text: 'กรุณาตรวจสอบการเชื่อมต่อแล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                });
+        });
+
+        // ==============================================================
+        // แสดงผลคะแนนจากเซิร์ฟเวอร์
+        // ==============================================================
+        function showSuccessConfirmation(fullName, prefix, position, agency, province, score, total, answerResults) {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+            const htmlContent = `
+                <div class="space-y-4 text-center">
+                    <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800">
+                        <i class="fa-solid fa-circle-check text-4xl text-emerald-600 mb-2"></i>
+                        <p class="font-bold text-base sm:text-lg">ระบบได้บันทึกคำตอบของท่านเรียบร้อยแล้ว</p>
+                        <p class="text-xs text-emerald-700 mt-1">ขอขอบพระคุณสำหรับการร่วมทำแบบทดสอบก่อนเรียน</p>
+                    </div>
+
+                    <div class="text-left text-xs sm:text-sm bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-1.5 text-slate-700">
+                        <div><strong>ผู้ทำแบบทดสอบ:</strong> ${prefix}${fullName}</div>
+                        <div><strong>ตำแหน่ง:</strong> ${position}</div>
+                        <div><strong>หน่วยงาน:</strong> ${agency} (${province})</div>
+                        <div><strong>คะแนน:</strong> ${score} / ${total} คะแนน (${Math.round((score / total) * 100)}%)</div>
+                        <div><strong>ผลรายข้อ:</strong></div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1">
+                            ${answerResults.map(result => `<span class="px-2 py-1 rounded-lg text-xs ${result.isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">ข้อ ${result.id}: ${result.isCorrect ? 'ถูก' : 'ผิด'}</span>`).join('')}
+                        </div>
+                        <div><strong>วัน-เวลาที่ส่ง:</strong> ${dateStr} น.</div>
+                    </div>
+
+                    <p class="text-xs text-slate-500 italic">เตรียมพร้อมพบกับเนื้อหาเข้มข้นในการประชุมเชิงปฏิบัติการฯ</p>
+                </div>
+            `;
+
+            Swal.fire({
+                icon: 'success',
+                title: 'ส่งแบบทดสอบเรียบร้อยแล้ว',
+                html: htmlContent,
+                confirmButtonText: 'เสร็จสิ้น',
+                confirmButtonColor: '#2563eb',
+                allowOutsideClick: false
+            }).then(() => {
+                form.reset();
+                updateProgress();
+                hospitalBox.classList.add('hidden');
+                customPrefixBox.classList.add('hidden');
+                phoneCounter.textContent = '0/10';
+                phoneCounter.className = 'text-xs text-slate-400 font-mono';
+                stepQuestionsWrapper.classList.add('hidden');
+                stepProfileCard.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    </script>
+</body>
+
+</html>

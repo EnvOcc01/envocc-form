@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ตรวจสอบใบประกาศนียบัตร</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Prompt, sans-serif;
+      background: #f8fafc;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen p-4 sm:p-8 text-slate-800">
+  <main class="max-w-5xl mx-auto space-y-5">
+    <section id="lookupPanel" class="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+      <div class="text-center mb-6">
+        <div
+          class="mx-auto mb-3 w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+          ✦</div>
+        <h1 class="text-2xl font-bold">ตรวจสอบใบประกาศนียบัตร</h1>
+        <p class="mt-2 text-sm text-slate-500">กรอกข้อมูลเดียวกับที่ใช้ทำแบบทดสอบหลังเรียน</p>
+      </div>
+      <form id="lookupForm" class="space-y-4">
+        <label class="block text-sm font-semibold">เบอร์โทรศัพท์
+          <input id="phoneInput" required inputmode="numeric" maxlength="10" pattern="[0-9]{10}"
+            class="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+            placeholder="0812345678">
+        </label>
+        <label class="block text-sm font-semibold">อีเมล
+          <input id="emailInput" required type="email"
+            class="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+            placeholder="name@example.com">
+        </label>
+        <button id="verifyBtn"
+          class="w-full rounded-xl bg-blue-600 px-5 py-3 text-white font-semibold hover:bg-blue-700 transition">ตรวจสอบสิทธิ์</button>
+      </form>
+      <p id="lookupMessage" class="hidden mt-4 rounded-xl p-3 text-sm text-center"></p>
+    </section>
+
+    <section id="certificatePanel" class="hidden bg-white rounded-2xl shadow-xl p-3 sm:p-5">
+      <div class="mb-4 text-center">
+        <h2 class="text-xl font-bold text-emerald-700">ผ่านเกณฑ์ 80% — ใบประกาศนียบัตรของคุณ</h2>
+      </div>
+      <canvas id="certificateCanvas" class="w-full h-auto rounded-lg"></canvas>
+      <div class="flex justify-center pt-4">
+        <button id="downloadBtn" type="button"
+          class="rounded-xl bg-blue-600 px-5 py-3 text-white font-semibold hover:bg-blue-700 transition">ดาวน์โหลดใบประกาศนียบัตร</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const POSTTEST_API_URL = 'https://script.google.com/macros/s/AKfycbw1HNrjC6OXk21vRDPlpGV755ivvwIlxHWMP938HGlojEYuZo1Uarbxr2SFd_iyjJo/exec';
+    const canvas = document.getElementById('certificateCanvas');
+    const ctx = canvas.getContext('2d');
+    const lookupForm = document.getElementById('lookupForm');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const lookupMessage = document.getElementById('lookupMessage');
+    const certificatePanel = document.getElementById('certificatePanel');
+
+    function showMessage(text, isError) {
+      lookupMessage.textContent = text;
+      lookupMessage.className = `mt-4 rounded-xl p-3 text-sm text-center ${isError ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700'}`;
+    }
+
+    function drawCertificate(certificate) {
+      const image = new Image();
+      image.onload = () => {
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        ctx.drawImage(image, 0, 0);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#111827';
+        ctx.font = '700 64px Prompt, sans-serif';
+        ctx.fillText(certificate.name, canvas.width / 2, canvas.height * 0.49);
+        certificatePanel.classList.remove('hidden');
+        certificatePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      image.src = 'Certificate.png';
+    }
+
+    lookupForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (POSTTEST_API_URL.includes('ใส่-')) {
+        showMessage('ยังไม่ได้ตั้งค่า URL ของ Post-test Apps Script', true);
+        return;
+      }
+      verifyBtn.disabled = true;
+      verifyBtn.textContent = 'กำลังตรวจสอบ...';
+      try {
+        const phone = document.getElementById('phoneInput').value.replace(/\D/g, '');
+        const email = document.getElementById('emailInput').value.trim().toLowerCase();
+        const response = await fetch(POSTTEST_API_URL, {
+          method: 'POST',
+          body: new URLSearchParams({ action: 'certificateLookup', phone, email })
+        });
+        const data = await response.json();
+        if (data.status !== 'success') throw new Error(data.message || 'ไม่พบข้อมูล');
+        showMessage(`พบข้อมูล ${data.certificate.name} คะแนน ${data.certificate.percentage}%`, false);
+        drawCertificate(data.certificate);
+      } catch (error) {
+        certificatePanel.classList.add('hidden');
+        showMessage(error.message || 'ตรวจสอบไม่สำเร็จ', true);
+      } finally {
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = 'ตรวจสอบสิทธิ์';
+      }
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'certificate.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  </script>
+</body>
+
+</html>

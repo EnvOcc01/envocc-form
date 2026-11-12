@@ -286,7 +286,8 @@
 
                         <!-- Province -->
                         <div class="md:col-span-2">
-                            <label class="form-label" for="provinceSelect">จังหวัดที่ตั้งหน่วยงาน <span class="text-rose-500">*</span></label>
+                            <label class="form-label" for="provinceSelect">จังหวัดที่ตั้งหน่วยงาน <span
+                                    class="text-rose-500">*</span></label>
                             <select id="provinceSelect" name="province" class="form-input appearance-none" required>
                                 <option value="" disabled selected>-- เลือกจังหวัดที่ตั้งหน่วยงาน --</option>
                             </select>
@@ -453,8 +454,11 @@
 
     <script>
         // Target Google Apps Script URL
-        const scriptURL = "https://script.google.com/macros/s/AKfycbyPK_IMkw4lcuzqHkyEUrb_zvHRK0EjY6pQ_-WcHEoXhH_E5n4WyI6ZPcNcv3Oh-10-/exec";
-        const apiKey = "ENV_OCC_HEALTH_2026_DDC";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbw1HNrjC6OXk21vRDPlpGV755ivvwIlxHWMP938HGlojEYuZo1Uarbxr2SFd_iyjJo/exec";
+        let requestToken = '';
+        fetch(`${scriptURL}?action=token`).then(response => response.json()).then(data => {
+            requestToken = data.token || '';
+        }).catch(() => { });
 
         // Element References
         const form = document.getElementById('registrationForm');
@@ -484,7 +488,7 @@
         const attendanceCheck = document.getElementById('attendanceCheck');
         const attendanceCard = document.getElementById('attendanceCard');
 
-        const provinces = ['กระบี่','กาญจนบุรี','กาฬสินธุ์','กำแพงเพชร','ขอนแก่น','จันทบุรี','ฉะเชิงเทรา','ชลบุรี','ชัยนาท','ชัยภูมิ','ชุมพร','เชียงราย','เชียงใหม่','ตรัง','ตราด','ตาก','นครนายก','นครปฐม','นครพนม','นครราชสีมา','นครศรีธรรมราช','นครสวรรค์','นนทบุรี','นราธิวาส','น่าน','บึงกาฬ','บุรีรัมย์','ปทุมธานี','ประจวบคีรีขันธ์','ปราจีนบุรี','ปัตตานี','พระนครศรีอยุธยา','พะเยา','พังงา','พัทลุง','พิจิตร','พิษณุโลก','เพชรบุรี','เพชรบูรณ์','แพร่','ภูเก็ต','มหาสารคาม','มุกดาหาร','แม่ฮ่องสอน','ยโสธร','ยะลา','ร้อยเอ็ด','ระนอง','ระยอง','ราชบุรี','ลพบุรี','ลำปาง','ลำพูน','เลย','ศรีสะเกษ','สกลนคร','สงขลา','สตูล','สมุทรปราการ','สมุทรสงคราม','สมุทรสาคร','สระแก้ว','สระบุรี','สิงห์บุรี','สุโขทัย','สุพรรณบุรี','สุราษฎร์ธานี','สุรินทร์','หนองคาย','หนองบัวลำภู','อ่างทอง','อำนาจเจริญ','อุดรธานี','อุตรดิตถ์','อุทัยธานี','อุบลราชธานี','กรุงเทพมหานคร'];
+        const provinces = ['กระบี่', 'กาญจนบุรี', 'กาฬสินธุ์', 'กำแพงเพชร', 'ขอนแก่น', 'จันทบุรี', 'ฉะเชิงเทรา', 'ชลบุรี', 'ชัยนาท', 'ชัยภูมิ', 'ชุมพร', 'เชียงราย', 'เชียงใหม่', 'ตรัง', 'ตราด', 'ตาก', 'นครนายก', 'นครปฐม', 'นครพนม', 'นครราชสีมา', 'นครศรีธรรมราช', 'นครสวรรค์', 'นนทบุรี', 'นราธิวาส', 'น่าน', 'บึงกาฬ', 'บุรีรัมย์', 'ปทุมธานี', 'ประจวบคีรีขันธ์', 'ปราจีนบุรี', 'ปัตตานี', 'พระนครศรีอยุธยา', 'พะเยา', 'พังงา', 'พัทลุง', 'พิจิตร', 'พิษณุโลก', 'เพชรบุรี', 'เพชรบูรณ์', 'แพร่', 'ภูเก็ต', 'มหาสารคาม', 'มุกดาหาร', 'แม่ฮ่องสอน', 'ยโสธร', 'ยะลา', 'ร้อยเอ็ด', 'ระนอง', 'ระยอง', 'ราชบุรี', 'ลพบุรี', 'ลำปาง', 'ลำพูน', 'เลย', 'ศรีสะเกษ', 'สกลนคร', 'สงขลา', 'สตูล', 'สมุทรปราการ', 'สมุทรสงคราม', 'สมุทรสาคร', 'สระแก้ว', 'สระบุรี', 'สิงห์บุรี', 'สุโขทัย', 'สุพรรณบุรี', 'สุราษฎร์ธานี', 'สุรินทร์', 'หนองคาย', 'หนองบัวลำภู', 'อ่างทอง', 'อำนาจเจริญ', 'อุดรธานี', 'อุตรดิตถ์', 'อุทัยธานี', 'อุบลราชธานี', 'กรุงเทพมหานคร'];
         provinces.forEach(province => provinceSelect.add(new Option(province, province)));
 
         // ฐานข้อมูลหน่วยงานแบ่งตามกลุ่มชัดเจน
@@ -971,7 +975,7 @@
             }
 
             // Append API Key
-            formData.append('apiKey', apiKey);
+            formData.append('requestToken', requestToken);
 
             // UI: Show loading
             const originalBtnHtml = submitBtn.innerHTML;
