@@ -1140,8 +1140,8 @@
                     if (attemptStatus.status !== 'success' || attemptStatus.allowed === false) {
                         await Swal.fire({
                             icon: 'warning',
-                            title: 'ทำแบบทดสอบครบ 2 ครั้งแล้ว',
-                            text: 'ผู้ทำแบบทดสอบนี้ทำ Post-test ครบ 2 ครั้งแล้ว',
+                            title: 'ทำแบบทดสอบครบ 3 ครั้งแล้ว',
+                            text: 'ผู้ทำแบบทดสอบนี้ทำ Post-test ครบ 3 ครั้งแล้ว',
                             confirmButtonText: 'รับทราบ',
                             confirmButtonColor: '#dc2626'
                         });
@@ -1174,8 +1174,7 @@
                     displayAgency = hosp;
                 }
 
-                let pfx = prefixSelect.value === 'other' ? customPrefixInput.value.trim() : prefixSelect.value;
-                summaryParticipantName.textContent = `${pfx}${fullNameInput.value.trim()}`;
+                summaryParticipantName.textContent = fullNameInput.value.trim();
                 summaryParticipantAgency.textContent = `${displayAgency} (${provinceSelect.value})`;
 
                 stepProfileCard.classList.add('hidden');
@@ -1332,7 +1331,7 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.status !== 'success') throw new Error(data.message || 'บันทึกข้อมูลไม่สำเร็จ');
-                    showSuccessConfirmation(fullNameVal, formData.get('prefix'), posVal, agencyVal, provinceVal, data.score, data.total, data.results, data.certificateToken);
+                    showSuccessConfirmation(fullNameVal, posVal, agencyVal, provinceVal, data.score, data.total, data.results, data.certificateToken);
                 })
                 .catch(err => {
                     console.error("GAS Submission failed:", err);
@@ -1347,7 +1346,7 @@
         // ==============================================================
         // แสดงคะแนน รายข้อถูก/ผิด และสถานะผ่าน 80%
         // ==============================================================
-        function showSuccessConfirmation(fullName, prefix, position, agency, province, score, total, answerResults, certificateToken) {
+        function showSuccessConfirmation(fullName, position, agency, province, score, total, answerResults, certificateToken) {
             const now = new Date();
             const dateStr = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 
@@ -1360,7 +1359,7 @@
                     </div>
 
                     <div class="text-left text-xs sm:text-sm bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-1.5 text-slate-700">
-                        <div><strong>ผู้ทำแบบทดสอบ:</strong> ${prefix}${fullName}</div>
+                        <div><strong>ผู้ทำแบบทดสอบ:</strong> ${fullName}</div>
                         <div><strong>ตำแหน่ง:</strong> ${position}</div>
                         <div><strong>หน่วยงาน:</strong> ${agency} (${province})</div>
                         <div><strong>คะแนน:</strong> ${score} / ${total} คะแนน (${Math.round((score / total) * 100)}%)</div>

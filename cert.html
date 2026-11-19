@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ตรวจสอบใบประกาศนียบัตร</title>
+  <title>ค้นหาใบประกาศนียบัตร</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -66,7 +66,7 @@
     <div id="fireworks" class="fireworks" aria-hidden="true"></div>
     <section id="lookupPanel" class="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-8">
       <div class="text-center mb-6">
-        <h1 class="text-2xl font-bold">ตรวจสอบใบประกาศนียบัตร</h1>
+        <h1 class="text-2xl font-bold">ค้นหาใบประกาศนียบัตร</h1>
         <p class="mt-2 text-sm text-slate-500">กรอกข้อมูลเดียวกับที่ใช้ทำแบบทดสอบหลังเรียน</p>
       </div>
       <form id="lookupForm" class="space-y-4">
@@ -81,7 +81,7 @@
             placeholder="name@example.com">
         </label>
         <button id="verifyBtn"
-          class="accent-button w-full rounded-xl px-5 py-3 text-white font-semibold transition">ตรวจสอบสิทธิ์</button>
+          class="accent-button w-full rounded-xl px-5 py-3 text-white font-semibold transition">ค้นหา</button>
       </form>
       <p id="lookupMessage" class="hidden mt-4 rounded-xl p-3 text-sm text-center"></p>
     </section>
@@ -152,7 +152,7 @@
         return;
       }
       verifyBtn.disabled = true;
-      verifyBtn.textContent = 'กำลังตรวจสอบ...';
+      verifyBtn.textContent = 'กำลังค้นหา...';
       try {
         const phone = document.getElementById('phoneInput').value.replace(/\D/g, '');
         const email = document.getElementById('emailInput').value.trim().toLowerCase();
@@ -169,7 +169,7 @@
         showMessage(error.message || 'ตรวจสอบไม่สำเร็จ', true);
       } finally {
         verifyBtn.disabled = false;
-        verifyBtn.textContent = 'ตรวจสอบสิทธิ์';
+        verifyBtn.textContent = 'ค้นหา';
       }
     });
 
