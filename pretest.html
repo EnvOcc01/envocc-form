@@ -499,6 +499,7 @@
         const scriptURL = "https://script.google.com/macros/s/AKfycbwzWdvWvS7VliUf2WXJEFpW8VyYnPkTelawzvIINpfxwjgAY61eFptsi10JOaLH230q/exec";
         const PRETEST_PAGE_ENABLED = false;
         let requestToken = '';
+        let questionsLoadPromise = null;
 
         // ==============================================================
         // ฐานข้อมูลข้อสอบแบบทดสอบก่อนเรียน (20 ข้อ)
@@ -990,13 +991,20 @@
         renderQuestions();
 
         async function loadQuestions() {
-            const data = await loadQuestionsJsonp(`${scriptURL}?formType=pretest`);
-            if (data.status !== 'success' || !Array.isArray(data.questions) || data.questions.length === 0) {
-                throw new Error(data.message || 'ไม่พบชุดคำถามจากเซิร์ฟเวอร์');
-            }
-            pretestQuestions.push(...data.questions);
-            requestToken = data.token || '';
-            renderQuestions();
+            if (pretestQuestions.length > 0 && requestToken) return;
+            if (questionsLoadPromise) return questionsLoadPromise;
+            questionsLoadPromise = loadQuestionsJsonp(`${scriptURL}?formType=pretest`)
+                .then(data => {
+                    if (data.status !== 'success' || !Array.isArray(data.questions) || data.questions.length === 0) {
+                        throw new Error(data.message || 'ไม่พบชุดคำถามจากเซิร์ฟเวอร์');
+                    }
+                    pretestQuestions.length = 0;
+                    pretestQuestions.push(...data.questions);
+                    requestToken = data.token || '';
+                    renderQuestions();
+                })
+                .finally(() => { questionsLoadPromise = null; });
+            return questionsLoadPromise;
         }
 
         async function initializeQuizAvailability() {
@@ -1130,7 +1138,7 @@
                     try {
                         await loadQuestions();
                     } catch (error) {
-                        await Swal.fire({ icon: 'info', title: 'ปิดแบบทดสอบก่อนเรียน', text: error.message || 'ระบบปิดให้บริการชั่วคราว', confirmButtonColor: '#2563eb' });
+                        await Swal.fire({ icon: 'error', title: 'เริ่มแบบทดสอบไม่ได้', text: error.message || 'ไม่สามารถโหลดคำถามได้ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่อีกครั้ง', confirmButtonColor: '#2563eb' });
                         startTestBtn.disabled = false;
                         startTestBtn.querySelector('span').textContent = 'เริ่มทำแบบทดสอบ';
                         return;
