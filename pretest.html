@@ -207,7 +207,7 @@
                     <span class="text-slate-300">•</span>
                     <span class="flex items-center gap-1.5 font-medium text-slate-700">
                         <i class="fa-solid fa-list-check text-blue-600"></i>
-                        มีทั้งหมด <span id="questionTotalHeader">0</span> ข้อ
+                        มีทั้งหมด <span id="questionTotalHeader">กำลังโหลด...</span> ข้อ
                     </span>
                     <span class="text-slate-300">•</span>
                     <span class="flex items-center gap-1.5 font-medium text-slate-700">
@@ -445,7 +445,7 @@
                                 <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
                                 <span class="font-bold text-blue-700 text-sm sm:text-base">
                                     ข้อที่ตอบแล้ว <span id="answeredCounterDisplay">0</span> จาก <span
-                                        id="questionTotalDisplay">0</span> ข้อ
+                                        id="questionTotalDisplay">กำลังโหลด...</span> ข้อ
                                 </span>
                             </div>
                             <div class="flex items-center gap-2">
@@ -957,8 +957,9 @@
         function updateProgress() {
             let answeredCount = 0;
             const total = pretestQuestions.length;
-            document.getElementById('questionTotalHeader').textContent = total;
-            document.getElementById('questionTotalDisplay').textContent = total;
+            const questionTotalText = total > 0 ? total : 'กำลังโหลด...';
+            document.getElementById('questionTotalHeader').textContent = questionTotalText;
+            document.getElementById('questionTotalDisplay').textContent = questionTotalText;
 
             pretestQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
