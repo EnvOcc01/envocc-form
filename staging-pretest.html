@@ -496,7 +496,7 @@
 
     <script>
         // Google Apps Script URL & API Key
-        const scriptURL = "https://script.google.com/macros/s/AKfycbwzWdvWvS7VliUf2WXJEFpW8VyYnPkTelawzvIINpfxwjgAY61eFptsi10JOaLH230q/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyGWwXIArULQ8o50a0nvFBro8Z_6yix4fAk1l0QqqO6hTICt_UgYoQvDEfO6t5C6wNC/exec";
         const PRETEST_PAGE_ENABLED = true;
         let requestToken = '';
         let questionsLoadPromise = null;
@@ -587,7 +587,6 @@
                 badgeText: "ส่วนกลาง",
                 badgeColor: "bg-purple-100 text-purple-800 border-purple-200",
                 items: [
-                    "กรมควบคุมโรค",
                     "กองโรคจากการประกอบอาชีพและสิ่งแวดล้อม",
                     "สถาบันป้องกันควบคุมโรคเขตเมือง",
                     "สำนักการแพทย์ กรุงเทพมหานคร",
@@ -950,6 +949,7 @@
                     updateProgress();
                 }
             });
+            updateProgress();
         }
 
         // ==============================================================
@@ -1036,14 +1036,18 @@
 
         initializeQuizAvailability();
 
-        function loadQuestionsJsonp(url) {
+        function loadQuestionsJsonp(url, attempt) {
+            attempt = attempt || 0;
             return new Promise((resolve, reject) => {
                 const callbackName = `questionsCallback_${Date.now()}`;
                 const script = document.createElement('script');
-                const timeout = setTimeout(() => { cleanup(); reject(new Error('โหลดคำถามหมดเวลา')); }, 15000);
+                const retry = () => attempt < 2
+                    ? loadQuestionsJsonp(url, attempt + 1).then(resolve, reject)
+                    : reject(new Error('ไม่สามารถเชื่อมต่อ Google Apps Script ได้ กรุณาใช้ Chrome/Edge รุ่นล่าสุด หรือเปลี่ยนเครือข่ายแล้วลองใหม่'));
+                const timeout = setTimeout(() => { cleanup(); retry(); }, 20000);
                 window[callbackName] = data => { cleanup(); resolve(data); };
-                script.onerror = () => { cleanup(); reject(new Error('โหลดคำถามไม่สำเร็จ')); };
-                script.src = `${url}&callback=${callbackName}`;
+                script.onerror = () => { cleanup(); retry(); };
+                script.src = `${url}&callback=${callbackName}&_=${Date.now()}`;
                 document.head.appendChild(script);
                 function cleanup() { clearTimeout(timeout); delete window[callbackName]; script.remove(); }
             });
