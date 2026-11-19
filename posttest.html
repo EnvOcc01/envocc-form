@@ -496,7 +496,7 @@
 
     <script>
         // Google Apps Script URL & API Key
-        const scriptURL = "https://script.google.com/macros/s/AKfycbyGWwXIArULQ8o50a0nvFBro8Z_6yix4fAk1l0QqqO6hTICt_UgYoQvDEfO6t5C6wNC/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwhSK1vdAWPXLnX8hUbDRiAXMCH3NElUyAv38x-1szOVtRsqho7Z5zGdbNlmTWrRjTx/exec";
         const POSTTEST_PAGE_ENABLED = false;
         let requestToken = '';
         let questionsLoadPromise = null;
@@ -1021,7 +1021,11 @@
             try {
                 await loadQuestions();
             } catch (error) {
-                if (!String(error.message || '').includes('ปิดรับคำตอบ')) return;
+                if (!String(error.message || '').includes('ปิดรับคำตอบ')) {
+                    document.getElementById('questionTotalHeader').textContent = 'โหลดไม่ได้';
+                    document.getElementById('questionTotalDisplay').textContent = 'โหลดไม่ได้';
+                    return;
+                }
                 stepProfileCard.classList.add('hidden');
                 const closedNotice = document.createElement('section');
                 closedNotice.className = 'quiz-card p-8 sm:p-12 text-center';
