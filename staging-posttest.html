@@ -1001,6 +1001,8 @@
                     posttestQuestions.length = 0;
                     posttestQuestions.push(...data.questions);
                     requestToken = data.token || '';
+                    document.getElementById('questionTotalHeader').textContent = data.questions.length;
+                    document.getElementById('questionTotalDisplay').textContent = data.questions.length;
                     renderQuestions();
                 })
                 .finally(() => { questionsLoadPromise = null; });
